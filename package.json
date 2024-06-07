@@ -1,22 +1,21 @@
 {
-  "name": "ethereum101",
+  "name": "mec-registry-app",
   "version": "1.0.0",
   "description": "Learning Basic State Idea of Ethereum",
   "main": "index.js",
   "scripts": {
     "lint": "next lint",
-    "dev:start": "next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint:fix": "eslint src --fix && yarn format",
     "lint:strict": "eslint --max-warnings=0 src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "anvil": "dotenv-run-script .env && anvil",
-    "wagmi": "wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
+    "wagmi:generate": "wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
     "setenv": "dotenv-run-script .env --",
-    "dev:wagmi": "npm run wagmi",
-    "dev:foundry": "npm run dev & wagmi generate --watch & npm run anvil",
-    "deploy": "npm run setenv && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY --verify",
+    "foundry:wagmi": "npm run wagmi",
+    "foundry:deploy": "npm run setenv && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY --verify",
     "deploy:anvil": "echo $FORGE_RPC_URL && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
   },
   "keywords": [

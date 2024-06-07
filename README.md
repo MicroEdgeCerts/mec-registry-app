@@ -66,7 +66,13 @@ See work in dev enironment, type below command in terminal
 2.　ContractをBuild ABIを取得/ Build Contract and get the ABI
 
     ```
-    npm run dev:wagmi
+    npm run wagmi
+    ```
+2.　ContractをDeploy ABIを取得/  Deploy the Contract 
+
+
+    ```
+    npm run deploy:anvil
     ```
 
 
@@ -96,5 +102,10 @@ Click this link [http://localhost:3000](http://localhost:3000)
 3. Start up the app / アプリを立ち上げる
 
 ```
-npm run dev:start
+npm run dev
 ```
+
+App: React / NextJS / TypeScript
+Style: tailwindCSS / SCSS / AutoPlexer
+
+
