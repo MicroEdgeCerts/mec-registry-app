@@ -1,0 +1,21 @@
+node_modules
+.fuse*
+dist
+.next
+.env
+contract/broadcast/**/*
+
+
+##forge
+contract/lib/
+contract/cache/
+contract/out/
+
+# Ignores development broadcast logs
+!contract/broadcast
+contract/broadcast/*/31337/
+contract/broadcast/**/dry-run/
+
+# Dotenv file
+.env
+

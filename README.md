@@ -1,2 +1,69 @@
-# mec-registry-app
-support registration of issuer registration
+# MEC Registry App
+
+# Abstract
+
+ステップごとの　Ethereum、TypeScript、React　のフロントエンドを学んでいきます。
+
+# Prerequisites / 前提条件
+
+Before you begin, ensure you have met the following requirements:
+このプロジェクトを始める前に、以下の要件を満たしていることを確認してください：
+
+- **Node.js**: 
+  You need Node.js installed to run this project. You can download it from [Node.js official website](https://nodejs.org/).
+  このプロジェクトを実行するにはNode.jsがインストールされている必要があります。[Node.jsの公式ウェブサイト](https://nodejs.org/)からダウンロードできます。
+- **Git**: 
+  リポジトリをクローンするためにGitがインストールされている必要があります。[Gitのウェブサイト](https://git-scm.com/downloads)で指示に従ってインストールしてください。
+  Git must be installed to clone the repository. Instructions are available on the [Git website](https://git-scm.com/downloads).
+
+- **Foundry**:
+  
+  [こちら](https://github.com/airinterface/ethereum101/blob/main/doc/Step11.md)に沿って、FoundryをInstallしてください。
+
+  Follow [this](https://github.com/airinterface/ethereum101/blob/main/doc/Step11.md) instruction to install Foundry
+
+
+## インストール方法
+
+**mec-registry-app**をインストールするには、以下の手順に従ってください。
+
+Follow below instruction to setup.
+
+
+1. **リポジトリをクローンする / Clone repository**
+   ```bash
+   git clone git@github.com:MicroEdgeCerts/mec-registry-app.git
+   cd mec-registry-app
+   ```
+
+
+3. **依存関係をインストールする**
+
+
+    今の依存ライブラリをインストール
+
+
+    install current dependencies
+
+
+    ```
+
+    npm install
+    ```
+
+
+
+## ローカルでの実行方法
+
+ローカルでプロジェクト名を実行するには、以下のコマンドをターミナルで実行します。
+See work in dev enironment, type below command in terminal
+
+    ```
+    npm run dev
+    ```
+
+ステップ１,2, 3は
+For step 1, 2, 3
+
+Click this link [http://localhost:3000](http://localhost:3000)
+[http://localhost:3000](http://localhost:3000) に行きましょう。

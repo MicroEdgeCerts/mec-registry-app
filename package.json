@@ -1,0 +1,57 @@
+{
+  "name": "ethereum101",
+  "version": "1.0.0",
+  "description": "Learning Basic State Idea of Ethereum",
+  "main": "index.js",
+  "scripts": {
+    "lint": "next lint",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint:fix": "eslint src --fix && yarn format",
+    "lint:strict": "eslint --max-warnings=0 src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "anvil": "dotenv-run-script .env && anvil",
+    "wagmi": "wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
+    "setenv": "dotenv-run-script .env --",
+    "dev:wagmi": "npm run wagmi",
+    "dev:foundry": "npm run dev & wagmi generate --watch & npm run anvil",
+    "deploy": "dotenv-run-script .env && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY --verify",
+    "deploy:anvil": "forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
+  },
+  "keywords": [
+    "Vite",
+    "express",
+    "Javascript"
+  ],
+  "author": "Yuri Fukuda",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/next": "^9.0.0",
+    "@types/react": "^18.3.2",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "@typescript-eslint/parser": "^7.9.0",
+    "@wagmi/cli": "^2.1.8",
+    "autoprefixer": "^10.4.19",
+    "dotenv-run-script": "^0.4.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "express": "^4.19.2",
+    "postcss": "^8.4.38",
+    "sass": "^1.77.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.40.0",
+    "@wagmi/chains": "^1.8.0",
+    "ethers": "^6.12.1",
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "viem": "^2.13.7",
+    "wagmi": "^2.9.7"
+  }
+}
