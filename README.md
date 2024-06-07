@@ -23,6 +23,7 @@ Before you begin, ensure you have met the following requirements:
   Follow [this](https://github.com/airinterface/ethereum101/blob/main/doc/Step11.md) instruction to install Foundry
 
 
+
 ## インストール方法
 
 **mec-registry-app**をインストールするには、以下の手順に従ってください。
@@ -55,12 +56,33 @@ Follow below instruction to setup.
 
 ## ローカルでの実行方法
 
+1.　ローカルChainを起動 anvil ・ Start the local chain anvil
 ローカルでプロジェクト名を実行するには、以下のコマンドをターミナルで実行します。
 See work in dev enironment, type below command in terminal
 
     ```
-    npm run dev
+    npm run anvil
     ```
+2.　ContractをBuild ABIを取得/ Build Contract and get the ABI
+
+    ```
+    npm run dev:wagmi
+    ```
+
+
+プライベートアドレス（１）を取得
+
+.env に下記を記入
+
+Get the private Address (1)
+
+write .env below
+
+```
+REACT_APP_CONTRACT_ADDRESS=http://127.0.0.1:8545
+FORGE_PRIVATE_KEY=<Private Key Here>
+FORGE_RPC_URL=http://127.0.0.1:8545
+```
 
 ステップ１,2, 3は
 For step 1, 2, 3

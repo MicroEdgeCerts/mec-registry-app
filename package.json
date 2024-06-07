@@ -13,11 +13,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "anvil": "dotenv-run-script .env && anvil",
     "wagmi": "wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
-    "setenv": "dotenv-run-script .env --",
+    "setenv": "dotenv-run-script .env && echo 'url: $FORGE_RPC_URL'",
     "dev:wagmi": "npm run wagmi",
     "dev:foundry": "npm run dev & wagmi generate --watch & npm run anvil",
-    "deploy": "dotenv-run-script .env && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY --verify",
-    "deploy:anvil": "forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
+    "deploy": "npm run setenv && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY --verify",
+    "deploy:anvil": "npm run setenv && echo $FORGE_RPC_URL && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
   },
   "keywords": [
     "Vite",

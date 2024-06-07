@@ -16,11 +16,11 @@ contract IssuerRegistryTest is Test {
         string memory tokenData = "Token Data 1";
 
         // Register the token and get the tokenId
-        uint256 tokenId = issuerRegistry.registerToken(tokenData);
+        uint256 tokenId = issuerRegistry.registerIssuer(tokenData);
 
         // Verify the token data and owner
-        string memory registeredData = issuerRegistry.getTokenData(tokenId);
-        address owner = issuerRegistry.getTokenOwner(tokenId);
+        string memory registeredData = issuerRegistry.getIssuerData(tokenId);
+        address owner = issuerRegistry.getIssuerOwner(tokenId);
 
         assertEq(registeredData, tokenData);
         assertEq(owner, address(this));
@@ -30,10 +30,10 @@ contract IssuerRegistryTest is Test {
         string memory tokenData = "Token Data 2";
 
         // Register the token and get the tokenId
-        uint256 tokenId = issuerRegistry.registerToken(tokenData);
+        uint256 tokenId = issuerRegistry.registerIssuer(tokenData);
 
         // Verify the token data
-        string memory registeredData = issuerRegistry.getTokenData(tokenId);
+        string memory registeredData = issuerRegistry.getIssuerData(tokenId);
 
         assertEq(registeredData, tokenData);
     }
@@ -42,10 +42,10 @@ contract IssuerRegistryTest is Test {
         string memory tokenData = "Token Data 3";
 
         // Register the token and get the tokenId
-        uint256 tokenId = issuerRegistry.registerToken(tokenData);
+        uint256 tokenId = issuerRegistry.registerIssuer(tokenData);
 
         // Verify the token owner
-        address owner = issuerRegistry.getTokenOwner(tokenId);
+        address owner = issuerRegistry.getIssuerOwner(tokenId);
 
         assertEq(owner, address(this));
     }

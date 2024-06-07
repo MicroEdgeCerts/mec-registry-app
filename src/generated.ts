@@ -19,21 +19,21 @@ export const tokenRegistryAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'getCurrentTokenId',
+    name: 'getCurrentIssuerId',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'getTokenData',
+    name: 'getIssuerData',
     outputs: [{ name: '', internalType: 'string', type: 'string' }],
     stateMutability: 'view',
   },
   {
     type: 'function',
     inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
-    name: 'getTokenOwner',
+    name: 'getIssuerOwner',
     outputs: [{ name: '', internalType: 'address', type: 'address' }],
     stateMutability: 'view',
   },
@@ -69,7 +69,7 @@ export const tokenRegistryAbi = [
       },
       { name: 'data', internalType: 'string', type: 'string', indexed: false },
     ],
-    name: 'TokenRegistered',
+    name: 'IssuerRegistered',
   },
 ] as const
 
@@ -115,7 +115,7 @@ export const useReadTokenRegistry = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getCurrentTokenId"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getCurrentIssuerId"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x1A61839Eb5fC6eBBcAe01eD5E79062E598792Dac)
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x78991BB1D194C1235fe285240af8489CFA552151)
@@ -126,11 +126,11 @@ export const useReadTokenRegistryGetCurrentTokenId =
   /*#__PURE__*/ createUseReadContract({
     abi: tokenRegistryAbi,
     address: tokenRegistryAddress,
-    functionName: 'getCurrentTokenId',
+    functionName: 'getCurrentIssuerId',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getTokenData"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getIssuerData"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x1A61839Eb5fC6eBBcAe01eD5E79062E598792Dac)
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x78991BB1D194C1235fe285240af8489CFA552151)
@@ -141,11 +141,11 @@ export const useReadTokenRegistryGetTokenData =
   /*#__PURE__*/ createUseReadContract({
     abi: tokenRegistryAbi,
     address: tokenRegistryAddress,
-    functionName: 'getTokenData',
+    functionName: 'getIssuerData',
   })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getTokenOwner"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getIssuerOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x1A61839Eb5fC6eBBcAe01eD5E79062E598792Dac)
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x78991BB1D194C1235fe285240af8489CFA552151)
@@ -156,7 +156,7 @@ export const useReadTokenRegistryGetTokenOwner =
   /*#__PURE__*/ createUseReadContract({
     abi: tokenRegistryAbi,
     address: tokenRegistryAddress,
-    functionName: 'getTokenOwner',
+    functionName: 'getIssuerOwner',
   })
 
 /**
@@ -244,16 +244,16 @@ export const useWatchTokenRegistryEvent =
   })
 
 /**
- * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link tokenRegistryAbi}__ and `eventName` set to `"TokenRegistered"`
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link tokenRegistryAbi}__ and `eventName` set to `"IssuerRegistered"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x1A61839Eb5fC6eBBcAe01eD5E79062E598792Dac)
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x78991BB1D194C1235fe285240af8489CFA552151)
  * -
  * -
  */
-export const useWatchTokenRegistryTokenRegisteredEvent =
+export const useWatchTokenRegistryIssuerRegisteredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: tokenRegistryAbi,
     address: tokenRegistryAddress,
-    eventName: 'TokenRegistered',
+    eventName: 'IssuerRegistered',
   })

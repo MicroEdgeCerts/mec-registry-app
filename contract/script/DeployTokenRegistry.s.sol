@@ -12,11 +12,11 @@ contract DeployIssuerRegistry is Script {
         // Start broadcasting transactions
         vm.startBroadcast(deployerPrivateKey);
 
-        // Deploy the TokenRegistry contract
-        TokenRegistry tokenRegistry = new TokenRegistry();
+        // Deploy the IssuerRegistry contract
+        IssuerRegistry issuerRegistry = new IssuerRegistry();
 
         // Print the address of the deployed contract
-        console.log("TokenRegistry deployed at:", address(tokenRegistry));
+        console.log("IssuerRegistry deployed at:", address(issuerRegistry));
 
         // Stop broadcasting transactions
         vm.stopBroadcast();

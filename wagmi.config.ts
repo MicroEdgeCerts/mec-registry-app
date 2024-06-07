@@ -3,13 +3,13 @@ import { foundry, react } from '@wagmi/cli/plugins'
 import * as chains from '@wagmi/chains'
 
 export default defineConfig({
-  out: 'src/abis/TokenRegistry.ts',
+  out: 'src/abis/IssuerRegistry.ts',
   plugins: [
     foundry({
 
       include: [  
         // the following patterns are included by default
-        'TokenRegistry.json',  
+        'IssuerRegistry.json',  
       ],  
 
       deployments: {
