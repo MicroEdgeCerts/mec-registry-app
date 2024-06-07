@@ -89,3 +89,12 @@ For step 1, 2, 3
 
 Click this link [http://localhost:3000](http://localhost:3000)
 [http://localhost:3000](http://localhost:3000) に行きましょう。
+
+
+
+
+3. Start up the app / アプリを立ち上げる
+
+```
+npm run dev:start
+```
