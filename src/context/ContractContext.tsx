@@ -2,15 +2,13 @@
  * this class will handle contract messaging. 
  */
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import abi from '@/abis/TokenRegistry.json'
-import { useReadContract, useClient } from 'wagmi'
+import { useWriteIssuerRegistryRegisterIssuer } from '@/abis/IssuerRegistry';
+import { useAccount } from 'wagmi'
+import { type WriteContractErrorType } from '@wagmi/core'
+import { Address } from 'viem';
 
-interface WalletClient {
-  address: string;
-  // add other properties that WalletClient might have
-}
 
-const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS;
+
 
 type IssuerData = {
   data: string
@@ -18,16 +16,36 @@ type IssuerData = {
   keys: string[]
 }
 
-type ContractContextType = {
+type ContractActionType = {
   readIssuers: () => IssuerData[]
-  writeIssuer: (issuer: IssuerData ) => boolean
+  writeIssuer: (issuer: IssuerData ) => Promise<boolean>
+}
+
+type ContractStateType = {
+  issuerRegisted: boolean
+  issuerRegistering: boolean
+  issuerRegisterError: WriteContractErrorType | null
+}
+
+type ContractContextType = {
+  actions: ContractActionType
+  state: ContractStateType
+}
+
+const defaultState: ContractStateType = {
+  issuerRegisted: false, 
+  issuerRegistering: false,
+  issuerRegisterError: null
 }
 const defaultActions = {
   readIssuers: ()=> [],
-  writeIssuer: ( issuer: IssuerData ) => true
+  writeIssuer: ( issuer: IssuerData ) => Promise.resolve(true)
 }
 
-const ContractContext = createContext<ContractContextType>(defaultActions);
+const ContractContext = createContext<ContractContextType>({
+ actions: defaultActions, 
+ state: defaultState
+});
 
 type ContractProviderPropType = {
   children: React.ReactNode
@@ -36,44 +54,59 @@ type ContractProviderPropType = {
 
 const ContractContextProvider = ({children}:ContractProviderPropType)=>{
 
-  const [walletClient, setWalletClient] = useState<WalletClient | null>(null);
-
-  const client = useClient();
+  const [issuerAddress, setIssuerAddress] = useState<String>('');
+  const [state, setState] = useState<ContractStateType>(defaultState);
+  const account = useAccount();
+  const { data , error, isPending, writeContractAsync } = useWriteIssuerRegistryRegisterIssuer();
 
   useEffect(() => {
-    const fetchWalletClient = async () => {
-      if( client ) {
-        const walletClient = await client.getWalletClient();
-        setWalletClient(walletClient as WalletClient); // Type assertion if the type is not inferred correctly
-      }
-    };
+    if( data ) {
+      console.info(`data : ${JSON.stringify(data)}`)
 
-    fetchWalletClient();
-  }, [client]);
+    }
+  }, [data])
+  useEffect(()=>{
+    setState({
+      ...state,
+      issuerRegisterError: error,
+      issuerRegistering: isPending
+    })
+
+  }, [error, isPending])
+
+  useEffect(() => {
+    setIssuerAddress((account.address || ''))
+  }, [account]);
 
 
   const actions = {
     ...defaultActions,
     readIssuers: ()=> [],
-    writeIssuer: ( issuer: IssuerData ) => {
+    writeIssuer: async( issuerData: IssuerData ) => {
+      try {
+        if( issuerAddress !== '' ) {
+          // Call the write function to register the issuer with the string data
+          await writeContractAsync({
+            address: issuerAddress as Address,
+            args: [JSON.stringify(issuerData)] });
+        } else {
+          throw new Error("No account is associated")
+        }
+      } catch (err) {
+        console.error('Failed to register issuer:', err);
+      }
       return true;
     }
   }
 
 
-  useEffect(() => {
-    const fetchWalletClient = async () => {
-      const client = await client.getWalletClient();
-      setWalletClient(client);
-    };
 
-    fetchWalletClient();
-  }, [client]);
-
-  return <ContractContext.Provider value={actions}>
+  return <ContractContext.Provider value={ { actions, state}} >
   {children}
   </ContractContext.Provider>
 
 }
 
 export default ContractContextProvider;
+
+export const usContractContext = ()=> useContext(ContractContext)

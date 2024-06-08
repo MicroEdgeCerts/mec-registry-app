@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
+import ContractContextProvider from './ContractContext'
 
 
 import config from '@/config'
@@ -30,13 +30,12 @@ interface WalletWrapperPropsType {
 const WalletWrapper: React.FC<WalletWrapperPropsType> = ({ config, children }) => {
   // Create a query client
 
-  return (
-    <WagmiProvider config={config}>
+  return <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}> 
         {children}
       </QueryClientProvider>
     </WagmiProvider>
-  );
+ 
 };
 
 
@@ -154,7 +153,7 @@ const WalletContextProvider = ({children}:WalletContextProviderPropType )=> {
   const values = [ currentState, action ];
   return <WalletContext.Provider value={ values }>
             <WalletWrapper config={config.wagmiConfig}>
-              {children}
+              { children }
             </WalletWrapper>
         </WalletContext.Provider>
 }

@@ -1,41 +1,40 @@
-import * as React from 'react'
+'use client'
+
+import { useEffect, useState } from 'react'
 import { Connector, useConnect } from 'wagmi'
 
 type WalletOptionPropType = {
   connector: Connector
   onClick: () => void
 }
+
 const  WalletOption: React.FC<WalletOptionPropType> = ({
   connector,
   onClick  }) => {
-  const [ready, setReady] = React.useState(false)
+  const [ready, setReady] = useState(false)
 
-  React.useEffect(() => {
+  useEffect(() => {
     ;(async () => {
       const provider = await connector.getProvider()
       setReady(!!provider)
     })()
   }, [connector])
 
-  return (
-    <button disabled={!ready} onClick={onClick}>
-      {connector.name}
-    </button>
-  )
+  return <button disabled={!ready} onClick={onClick}>
+        {connector.name}
+      </button>
 }
 
 
 const WalletOptions = () => {
   const { connectors, connect } = useConnect()
-
-  return <>
+  return <div>
     { connectors.map((connector) => <WalletOption
       key={connector.uid}
       connector={connector}
-      onClick={() => connect({ connector })}
-    /> )}
-    </>
-  
+      onClick={() => connect({ connector }
+      )} /> )}
+    </div>
 }
 
 export default WalletOptions;

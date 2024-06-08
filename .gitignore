@@ -4,12 +4,15 @@ dist
 .next
 .env
 contract/broadcast/**/*
-
+cache/
+out/
 
 ##forge
 contract/lib/
 contract/cache/
 contract/out/
+cache/
+out/
 
 # Ignores development broadcast logs
 !contract/broadcast

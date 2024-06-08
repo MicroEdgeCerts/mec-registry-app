@@ -4,11 +4,11 @@ import { mainnet } from '@wagmi/core/chains'
 
 import { sepolia } from 'wagmi/chains'
 import { metaMask } from 'wagmi/connectors'
-
+const issuerContractAddress = process.env.NEXT_APP_ISSUER_CONTRACT_ADDRESS
 
 import { localhost } from 'wagmi/chains'//Configure the chain and the RPC provider. Note that we've added localhost here
 
-const localURL = process.env.FORGE_RPC_URL;
+const rpcURL = process.env.FORGE_RPC_URL;
 
 /* use local netwwork if it's not production */
 const wagmiConfig =
@@ -26,12 +26,13 @@ const wagmiConfig =
         chains: [localhost],
         connectors: [metaMask()],
         transports:{
-          [localhost.id]: http(localURL)
+          [localhost.id]: http(rpcURL)
         }
       })
 
 ;
 
 export default { 
-  wagmiConfig 
+  wagmiConfig,
+  issuerContractAddress
 };

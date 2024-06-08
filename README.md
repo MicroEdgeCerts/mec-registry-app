@@ -63,32 +63,35 @@ See work in dev enironment, type below command in terminal
     ```
     npm run anvil
     ```
+
+
 2.　ContractをBuild ABIを取得/ Build Contract and get the ABI
+   プライベートアドレス（１）を取得
+
+    .env に下記を記入
+
+    Get the private Address (1)
+
+    write .env below
+
+    ```
+    NEXT_APP_ISSUER_CONTRACT_ADDRESS=http://127.0.0.1:8545
+    FORGE_PRIVATE_KEY=<Private Key Here>
+    FORGE_RPC_URL=http://127.0.0.1:8545
+    FORGE_CONTRACT_ADDRESS=0x5fbdb2315678afecb367f032d93f642f64180aa3
+    ```
+
 
     ```
     npm run wagmi
     ```
-2.　ContractをDeploy ABIを取得/  Deploy the Contract 
-
+2.　ContractをDeploy /  Deploy the Contract 
 
     ```
-    npm run deploy:anvil
+    npm run deploy
     ```
 
 
-プライベートアドレス（１）を取得
-
-.env に下記を記入
-
-Get the private Address (1)
-
-write .env below
-
-```
-REACT_APP_CONTRACT_ADDRESS=http://127.0.0.1:8545
-FORGE_PRIVATE_KEY=<Private Key Here>
-FORGE_RPC_URL=http://127.0.0.1:8545
-```
 
 ステップ１,2, 3は
 For step 1, 2, 3

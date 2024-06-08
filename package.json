@@ -11,12 +11,9 @@
     "lint:fix": "eslint src --fix && yarn format",
     "lint:strict": "eslint --max-warnings=0 src",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "anvil": "dotenv-run-script .env && anvil",
-    "wagmi:generate": "wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
-    "setenv": "dotenv-run-script .env --",
-    "foundry:wagmi": "npm run wagmi",
-    "foundry:deploy": "npm run setenv && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY --verify",
-    "deploy:anvil": "echo $FORGE_RPC_URL && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
+    "anvil": "./scripts/setenv.sh .env && anvil",
+    "wagmi": "wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
+    "deploy": "./scripts/setenv.sh .env && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
   },
   "keywords": [
     "Vite",
@@ -33,7 +30,6 @@
     "@typescript-eslint/parser": "^7.9.0",
     "@wagmi/cli": "^2.1.8",
     "autoprefixer": "^10.4.19",
-    "dotenv-run-script": "^0.4.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
