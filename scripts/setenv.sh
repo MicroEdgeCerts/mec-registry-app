@@ -10,7 +10,7 @@ if [[ ! -f $1 ]]; then
   exit 1
 fi
 
-while read line; do
+while IFS= read -r line || [[ -n "$line" ]]; do
   if [[ ! -z "$line" && "${line:0:1}" != "#" ]]; then
     export "$line"
     echo "Exported: $line"

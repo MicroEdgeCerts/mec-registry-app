@@ -2,7 +2,7 @@ import React, { useEffect, useState, createContext, useContext } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ContractContextProvider from './ContractContext'
-
+import { type Address } from 'viem'
 
 import config from '@/config'
 
@@ -43,6 +43,7 @@ const WalletWrapper: React.FC<WalletWrapperPropsType> = ({ config, children }) =
 
 export type WalletStateTypes = { 
   walletState: Web3Status
+  address: Address | null
 }
 
 export type WalletActionTypes = {
@@ -57,7 +58,8 @@ const defaultWalletActions: WalletActionTypes = {
 
 /* Defining default state */
 const defaultWalletState:WalletStateTypes  = {
-  walletState: Web3Status.NoWallet
+  walletState: Web3Status.NoWallet,
+  address: null
 }
 
 
@@ -89,14 +91,16 @@ const WalletContextProvider = ({children}:WalletContextProviderPropType )=> {
           // Account connected
         setState({
           ...currentState,
-          walletState: Web3Status.AccountConnected
+          walletState: Web3Status.AccountConnected,
+          address: accounts[0] as Address
         })
         console.log('Account connected:', accounts[0]);
       } else {
           // No accounts available or disconnected
         setState({
           ...currentState,
-          walletState: Web3Status.WalletExists
+          walletState: Web3Status.WalletExists,
+          address: null
         })
         console.log('Wallet available');
       }
@@ -133,10 +137,16 @@ const WalletContextProvider = ({children}:WalletContextProviderPropType )=> {
          * if available, start listening account connection
          * Check if wallet is available or not. 
          */
+        console.info("wallet installed.")
         setState({
           ...currentState,
           walletState: Web3Status.WalletExists
         });
+        window.ethereum.request({ method: 'eth_accounts' })
+        .then((accounts: string[] ) => {
+          updateAccounts( accounts );
+        });
+
         /* listen to wallet account changes */
         bindAccountConnectionListener();
         return removeAccountConnectionListener;
@@ -149,11 +159,12 @@ const WalletContextProvider = ({children}:WalletContextProviderPropType )=> {
     }
   }, [])
 
-
   const values = [ currentState, action ];
   return <WalletContext.Provider value={ values }>
-            <WalletWrapper config={config.wagmiConfig}>
-              { children }
+            <WalletWrapper config={config.getWagmiConfig()}>
+              <ContractContextProvider>
+                { children }
+              </ContractContextProvider>
             </WalletWrapper>
         </WalletContext.Provider>
 }

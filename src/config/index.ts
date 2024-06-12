@@ -1,18 +1,19 @@
 import { http, createConfig } from 'wagmi'
-
 import { mainnet } from '@wagmi/core/chains'
-
 import { sepolia } from 'wagmi/chains'
 import { metaMask } from 'wagmi/connectors'
-const issuerContractAddress = process.env.NEXT_APP_ISSUER_CONTRACT_ADDRESS
 
-import { localhost } from 'wagmi/chains'//Configure the chain and the RPC provider. Note that we've added localhost here
+import { anvil } from 'wagmi/chains'//Configure the chain and the RPC provider. Note that we've added localhost here
 
-const rpcURL = process.env.FORGE_RPC_URL;
+ 
+
+const localURL = process.env.FORGE_RPC_URL;
+
 
 /* use local netwwork if it's not production */
-const wagmiConfig =
-  ( process.env.NODE_ENV === 'production' ) ? 
+export const getWagmiConfig = ()=> {
+  const wagmiConfig =
+    ( process.env.NODE_ENV === 'production' ) ? 
     createConfig({
       chains: [mainnet, sepolia],
       ssr: true, 
@@ -23,16 +24,20 @@ const wagmiConfig =
       }
     }): 
       createConfig({
-        chains: [localhost],
-        connectors: [metaMask()],
+        chains: [anvil],
+        connectors: [
+          metaMask({
+            dappMetadata: {
+          name: "Ethereum 101 Dapp",
+          url: window.location.href
+          }})],
         transports:{
-          [localhost.id]: http(rpcURL)
+          [anvil.id]: http(localURL)
         }
       })
-
-;
+      return wagmiConfig;
+}
 
 export default { 
-  wagmiConfig,
-  issuerContractAddress
+  getWagmiConfig,
 };

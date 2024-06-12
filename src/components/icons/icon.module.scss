@@ -1,0 +1,12 @@
+.icon {
+  display: inline-block;
+  border-radius: 50%;
+  border: 1px solid var(--iconboarder);
+  padding: 4px;
+  transform: translateY(0.5px);
+  transition: transform 0.35s ease-in;
+  &:hover {
+    background-color: var(--iconhover);
+    transform: translateY(0px);
+  }
+}

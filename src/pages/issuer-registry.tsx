@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useWalletContext, type WalletStateTypes } from '@/context/WalletWrapper'
 
 const Registry: React.FC = () => {
   const [name, setName] = useState<string>('');
+  const [ accountState ] = useWalletContext();
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     alert(`Name submitted: ${name}`);
   };
 
+  useEffect(()=> {
+    let state  = ( accountState as WalletStateTypes )
+    if( state.address ) {
+
+    }
+
+  }, [accountState])
+  
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center p-4 bg-gray-100 rounded shadow-md">
       <label htmlFor="name" className="mb-2 text-lg font-semibold text-gray-700">Name:</label>
