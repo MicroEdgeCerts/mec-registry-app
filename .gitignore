@@ -8,7 +8,7 @@ cache/
 out/
 
 ##forge
-contract/lib/
+contract/lib/**/*
 contract/cache/
 contract/out/
 cache/

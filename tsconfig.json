@@ -28,6 +28,8 @@
   },
   "include": [
     "./src",
+    "./src/types.d.ts",
+    "./src/**/*.d.ts",
     "./src/**/*.json",
     "./src/**/*.ts",
     "./src/**/*.tsx",

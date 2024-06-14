@@ -22,7 +22,18 @@ Before you begin, ensure you have met the following requirements:
 
   Follow [this](https://github.com/airinterface/ethereum101/blob/main/doc/Step11.md) instruction to install Foundry
 
+  Contract で必要なライブラリをInstallしてください。/ install required files. 
 
+  ```
+  forge install --no-commit OpenZeppelin/openzeppelin-contracts
+  forge install --no-commit forge-std
+  ```
+## Contractのテスト　 / Testing Contract 
+
+  ```
+  cd contract
+  forge test
+  ```
 
 ## インストール方法
 
@@ -64,9 +75,11 @@ See work in dev enironment, type below command in terminal
     npm run anvil
     ```
 
+    プライベートアドレス（１）を取得 / retrieve Private address(1)
 
-2.　ContractをBuild ABIを取得/ Build Contract and get the ABI
-   プライベートアドレス（１）を取得
+
+
+2.　ContractをDeploy /  Deploy the Contract 
 
     .env に下記を記入
 
@@ -81,15 +94,44 @@ See work in dev enironment, type below command in terminal
     FORGE_CONTRACT_ADDRESS=0x5fbdb2315678afecb367f032d93f642f64180aa3
     ```
 
+   でDeployします。
 
     ```
-    npm run wagmi
+   npm run deploy
     ```
-2.　ContractをDeploy /  Deploy the Contract 
+
+    
+    すると、Deployされたアドレスが出力されます。
+    
+    （Anviｌだと、ここがいつも、0x5fbdb2315678afecb367f032d93f642f64180aa3　）そのアドレスをコピーします。
+
+    Once you run the command, the address of the contract will be displayed. Keep that for the next step. ( with Anvil, it always be 0x5fbdb2315678afecb367f032d93f642f64180aa3
+    )
+
+3.　ContractをBuild ABIを取得/ Build Contract and get the ABI
+   プライベートアドレス（１）を取得
+
+    .env に下記を記入
+
+    Get the private Address (1)
+
+    write .env below
 
     ```
-    npm run deploy
+    NEXT_APP_ISSUER_CONTRACT_ADDRESS=http://127.0.0.1:8545
+    FORGE_PRIVATE_KEY=<Private Key Here>
+    FORGE_RPC_URL=http://127.0.0.1:8545
+    FORGE_CONTRACT_ADDRESS=< Contracct Address Here>
     ```
+
+    この設定でWagmiのインターフェースとタイプを生成します。
+
+    With this configuration, generates wagmi interface and type
+
+    ```
+    npm run prepareAbi
+    ```
+ 
 
 
 
@@ -100,13 +142,21 @@ Click this link [http://localhost:3000](http://localhost:3000)
 [http://localhost:3000](http://localhost:3000) に行きましょう。
 
 
+4. Other environment variable. 
+
+Signする際に必要な、
+```
+SECRET_COOKIE_PASSWORD　<- ３２文字以上　・　minimum 32 characters
+```
 
 
-3. Start up the app / アプリを立ち上げる
+4. Start up the app / アプリを立ち上げる
 
 ```
 npm run dev
 ```
+
+
 
 App: React / NextJS / TypeScript
 Style: tailwindCSS / SCSS / AutoPlexer

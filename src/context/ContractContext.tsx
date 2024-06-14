@@ -4,10 +4,14 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { useWriteIssuerRegistryRegisterIssuer,
          useReadIssuerRegistryGetIssuerData } from '@/abis/IssuerRegistry';
-import type {  WriteContractErrorType, ReadContractErrorType } from '@wagmi/core'
+import type {  WriteContractErrorType, 
+  ReadContractErrorType, 
+  SignMessageErrorType } from '@wagmi/core'
 import { useWalletContext, type WalletStateTypes } from './WalletWrapper'
+import type { Address } from 'viem'
+import { useClient, type UseClientReturnType  } from 'wagmi'
+import type { ProfileRegistryCreateRequest } from '@/types';
 
-  
 
 export type IssuerData = {
   data: string
@@ -18,37 +22,49 @@ export type IssuerData = {
 type ContractActionType = {
   getProfile: () => IssuerData | null
   readIssuers: () => IssuerData[]
-  writeIssuer: (issuer: IssuerData ) => Promise<boolean>
+  signData: ( message: string )=> string
+  writeProfile: (issuer: ProfileRegistryCreateRequest ) => Promise<boolean>
 }
 
 type ContractStateType = {
-  issuerRegisted: boolean
-  issuerRegistering: boolean
-  issuerRegisterError: WriteContractErrorType | null
-  issuerReadData: string  | null,
-  issuerReadError: ReadContractErrorType,
+  client: UseClientReturnType | null,
+  profileRegisted: boolean
+  profileRegistering: boolean
+  profileRegisterError: WriteContractErrorType | null
+  profileInitialized: boolean
+  issuerReadData: string  | null
+  issuerReadError: ReadContractErrorType | Error | null
   issuerReadPending: boolean,
+  singingMessage: string | null,
+  singingOriginalMessage: string | null,
+  signingError: SignMessageErrorType | null,
+  singingPending: false,
 }
 
-type ContractContextType = {
-  actions: ContractActionType
-  state: ContractStateType
-}
+type ContractContextType = [ ContractStateType, ContractActionType ]
 
 const defaultState: ContractStateType = {
+  client: null,
   /*--- Issuer Write Related state --- */
-  issuerRegisted: false, 
-  issuerRegistering: false,
-  issuerRegisterError: null,
+  profileRegisted: false, 
+  profileRegistering: false,
+  profileRegisterError: null,
   /*--- Issuer Write Related state --- */
+  profileInitialized: false,
   issuerReadData: null,
   issuerReadError: null,
   issuerReadPending: false,
+  /*--- Singing state --- */
+  singingMessage: null,
+  singingOriginalMessage: null,
+  signingError: null,
+  singingPending: false,
 }
 const defaultActions = {
-  readIssuer: () => null,
+  getProfile: () => null,
+  signData: ( message: string )=>  "",
   readIssuers: ()=>  [],
-  writeIssuer: ( issuer: IssuerData ) => Promise.resolve(true)
+  writeProfile: ( profile: ProfileRegistryCreateRequest ) => Promise.resolve(true)
 }
 
 const ContractContext = createContext<ContractContextType>([defaultState, defaultActions]);
@@ -60,11 +76,26 @@ type ContractProviderPropType = {
 
 const ContractContextProvider = ({children}:ContractProviderPropType)=>{
 
-  const [issuerAddress, setIssuerAddress] = useState<String>('');
+  const [issuerAddress, setIssuerAddress] = useState<Address|null>(null);
   const [state, setState] = useState<ContractStateType>(defaultState);
   const { data: hash , error, isPending, isSuccess, writeContractAsync } = useWriteIssuerRegistryRegisterIssuer();
   const [ accountState ] = useWalletContext();
-  
+  const readIssuerFromContract = useReadIssuerRegistryGetIssuerData({
+      args:[ issuerAddress as Address as any ],
+      enabled: ( issuerAddress !== null ) // Tanstack config to prevent the request from being triggered onload
+    })
+
+  const client = useClient()
+
+  const issuerFetchQuery = readIssuerFromContract.queryKey
+  // ipfs {data, isPending, isSuccess, isError, signMessage}
+
+  useEffect(()=> {
+    setState({
+      ...state,
+      client
+    })
+  }, [client])
 
   useEffect(() => {
     if( hash ) {
@@ -76,56 +107,76 @@ const ContractContextProvider = ({children}:ContractProviderPropType)=>{
   useEffect(()=>{
     setState({
       ...state,
-      issuerRegisterError: error,
-      issuerRegistering: isPending,
-      issuerRegisted: isSuccess,
+      profileInitialized: false,
+      profileRegisterError: error,
+      profileRegistering: isPending,
+      profileRegisted: isSuccess,
     })
 
   }, [error, isPending, isSuccess])
 
 
-  // useEffect(()=> {
-  //   /* Read related operation */
-  //   setState({
-  //     ...state,
-  //     issuerReadData,
-  //     issuerReadError,
-  //     issuerReadPending,
-  //     issuerReadSuccess,
-  //   })
-  // }, [ issuerReadData, issuerReadError, issuerReadPending, issuerReadSuccess ])
 
   useEffect(() => {
-    setIssuerAddress(( ( accountState as WalletStateTypes ).address  || ''))
+    setIssuerAddress(( ( accountState as WalletStateTypes ).address  || null))
   }, [( accountState as WalletStateTypes ).address ]);
 
 
   const actions = {
     ...defaultActions,
-    readIssuer: async ()=> {
+    signData: async ( message: string )=> {
+      if( client ) {
+        try { 
+          console.info(`signing message ${message}`)
+          const account = issuerAddress as Address
+          const signedMessage = await ( client as any ).signMessage({
+            message,
+            account
+          });
+          return signedMessage;
+
+        } catch ( e ) {
+          console.info(`e ${e}`)
+        }
+      }
+    },
+    getProfile: async ()=> {
       try{
+
         if( issuerAddress ) {
           setState({
             ...state,
-            issuerReadPending: true
+            issuerReadPending: true,
+            issuerReadError: null
           })
-          const data = await useReadIssuerRegistryGetIssuerData()
+          const res = await readIssuerFromContract.refetch({
+            ...issuerFetchQuery,
+            args:[BigInt(issuerAddress)]
+          });
+
           setState({
             ...state,
+            profileInitialized: true,
+            issuerReadData: res.data || null,
             issuerReadPending: false
           })
 
         }
-      }catch (err) {
-        console.error('Failed to read issuer:', err);
+      } catch (err) {
+        console.info(err)
+        setState({
+          ...state,
+          issuerReadPending: false,
+          issuerReadError: error
+        })
       }
       return true;
 
     },
     readIssuers: ()=> [],
-    writeIssuer: async( issuerData: IssuerData ) => {
+    writeProfile: async( issuerData: ProfileRegistryCreateRequest ) => {
       try {
-        if( issuerAddress !== '' ) {
+        if( issuerAddress !== null ) {
           // Call the write function to register the issuer with the string data
           await writeContractAsync({
             args: [JSON.stringify( issuerData) as string]

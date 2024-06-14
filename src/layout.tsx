@@ -13,7 +13,7 @@ export default function RootLayout({
   return (
     <>
       <Head>
-        <title>Ethereum 101</title>
+        <title>MEC Registry</title>
       </Head>
       <Header/>
       {children}

@@ -12,7 +12,9 @@
     "lint:strict": "eslint --max-warnings=0 src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "anvil": "./scripts/setenv.sh .env && anvil",
+    "generate-types": "typechain --out-dir src/types --target=ethers-v6 'src/abis/*.json'",
     "wagmi": ". ./scripts/setenv.sh .env && wagmi generate && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/",
+    "prepareAbi": "npm run wagmi && npm run generate-types",
     "deploy": ". ./scripts/setenv.sh .env && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
   },
   "keywords": [
@@ -23,9 +25,11 @@
   "author": "Yuri Fukuda",
   "license": "ISC",
   "devDependencies": {
+    "@typechain/ethers-v6": "^0.5.1",
     "@types/next": "^9.0.0",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",
     "@wagmi/cli": "^2.1.8",
@@ -37,6 +41,7 @@
     "postcss": "^8.4.38",
     "sass": "^1.77.2",
     "tailwindcss": "^3.4.4",
+    "typechain": "^8.3.2",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
   },
@@ -44,10 +49,16 @@
     "@tanstack/react-query": "^5.40.0",
     "@wagmi/chains": "^1.8.0",
     "axios": "^1.7.2",
+    "ethereumjs-util": "^7.1.5",
     "ethers": "^6.12.1",
+    "lottie-react": "^2.4.0",
     "next": "^14.2.3",
+    "next-iron-session": "^4.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-lottie-player": "^2.0.0",
+    "react-toastify": "^10.0.5",
+    "uuid": "^10.0.0",
     "viem": "^2.13.7",
     "wagmi": "^2.9.7"
   }

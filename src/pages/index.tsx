@@ -5,9 +5,7 @@ import React, { useState, useEffect } from 'react';
 import MyComponent from '../components/MyComponent'
 import WalletOptions from '@/components/WalletOptions'
 import '@/types.d'
-import { useAccount } from 'wagmi'
 import { useRouter } from 'next/router';
-
 import { useWalletContext, WalletStateTypes, WalletActionTypes, Web3Status } from '@/context/WalletWrapper'
 
 
