@@ -3,6 +3,8 @@ import { useWalletContext, WalletStateTypes, WalletActionTypes, Web3Status } fro
 import Profile from "@/components/Profile"
 import { useRouter } from 'next/router';
 import Courses from '@/components/Courses'
+import Link from 'next/link';
+
 
 
 export default ()=>{
@@ -27,7 +29,12 @@ export default ()=>{
     </div>
     { (walletState === Web3Status.AccountConnected ) && 
     <div className="mt-8">
-      <h2 className="text-xl font-semibold mb-4">Courses</h2>
+      <h2 className="text-xl font-semibold mb-4">Courses
+      </h2>
+      <Link href="/add-course" className="text-blue-500 hover:underline">
+        + Add Course
+      </Link>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         <Courses/>
       </div>

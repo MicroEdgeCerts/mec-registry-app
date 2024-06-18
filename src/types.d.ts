@@ -17,8 +17,14 @@ export interface LocalizedString {
 
 export interface ProfileRegistryCreateRequest {
   id: string;
+  meta: string;
+}
+
+export interface ProfileRegistryDataType {
+  id: string;
   address: string;
   meta: string;
+  tokenId: number
 }
 
 // Profile interface
@@ -27,13 +33,22 @@ export interface Profile {
   type: string | string[]; // JSON-LD Type, could be a string or an array of strings
   name: string; // Referenced LocalizedString type
   name_extended?: LocalizedString;
-  url?: string; // URI
+  url: string; // URI
   telephone?: string;
   description?: string | null; // Referenced LocalizedString type
   description_extended?: LocalizedString;
   image?: string; // ImageUri, a string that matches the data URI pattern or a URI
   email?: string;
 }
+
+export interface ProfileContract {
+  id: string, /* id */
+  owner: string, /* contract address */
+  meta: string,
+  tokenId: BigInt | number,
+  data: Profile; 
+}
+
 
 export type MetaItem = Profile;
 

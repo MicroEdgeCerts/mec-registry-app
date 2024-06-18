@@ -15,13 +15,19 @@ export const maxProfileSizeBytes = maxSizeMB * 1024 * 1024;
 export const PROVIDER_URL = process.env.FORGE_RPC_URL  as string
 export const CONTRACT_ADDRESS = process.env.FORGE_CONTRACT_ADDRESS as string;
 /* use local netwwork if it's not production */
+const metaMaskOptions = {
+  dappMetadata: {
+    name: "Mec dApp",
+  }
+  // Other options.
+};
 export const getWagmiConfig = ()=> {
   const wagmiConfig =
     ( process.env.NODE_ENV === 'production' ) ? 
     createConfig({
       chains: [mainnet, sepolia],
       ssr: true, 
-      connectors: [metaMask()],
+      connectors: [metaMask(metaMaskOptions)],
       transports: {
         [mainnet.id]: http(),
         [sepolia.id]: http(),
@@ -29,6 +35,8 @@ export const getWagmiConfig = ()=> {
     }): 
       createConfig({
         chains: [anvil],
+        ssr: true,
+        connectors: [metaMask(metaMaskOptions)],
         client({ chain }) { 
           return createWalletClient({
             chain: chain,

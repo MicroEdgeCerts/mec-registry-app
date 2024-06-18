@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { PinataRes } from '@/types/nft';
 import type { UseClientReturnType  } from 'wagmi'
 import type { Address } from 'viem'
-import { MetaItem } from '@/types'
+import { MetaItem, Profile as ProfileType } from '@/types'
 
 
 
@@ -52,6 +52,18 @@ export  const createMetaFile = async ( metaData: MetaItem, client: UseClientRetu
     return  `${process.env.NEXT_PUBLIC_PINATA_DOMAIN}/ipfs/${data.IpfsHash}`
   } else {
     throw new Error("client doesn't exist")
+  }
+}
+
+
+
+export  const getMetaFile = async ( url: string ): Promise<ProfileType> => {
+  console.info("getting metafile")
+  try { 
+    const res = await axios.get(url);
+    return res.data.item;
+  } catch( error ) {
+    throw new Error(`getMetaFile Error ${error}`);
   }
 }
 

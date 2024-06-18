@@ -13,6 +13,6 @@ fi
 while IFS= read -r line || [[ -n "$line" ]]; do
   if [[ ! -z "$line" && "${line:0:1}" != "#" ]]; then
     export "$line"
-    echo "Exported: $line"
+    echo "Exported: ${line:0:5}..."
   fi
 done < "$1"

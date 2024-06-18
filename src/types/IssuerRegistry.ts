@@ -26,8 +26,11 @@ import type {
 export interface IssuerRegistryInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "getCurrentIssuerId"
+      | "getCurrentTokenId"
       | "getIssuerData"
+      | "getIssuerDataByAddress"
+      | "getIssuerDataById"
+      | "getIssuerDataByTokenId"
       | "getIssuerOwner"
       | "nextTokenId"
       | "registerIssuer"
@@ -36,11 +39,23 @@ export interface IssuerRegistryInterface extends Interface {
   getEvent(nameOrSignatureOrTopic: "IssuerRegistered"): EventFragment;
 
   encodeFunctionData(
-    functionFragment: "getCurrentIssuerId",
+    functionFragment: "getCurrentTokenId",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getIssuerData",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIssuerDataByAddress",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIssuerDataById",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIssuerDataByTokenId",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -53,15 +68,27 @@ export interface IssuerRegistryInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "registerIssuer",
-    values: [string]
+    values: [string, string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "getCurrentIssuerId",
+    functionFragment: "getCurrentTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "getIssuerData",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getIssuerDataByAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getIssuerDataById",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getIssuerDataByTokenId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -139,9 +166,23 @@ export interface IssuerRegistry extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  getCurrentIssuerId: TypedContractMethod<[], [bigint], "view">;
+  getCurrentTokenId: TypedContractMethod<[], [bigint], "view">;
 
-  getIssuerData: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
+  getIssuerData: TypedContractMethod<[], [string[]], "view">;
+
+  getIssuerDataByAddress: TypedContractMethod<
+    [owner: AddressLike],
+    [string[]],
+    "view"
+  >;
+
+  getIssuerDataById: TypedContractMethod<[id: string], [string], "view">;
+
+  getIssuerDataByTokenId: TypedContractMethod<
+    [tokenId: BigNumberish],
+    [string],
+    "view"
+  >;
 
   getIssuerOwner: TypedContractMethod<
     [tokenId: BigNumberish],
@@ -151,17 +192,30 @@ export interface IssuerRegistry extends BaseContract {
 
   nextTokenId: TypedContractMethod<[], [bigint], "view">;
 
-  registerIssuer: TypedContractMethod<[data: string], [bigint], "nonpayable">;
+  registerIssuer: TypedContractMethod<
+    [id: string, data: string],
+    [bigint],
+    "nonpayable"
+  >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
   getFunction(
-    nameOrSignature: "getCurrentIssuerId"
+    nameOrSignature: "getCurrentTokenId"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "getIssuerData"
+  ): TypedContractMethod<[], [string[]], "view">;
+  getFunction(
+    nameOrSignature: "getIssuerDataByAddress"
+  ): TypedContractMethod<[owner: AddressLike], [string[]], "view">;
+  getFunction(
+    nameOrSignature: "getIssuerDataById"
+  ): TypedContractMethod<[id: string], [string], "view">;
+  getFunction(
+    nameOrSignature: "getIssuerDataByTokenId"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "getIssuerOwner"
@@ -171,7 +225,7 @@ export interface IssuerRegistry extends BaseContract {
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "registerIssuer"
-  ): TypedContractMethod<[data: string], [bigint], "nonpayable">;
+  ): TypedContractMethod<[id: string, data: string], [bigint], "nonpayable">;
 
   getEvent(
     key: "IssuerRegistered"

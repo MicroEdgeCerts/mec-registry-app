@@ -19,7 +19,7 @@ export const tokenRegistryAbi = [
   {
     type: 'function',
     inputs: [],
-    name: 'getCurrentIssuerId',
+    name: 'getCurrentTokenId',
     outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
     stateMutability: 'view',
   },
@@ -115,7 +115,7 @@ export const useReadTokenRegistry = /*#__PURE__*/ createUseReadContract({
 })
 
 /**
- * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getCurrentIssuerId"`
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link tokenRegistryAbi}__ and `functionName` set to `"getCurrentTokenId"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x1A61839Eb5fC6eBBcAe01eD5E79062E598792Dac)
  * - [__View Contract on Goerli Etherscan__](https://goerli.etherscan.io/address/0x78991BB1D194C1235fe285240af8489CFA552151)
@@ -126,7 +126,7 @@ export const useReadTokenRegistryGetCurrentTokenId =
   /*#__PURE__*/ createUseReadContract({
     abi: tokenRegistryAbi,
     address: tokenRegistryAddress,
-    functionName: 'getCurrentIssuerId',
+    functionName: 'getCurrentTokenId',
   })
 
 /**
