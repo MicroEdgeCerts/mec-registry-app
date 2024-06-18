@@ -125,7 +125,6 @@ const ContractContextProvider = ({children}:ContractProviderPropType)=>{
       const data = await getMetaFile(contract.meta)
       return {
         ...item, 
-        id: contract.id,
         data
       }
   };

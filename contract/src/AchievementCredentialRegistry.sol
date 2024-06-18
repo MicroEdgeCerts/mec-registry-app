@@ -36,7 +36,13 @@ contract AchievementCredentialRegistry {
         string memory image,
         string memory meta
     ) public {
+
+
         require(_isAchievementValid(validFrom, validUntil), "Invalid achievement validity period");
+
+        if (validFrom == 0) {
+            validFrom = block.timestamp;
+        }
 
         if (id == 0) {
             id = _nextId++;
@@ -75,9 +81,6 @@ contract AchievementCredentialRegistry {
     }
 
     function _isAchievementValid(uint256 validFrom, uint256 validUntil) private view returns (bool) {
-        if (validFrom <= block.timestamp) {
-            return false;
-        }
         if (validUntil != 0 && validFrom >= validUntil) {
             return false;
         }

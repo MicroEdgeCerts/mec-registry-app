@@ -23,7 +23,7 @@ interface ProfileType {
   email: string;
   description_en: string;
   description_ja: string;
-  image: File | null;
+  image: File | string | null;
 }
 
 
@@ -104,7 +104,7 @@ export default function Profile() {
           email: profileData.email || "",
           description_en: profileData.description || "",
           description_ja: getLocalString( profileData.description_extended, "ja-JP"),
-          image: null,
+          image: profileData.image,
         });
   };
 
@@ -302,7 +302,8 @@ export default function Profile() {
           {profile.image && (
             <div>
               <p className="block text-sm font-medium text-gray-700">Profile Image:</p>
-              <img src={URL.createObjectURL(profile.image)} alt="Profile" className="mt-1 block w-full border border-gray-300 rounded-md p-2" />
+              <img src={profile.image as string} alt="Profile" className="mt-1 block w-full border border-gray-300 rounded-md p-2" 
+                              style={{ maxHeight: '200px', maxWidth: '200px', border: '1px solid #DDDDDD' }} />
             </div>
           )}
         </div>
