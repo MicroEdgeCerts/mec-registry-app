@@ -1,13 +1,17 @@
-import { useState } from 'react';
-import Lottie from 'react-lottie-player';
-import animationData from './animation.json';
+import { useState } from "react";
+import Lottie from "react-lottie-player";
+import animationData from "./animation.json";
 
 type AddButtonPropTypes = {
-  width?: number
-  height?: number
-  onClick: ()=> void
-}
-const AnimatedButton: React.FC<AddButtonPropTypes> = ( {onClick, width = 100, height= 100 } ) => {
+  width?: number;
+  height?: number;
+  onClick: () => void;
+};
+const AnimatedButton: React.FC<AddButtonPropTypes> = ({
+  onClick,
+  width = 100,
+  height = 100,
+}) => {
   const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {

@@ -33,75 +33,75 @@ export interface IssuerRegistryInterface extends Interface {
       | "getIssuerDataByTokenId"
       | "getIssuerOwner"
       | "nextTokenId"
-      | "registerIssuer"
+      | "registerIssuer",
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "IssuerRegistered"): EventFragment;
 
   encodeFunctionData(
     functionFragment: "getCurrentTokenId",
-    values?: undefined
+    values?: undefined,
   ): string;
   encodeFunctionData(
     functionFragment: "getIssuerData",
-    values?: undefined
+    values?: undefined,
   ): string;
   encodeFunctionData(
     functionFragment: "getIssuerDataByAddress",
-    values: [AddressLike]
+    values: [AddressLike],
   ): string;
   encodeFunctionData(
     functionFragment: "getIssuerDataById",
-    values: [string]
+    values: [string],
   ): string;
   encodeFunctionData(
     functionFragment: "getIssuerDataByTokenId",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "getIssuerOwner",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "nextTokenId",
-    values?: undefined
+    values?: undefined,
   ): string;
   encodeFunctionData(
     functionFragment: "registerIssuer",
-    values: [string, string]
+    values: [string, string],
   ): string;
 
   decodeFunctionResult(
     functionFragment: "getCurrentTokenId",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "getIssuerData",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "getIssuerDataByAddress",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "getIssuerDataById",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "getIssuerDataByTokenId",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "getIssuerOwner",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "nextTokenId",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "registerIssuer",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
 }
 
@@ -109,7 +109,7 @@ export namespace IssuerRegisteredEvent {
   export type InputTuple = [
     tokenId: BigNumberish,
     owner: AddressLike,
-    data: string
+    data: string,
   ];
   export type OutputTuple = [tokenId: bigint, owner: string, data: string];
   export interface OutputObject {
@@ -132,38 +132,38 @@ export interface IssuerRegistry extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event: TCEvent,
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
+    event?: TCEvent,
   ): Promise<this>;
 
   getCurrentTokenId: TypedContractMethod<[], [bigint], "view">;
@@ -199,36 +199,36 @@ export interface IssuerRegistry extends BaseContract {
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
+    key: string | FunctionFragment,
   ): T;
 
   getFunction(
-    nameOrSignature: "getCurrentTokenId"
+    nameOrSignature: "getCurrentTokenId",
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "getIssuerData"
+    nameOrSignature: "getIssuerData",
   ): TypedContractMethod<[], [string[]], "view">;
   getFunction(
-    nameOrSignature: "getIssuerDataByAddress"
+    nameOrSignature: "getIssuerDataByAddress",
   ): TypedContractMethod<[owner: AddressLike], [string[]], "view">;
   getFunction(
-    nameOrSignature: "getIssuerDataById"
+    nameOrSignature: "getIssuerDataById",
   ): TypedContractMethod<[id: string], [string], "view">;
   getFunction(
-    nameOrSignature: "getIssuerDataByTokenId"
+    nameOrSignature: "getIssuerDataByTokenId",
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "getIssuerOwner"
+    nameOrSignature: "getIssuerOwner",
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "nextTokenId"
+    nameOrSignature: "nextTokenId",
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "registerIssuer"
+    nameOrSignature: "registerIssuer",
   ): TypedContractMethod<[id: string, data: string], [bigint], "nonpayable">;
 
   getEvent(
-    key: "IssuerRegistered"
+    key: "IssuerRegistered",
   ): TypedContractEvent<
     IssuerRegisteredEvent.InputTuple,
     IssuerRegisteredEvent.OutputTuple,

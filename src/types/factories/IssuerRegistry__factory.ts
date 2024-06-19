@@ -189,7 +189,7 @@ type IssuerRegistryConstructorParams =
   | ConstructorParameters<typeof ContractFactory>;
 
 const isSuperArgs = (
-  xs: IssuerRegistryConstructorParams
+  xs: IssuerRegistryConstructorParams,
 ): xs is ConstructorParameters<typeof ContractFactory> => xs.length > 1;
 
 export class IssuerRegistry__factory extends ContractFactory {
@@ -202,7 +202,7 @@ export class IssuerRegistry__factory extends ContractFactory {
   }
 
   override getDeployTransaction(
-    overrides?: NonPayableOverrides & { from?: string }
+    overrides?: NonPayableOverrides & { from?: string },
   ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(overrides || {});
   }
@@ -224,7 +224,7 @@ export class IssuerRegistry__factory extends ContractFactory {
   }
   static connect(
     address: string,
-    runner?: ContractRunner | null
+    runner?: ContractRunner | null,
   ): IssuerRegistry {
     return new Contract(address, _abi, runner) as unknown as IssuerRegistry;
   }

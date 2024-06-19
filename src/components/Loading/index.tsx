@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
 import Lottie from "lottie-react";
 import loadingAnimation from "./animation.json";
 
-type LoadingPropType = {}
+type LoadingPropType = {};
 
-const Loading: React.FC<LoadingPropType> = ()=>{
+const Loading: React.FC<LoadingPropType> = () => {
   return <Lottie animationData={loadingAnimation} loop={true} />;
-}
+};
 
-export default Loading
+export default Loading;

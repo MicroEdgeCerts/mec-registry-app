@@ -1,22 +1,20 @@
-
-import Head from 'next/head'
-import Header from '@/components/Header'
+import Head from "next/head";
+import Header from "@/components/Header";
 
 // types
-
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <>
       <Head>
         <title>MEC Registry</title>
       </Head>
-      <Header/>
+      <Header />
       {children}
     </>
-  )
+  );
 }

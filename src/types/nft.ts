@@ -3,5 +3,4 @@ export type PinataRes = {
   PinSize: number;
   Timestamp: string;
   isDuplicate: boolean;
-}
-
+};
