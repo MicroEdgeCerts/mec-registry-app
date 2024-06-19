@@ -6,6 +6,108 @@ import {
 } from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// AchievementCredentialRegistry
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * -
+ * -
+ */
+export const achievementCredentialRegistryAbi = [
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
+  {
+    type: 'function',
+    inputs: [
+      { name: 'id', internalType: 'uint256', type: 'uint256' },
+      { name: 'key_sets', internalType: 'string[]', type: 'string[]' },
+      { name: 'revoked_key_sets', internalType: 'string[]', type: 'string[]' },
+      { name: 'cannonical_id', internalType: 'string', type: 'string' },
+      { name: 'validFrom', internalType: 'uint256', type: 'uint256' },
+      { name: 'validUntil', internalType: 'uint256', type: 'uint256' },
+      { name: 'image', internalType: 'string', type: 'string' },
+      { name: 'meta', internalType: 'string', type: 'string' },
+    ],
+    name: 'createOrUpdateAchievement',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'uint256', type: 'uint256' }],
+    name: 'getAchievement',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct AchievementCredentialRegistry.Achievement',
+        type: 'tuple',
+        components: [
+          { name: 'id', internalType: 'uint256', type: 'uint256' },
+          { name: 'key_sets', internalType: 'string[]', type: 'string[]' },
+          {
+            name: 'revoked_key_sets',
+            internalType: 'string[]',
+            type: 'string[]',
+          },
+          { name: 'cannonical_id', internalType: 'string', type: 'string' },
+          { name: 'validFrom', internalType: 'uint256', type: 'uint256' },
+          { name: 'validUntil', internalType: 'uint256', type: 'uint256' },
+          { name: 'image', internalType: 'string', type: 'string' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'uint256', type: 'uint256' }],
+    name: 'revokeAchievement',
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'id', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'cannonical_id',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+    ],
+    name: 'AchievementAdded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'id', internalType: 'uint256', type: 'uint256', indexed: false },
+    ],
+    name: 'AchievementRevoked',
+  },
+] as const
+
+/**
+ * -
+ * -
+ */
+export const achievementCredentialRegistryAddress = {
+  1337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+  31337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+} as const
+
+/**
+ * -
+ * -
+ */
+export const achievementCredentialRegistryConfig = {
+  address: achievementCredentialRegistryAddress,
+  abi: achievementCredentialRegistryAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IssuerRegistry
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -164,6 +266,145 @@ export const issuerRegistryConfig = {
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
+ *
+ * -
+ * -
+ */
+export const useReadAchievementCredentialRegistry =
+  /*#__PURE__*/ createUseReadContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"getAchievement"`
+ *
+ * -
+ * -
+ */
+export const useReadAchievementCredentialRegistryGetAchievement =
+  /*#__PURE__*/ createUseReadContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    functionName: 'getAchievement',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
+ *
+ * -
+ * -
+ */
+export const useWriteAchievementCredentialRegistry =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"createOrUpdateAchievement"`
+ *
+ * -
+ * -
+ */
+export const useWriteAchievementCredentialRegistryCreateOrUpdateAchievement =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    functionName: 'createOrUpdateAchievement',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"revokeAchievement"`
+ *
+ * -
+ * -
+ */
+export const useWriteAchievementCredentialRegistryRevokeAchievement =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    functionName: 'revokeAchievement',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
+ *
+ * -
+ * -
+ */
+export const useSimulateAchievementCredentialRegistry =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"createOrUpdateAchievement"`
+ *
+ * -
+ * -
+ */
+export const useSimulateAchievementCredentialRegistryCreateOrUpdateAchievement =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    functionName: 'createOrUpdateAchievement',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"revokeAchievement"`
+ *
+ * -
+ * -
+ */
+export const useSimulateAchievementCredentialRegistryRevokeAchievement =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    functionName: 'revokeAchievement',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
+ *
+ * -
+ * -
+ */
+export const useWatchAchievementCredentialRegistryEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `eventName` set to `"AchievementAdded"`
+ *
+ * -
+ * -
+ */
+export const useWatchAchievementCredentialRegistryAchievementAddedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    eventName: 'AchievementAdded',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `eventName` set to `"AchievementRevoked"`
+ *
+ * -
+ * -
+ */
+export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    eventName: 'AchievementRevoked',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__

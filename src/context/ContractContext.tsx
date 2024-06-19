@@ -4,7 +4,8 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { useWriteIssuerRegistryRegisterIssuer,
          useReadIssuerRegistryGetIssuerDataByAddress, 
-         useReadIssuerRegistryGetIssuerDataByTokenId } from '@/abis/IssuerRegistry';
+         useReadIssuerRegistryGetIssuerDataByTokenId,
+         issuerRegistryAddress, issuerRegistryAbi } from '@/abis/MEC';
 import type {  WriteContractErrorType, 
   ReadContractErrorType, 
   SignMessageErrorType } from '@wagmi/core'
@@ -12,7 +13,6 @@ import { useWalletContext, type WalletStateTypes } from './WalletWrapper'
 import type { Address } from 'viem'
 import { useClient, type UseClientReturnType, useChainId  } from 'wagmi'
 import type { ProfileRegistryCreateRequest, ProfileRegistryDataType, ProfileContract } from '@/types';
-import { issuerRegistryAddress, issuerRegistryAbi } from "@/abis/IssuerRegistry"
 import { getMetaFile } from '@/utils/ipfsService'
 
 export type IssuerData = {

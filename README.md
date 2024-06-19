@@ -91,7 +91,6 @@ See work in dev enironment, type below command in terminal
     NEXT_APP_ISSUER_CONTRACT_ADDRESS=http://127.0.0.1:8545
     FORGE_PRIVATE_KEY=<Private Key Here>
     FORGE_RPC_URL=http://127.0.0.1:8545
-    FORGE_CONTRACT_ADDRESS=0x5fbdb2315678afecb367f032d93f642f64180aa3
     ```
 
    でDeployします。
@@ -108,6 +107,9 @@ See work in dev enironment, type below command in terminal
     Once you run the command, the address of the contract will be displayed. Keep that for the next step. ( with Anvil, it always be 0x5fbdb2315678afecb367f032d93f642f64180aa3
     )
 
+    はじめのものが、IssuerRegistry,次のアドレスがAchievementCredentialRegistryとなります。
+    どちらとも、コントラクトアドレスをピックアップし、それぞれ、FORGE_ISSUER_CONTRACT_ADDRESS, FORGE_ACHIEVEMENT_CONTRACT_ADDRESS
+
 3.　ContractをBuild ABIを取得/ Build Contract and get the ABI
    プライベートアドレス（１）を取得
 
@@ -121,7 +123,8 @@ See work in dev enironment, type below command in terminal
     NEXT_APP_ISSUER_CONTRACT_ADDRESS=http://127.0.0.1:8545
     FORGE_PRIVATE_KEY=<Private Key Here>
     FORGE_RPC_URL=http://127.0.0.1:8545
-    FORGE_CONTRACT_ADDRESS=< Contracct Address Here>
+    FORGE_ISSUER_CONTRACT_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+    FORGE_ACHIEVEMENT_CONTRACT_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
     ```
 
     この設定でWagmiのインターフェースとタイプを生成します。

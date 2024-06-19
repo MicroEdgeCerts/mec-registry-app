@@ -3,10 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { withIronSession, Session } from "next-iron-session";
 import { Address } from "viem"
 import * as util from 'ethereumjs-util'
-// import type { IssuerRegistryInterface } from "@/types/IssuerRegistry"
-// import { issuerRegistryAbi } from '@/abis/IssuerRegistry';
-
-// import { PROVIDER_URL, CONTRACT_ADDRESS } from "@/config"
 
 export const MESSAGE_SESSION = "message-session"
 export const DELETE_WAIT = 200
@@ -14,14 +10,13 @@ export const DELETE_WAIT = 200
 
 
 // const providerNetwork = PROVIDER_URL;
-export const contractAddress = process.env.FORGE_CONTRACT_ADDRESS as Address
+export const issuerContractAddress = process.env.FORGE_ISSUER_CONTRACT_ADDRESS as Address
 export const pinataApiKey = process.env.PINATA_API_KEY as string;
 export const pinataSecretApiKey = process.env.PINATA_SECRET_API_KEY as string;
 export const pinataURI = process.env.PINATA_API_URL as string;
 export const pinataToken = process.env.PINATA_TOKEN as string;
 
 
-// const contractAddress = CONTRACT_ADDRESS as string;
 
 export function withSession( handler: any ) {
   return withIronSession( handler, {

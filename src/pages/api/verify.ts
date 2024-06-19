@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Session } from "next-iron-session";
 import { NextApiRequest, NextApiResponse } from "next";
 import { withSession, addressCheckMiddleware, MESSAGE_SESSION,
-        pinataApiKey, pinataSecretApiKey, pinataURI, contractAddress } from "./utils";
+        pinataApiKey, pinataSecretApiKey, pinataURI, issuerContractAddress } from "./utils";
 
 
 const getFileName = ( type: string | string[], id: string ): string => {
@@ -49,7 +49,7 @@ export default withSession(async (req: NextApiRequest & {session: Session}, res:
     } 
   } else if (req.method === "GET") {
     try {
-      const message = { contractAddress, id: uuidv4() };
+      const message = { issuerContractAddress, id: uuidv4() };
       req.session.set(MESSAGE_SESSION, message);
       await req.session.save();
 

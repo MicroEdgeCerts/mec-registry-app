@@ -19,6 +19,4 @@ out/
 contract/broadcast/*/31337/
 contract/broadcast/**/dry-run/
 
-# Dotenv file
-.env
 

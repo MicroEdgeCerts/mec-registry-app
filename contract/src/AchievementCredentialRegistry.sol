@@ -2,7 +2,6 @@
 pragma solidity ^0.8.13;
 
 
-
 contract AchievementCredentialRegistry {
     struct Achievement {
         uint256 id;
@@ -19,7 +18,7 @@ contract AchievementCredentialRegistry {
     uint256 private _nextId;
 
     event AchievementAdded(uint256 id, string cannonical_id);
-    event AchievementUpdated(uint256 id, string cannonical_id);
+    // event AchievementUpdated(uint256 id, string cannonical_id);
     event AchievementRevoked(uint256 id);
 
     constructor() {
@@ -66,7 +65,7 @@ contract AchievementCredentialRegistry {
             achievement.validUntil = validUntil;
             achievement.image = image;
             achievement.meta = meta;
-            emit AchievementUpdated(id, cannonical_id);
+            // emit AchievementUpdated(id, cannonical_id);
         }
     }
 
@@ -80,7 +79,7 @@ contract AchievementCredentialRegistry {
         emit AchievementRevoked(id);
     }
 
-    function _isAchievementValid(uint256 validFrom, uint256 validUntil) private view returns (bool) {
+    function _isAchievementValid(uint256 validFrom, uint256 validUntil) private pure returns (bool) {
         if (validUntil != 0 && validFrom >= validUntil) {
             return false;
         }

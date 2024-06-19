@@ -13,7 +13,7 @@ export const maxSizeMB = 2; // Set the maximum size in MB
 export const maxProfileSizeBytes = maxSizeMB * 1024 * 1024;
 
 export const PROVIDER_URL = process.env.FORGE_RPC_URL  as string
-export const CONTRACT_ADDRESS = process.env.FORGE_CONTRACT_ADDRESS as string;
+export const CONTRACT_ADDRESS = process.env.FORGE_ISSUER_CONTRACT_ADDRESS as string;
 /* use local netwwork if it's not production */
 const metaMaskOptions = {
   dappMetadata: {
