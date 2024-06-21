@@ -3,7 +3,7 @@ import {
   createUseWriteContract,
   createUseSimulateContract,
   createUseWatchContractEvent,
-} from "wagmi/codegen";
+} from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // AchievementCredentialRegistry
@@ -14,89 +14,148 @@ import {
  * -
  */
 export const achievementCredentialRegistryAbi = [
-  { type: "constructor", inputs: [], stateMutability: "nonpayable" },
+  { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
   {
-    type: "function",
+    type: 'function',
     inputs: [
-      { name: "id", internalType: "uint256", type: "uint256" },
-      { name: "key_sets", internalType: "string[]", type: "string[]" },
-      { name: "revoked_key_sets", internalType: "string[]", type: "string[]" },
-      { name: "cannonical_id", internalType: "string", type: "string" },
-      { name: "validFrom", internalType: "uint256", type: "uint256" },
-      { name: "validUntil", internalType: "uint256", type: "uint256" },
-      { name: "image", internalType: "string", type: "string" },
-      { name: "meta", internalType: "string", type: "string" },
+      { name: 'id', internalType: 'uint256', type: 'uint256' },
+      { name: 'key_sets', internalType: 'string[]', type: 'string[]' },
+      { name: 'revoked_key_sets', internalType: 'string[]', type: 'string[]' },
+      { name: 'cannonical_id', internalType: 'string', type: 'string' },
+      { name: 'validFrom', internalType: 'uint256', type: 'uint256' },
+      { name: 'validUntil', internalType: 'uint256', type: 'uint256' },
+      { name: 'image', internalType: 'string', type: 'string' },
+      { name: 'meta', internalType: 'string', type: 'string' },
+      { name: 'owner_src', internalType: 'string', type: 'string' },
+      {
+        name: 'owner_type',
+        internalType: 'enum AchievementCredentialRegistry.OwnerType',
+        type: 'uint8',
+      },
     ],
-    name: "createOrUpdateAchievement",
+    name: 'createOrUpdateAchievement',
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: 'nonpayable',
   },
   {
-    type: "function",
-    inputs: [{ name: "id", internalType: "uint256", type: "uint256" }],
-    name: "getAchievement",
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'uint256', type: 'uint256' }],
+    name: 'getAchievement',
     outputs: [
       {
-        name: "",
-        internalType: "struct AchievementCredentialRegistry.Achievement",
-        type: "tuple",
+        name: '',
+        internalType: 'struct AchievementCredentialRegistry.Achievement',
+        type: 'tuple',
         components: [
-          { name: "id", internalType: "uint256", type: "uint256" },
-          { name: "key_sets", internalType: "string[]", type: "string[]" },
+          { name: 'id', internalType: 'uint256', type: 'uint256' },
+          { name: 'key_sets', internalType: 'string[]', type: 'string[]' },
           {
-            name: "revoked_key_sets",
-            internalType: "string[]",
-            type: "string[]",
+            name: 'revoked_key_sets',
+            internalType: 'string[]',
+            type: 'string[]',
           },
-          { name: "cannonical_id", internalType: "string", type: "string" },
-          { name: "validFrom", internalType: "uint256", type: "uint256" },
-          { name: "validUntil", internalType: "uint256", type: "uint256" },
-          { name: "image", internalType: "string", type: "string" },
-          { name: "meta", internalType: "string", type: "string" },
+          { name: 'cannonical_id', internalType: 'string', type: 'string' },
+          { name: 'validFrom', internalType: 'uint256', type: 'uint256' },
+          { name: 'validUntil', internalType: 'uint256', type: 'uint256' },
+          { name: 'image', internalType: 'string', type: 'string' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+          { name: 'owner_src', internalType: 'string', type: 'string' },
+          {
+            name: 'owner_type',
+            internalType: 'enum AchievementCredentialRegistry.OwnerType',
+            type: 'uint8',
+          },
         ],
       },
     ],
-    stateMutability: "view",
+    stateMutability: 'view',
   },
   {
-    type: "function",
-    inputs: [{ name: "id", internalType: "uint256", type: "uint256" }],
-    name: "revokeAchievement",
+    type: 'function',
+    inputs: [{ name: 'ownerId', internalType: 'string', type: 'string' }],
+    name: 'getAchievementsByOwnerId',
+    outputs: [
+      {
+        name: '',
+        internalType: 'struct AchievementCredentialRegistry.Achievement[]',
+        type: 'tuple[]',
+        components: [
+          { name: 'id', internalType: 'uint256', type: 'uint256' },
+          { name: 'key_sets', internalType: 'string[]', type: 'string[]' },
+          {
+            name: 'revoked_key_sets',
+            internalType: 'string[]',
+            type: 'string[]',
+          },
+          { name: 'cannonical_id', internalType: 'string', type: 'string' },
+          { name: 'validFrom', internalType: 'uint256', type: 'uint256' },
+          { name: 'validUntil', internalType: 'uint256', type: 'uint256' },
+          { name: 'image', internalType: 'string', type: 'string' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+          { name: 'owner_src', internalType: 'string', type: 'string' },
+          {
+            name: 'owner_type',
+            internalType: 'enum AchievementCredentialRegistry.OwnerType',
+            type: 'uint8',
+          },
+        ],
+      },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'uint256', type: 'uint256' }],
+    name: 'revokeAchievement',
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: 'nonpayable',
   },
   {
-    type: "event",
+    type: 'event',
     anonymous: false,
     inputs: [
-      { name: "id", internalType: "uint256", type: "uint256", indexed: false },
+      { name: 'id', internalType: 'uint256', type: 'uint256', indexed: false },
       {
-        name: "cannonical_id",
-        internalType: "string",
-        type: "string",
+        name: 'cannonical_id',
+        internalType: 'string',
+        type: 'string',
         indexed: false,
       },
     ],
-    name: "AchievementAdded",
+    name: 'AchievementAdded',
   },
   {
-    type: "event",
+    type: 'event',
     anonymous: false,
     inputs: [
-      { name: "id", internalType: "uint256", type: "uint256", indexed: false },
+      { name: 'id', internalType: 'uint256', type: 'uint256', indexed: false },
     ],
-    name: "AchievementRevoked",
+    name: 'AchievementRevoked',
   },
-] as const;
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'id', internalType: 'uint256', type: 'uint256', indexed: false },
+      {
+        name: 'cannonical_id',
+        internalType: 'string',
+        type: 'string',
+        indexed: false,
+      },
+    ],
+    name: 'AchievementUpdated',
+  },
+] as const
 
 /**
  * -
  * -
  */
 export const achievementCredentialRegistryAddress = {
-  1337: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-  31337: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-} as const;
+  1337: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+  31337: '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+} as const
 
 /**
  * -
@@ -105,7 +164,7 @@ export const achievementCredentialRegistryAddress = {
 export const achievementCredentialRegistryConfig = {
   address: achievementCredentialRegistryAddress,
   abi: achievementCredentialRegistryAbi,
-} as const;
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // IssuerRegistry
@@ -117,142 +176,142 @@ export const achievementCredentialRegistryConfig = {
  */
 export const issuerRegistryAbi = [
   {
-    type: "function",
+    type: 'function',
     inputs: [],
-    name: "getCurrentTokenId",
-    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
-    stateMutability: "view",
+    name: 'getCurrentTokenId',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    type: "function",
+    type: 'function',
     inputs: [],
-    name: "getIssuerData",
+    name: 'getIssuerData',
     outputs: [
       {
-        name: "",
-        internalType: "struct IssuerRegistry.Issuer[]",
-        type: "tuple[]",
+        name: '',
+        internalType: 'struct IssuerRegistry.Issuer[]',
+        type: 'tuple[]',
         components: [
-          { name: "id", internalType: "string", type: "string" },
-          { name: "tokenId", internalType: "uint256", type: "uint256" },
-          { name: "meta", internalType: "string", type: "string" },
-          { name: "owner", internalType: "address", type: "address" },
+          { name: 'id', internalType: 'string', type: 'string' },
+          { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
         ],
       },
     ],
-    stateMutability: "view",
+    stateMutability: 'view',
   },
   {
-    type: "function",
-    inputs: [{ name: "owner", internalType: "address", type: "address" }],
-    name: "getIssuerDataByAddress",
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'getIssuerDataByAddress',
     outputs: [
       {
-        name: "",
-        internalType: "struct IssuerRegistry.Issuer[]",
-        type: "tuple[]",
+        name: '',
+        internalType: 'struct IssuerRegistry.Issuer[]',
+        type: 'tuple[]',
         components: [
-          { name: "id", internalType: "string", type: "string" },
-          { name: "tokenId", internalType: "uint256", type: "uint256" },
-          { name: "meta", internalType: "string", type: "string" },
-          { name: "owner", internalType: "address", type: "address" },
+          { name: 'id', internalType: 'string', type: 'string' },
+          { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
         ],
       },
     ],
-    stateMutability: "view",
+    stateMutability: 'view',
   },
   {
-    type: "function",
-    inputs: [{ name: "id", internalType: "string", type: "string" }],
-    name: "getIssuerDataById",
+    type: 'function',
+    inputs: [{ name: 'id', internalType: 'string', type: 'string' }],
+    name: 'getIssuerDataById',
     outputs: [
       {
-        name: "",
-        internalType: "struct IssuerRegistry.Issuer",
-        type: "tuple",
+        name: '',
+        internalType: 'struct IssuerRegistry.Issuer',
+        type: 'tuple',
         components: [
-          { name: "id", internalType: "string", type: "string" },
-          { name: "tokenId", internalType: "uint256", type: "uint256" },
-          { name: "meta", internalType: "string", type: "string" },
-          { name: "owner", internalType: "address", type: "address" },
+          { name: 'id', internalType: 'string', type: 'string' },
+          { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
         ],
       },
     ],
-    stateMutability: "view",
+    stateMutability: 'view',
   },
   {
-    type: "function",
-    inputs: [{ name: "tokenId", internalType: "uint256", type: "uint256" }],
-    name: "getIssuerDataByTokenId",
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getIssuerDataByTokenId',
     outputs: [
       {
-        name: "",
-        internalType: "struct IssuerRegistry.Issuer",
-        type: "tuple",
+        name: '',
+        internalType: 'struct IssuerRegistry.Issuer',
+        type: 'tuple',
         components: [
-          { name: "id", internalType: "string", type: "string" },
-          { name: "tokenId", internalType: "uint256", type: "uint256" },
-          { name: "meta", internalType: "string", type: "string" },
-          { name: "owner", internalType: "address", type: "address" },
+          { name: 'id', internalType: 'string', type: 'string' },
+          { name: 'tokenId', internalType: 'uint256', type: 'uint256' },
+          { name: 'meta', internalType: 'string', type: 'string' },
+          { name: 'owner', internalType: 'address', type: 'address' },
         ],
       },
     ],
-    stateMutability: "view",
+    stateMutability: 'view',
   },
   {
-    type: "function",
-    inputs: [{ name: "tokenId", internalType: "uint256", type: "uint256" }],
-    name: "getIssuerOwner",
-    outputs: [{ name: "", internalType: "address", type: "address" }],
-    stateMutability: "view",
+    type: 'function',
+    inputs: [{ name: 'tokenId', internalType: 'uint256', type: 'uint256' }],
+    name: 'getIssuerOwner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+    stateMutability: 'view',
   },
   {
-    type: "function",
+    type: 'function',
     inputs: [],
-    name: "nextTokenId",
-    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
-    stateMutability: "view",
+    name: 'nextTokenId',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'view',
   },
   {
-    type: "function",
+    type: 'function',
     inputs: [
-      { name: "id", internalType: "string", type: "string" },
-      { name: "meta", internalType: "string", type: "string" },
+      { name: 'id', internalType: 'string', type: 'string' },
+      { name: 'meta', internalType: 'string', type: 'string' },
     ],
-    name: "registerIssuer",
-    outputs: [{ name: "", internalType: "uint256", type: "uint256" }],
-    stateMutability: "nonpayable",
+    name: 'registerIssuer',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+    stateMutability: 'nonpayable',
   },
   {
-    type: "event",
+    type: 'event',
     anonymous: false,
     inputs: [
       {
-        name: "tokenId",
-        internalType: "uint256",
-        type: "uint256",
+        name: 'tokenId',
+        internalType: 'uint256',
+        type: 'uint256',
         indexed: false,
       },
       {
-        name: "owner",
-        internalType: "address",
-        type: "address",
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
         indexed: false,
       },
-      { name: "data", internalType: "string", type: "string", indexed: false },
+      { name: 'data', internalType: 'string', type: 'string', indexed: false },
     ],
-    name: "IssuerRegistered",
+    name: 'IssuerRegistered',
   },
-] as const;
+] as const
 
 /**
  * -
  * -
  */
 export const issuerRegistryAddress = {
-  1337: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-  31337: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-} as const;
+  1337: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+  31337: '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9',
+} as const
 
 /**
  * -
@@ -261,7 +320,7 @@ export const issuerRegistryAddress = {
 export const issuerRegistryConfig = {
   address: issuerRegistryAddress,
   abi: issuerRegistryAbi,
-} as const;
+} as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
@@ -277,7 +336,7 @@ export const useReadAchievementCredentialRegistry =
   /*#__PURE__*/ createUseReadContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-  });
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"getAchievement"`
@@ -289,8 +348,21 @@ export const useReadAchievementCredentialRegistryGetAchievement =
   /*#__PURE__*/ createUseReadContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    functionName: "getAchievement",
-  });
+    functionName: 'getAchievement',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"getAchievementsByOwnerId"`
+ *
+ * -
+ * -
+ */
+export const useReadAchievementCredentialRegistryGetAchievementsByOwnerId =
+  /*#__PURE__*/ createUseReadContract({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    functionName: 'getAchievementsByOwnerId',
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
@@ -302,7 +374,7 @@ export const useWriteAchievementCredentialRegistry =
   /*#__PURE__*/ createUseWriteContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-  });
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"createOrUpdateAchievement"`
@@ -314,8 +386,8 @@ export const useWriteAchievementCredentialRegistryCreateOrUpdateAchievement =
   /*#__PURE__*/ createUseWriteContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    functionName: "createOrUpdateAchievement",
-  });
+    functionName: 'createOrUpdateAchievement',
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"revokeAchievement"`
@@ -327,8 +399,8 @@ export const useWriteAchievementCredentialRegistryRevokeAchievement =
   /*#__PURE__*/ createUseWriteContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    functionName: "revokeAchievement",
-  });
+    functionName: 'revokeAchievement',
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
@@ -340,7 +412,7 @@ export const useSimulateAchievementCredentialRegistry =
   /*#__PURE__*/ createUseSimulateContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-  });
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"createOrUpdateAchievement"`
@@ -352,8 +424,8 @@ export const useSimulateAchievementCredentialRegistryCreateOrUpdateAchievement =
   /*#__PURE__*/ createUseSimulateContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    functionName: "createOrUpdateAchievement",
-  });
+    functionName: 'createOrUpdateAchievement',
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `functionName` set to `"revokeAchievement"`
@@ -365,8 +437,8 @@ export const useSimulateAchievementCredentialRegistryRevokeAchievement =
   /*#__PURE__*/ createUseSimulateContract({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    functionName: "revokeAchievement",
-  });
+    functionName: 'revokeAchievement',
+  })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__
@@ -378,7 +450,7 @@ export const useWatchAchievementCredentialRegistryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-  });
+  })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `eventName` set to `"AchievementAdded"`
@@ -390,8 +462,8 @@ export const useWatchAchievementCredentialRegistryAchievementAddedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    eventName: "AchievementAdded",
-  });
+    eventName: 'AchievementAdded',
+  })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `eventName` set to `"AchievementRevoked"`
@@ -403,8 +475,21 @@ export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: achievementCredentialRegistryAbi,
     address: achievementCredentialRegistryAddress,
-    eventName: "AchievementRevoked",
-  });
+    eventName: 'AchievementRevoked',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link achievementCredentialRegistryAbi}__ and `eventName` set to `"AchievementUpdated"`
+ *
+ * -
+ * -
+ */
+export const useWatchAchievementCredentialRegistryAchievementUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: achievementCredentialRegistryAbi,
+    address: achievementCredentialRegistryAddress,
+    eventName: 'AchievementUpdated',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__
@@ -415,7 +500,7 @@ export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
 export const useReadIssuerRegistry = /*#__PURE__*/ createUseReadContract({
   abi: issuerRegistryAbi,
   address: issuerRegistryAddress,
-});
+})
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"getCurrentTokenId"`
@@ -427,8 +512,8 @@ export const useReadIssuerRegistryGetCurrentTokenId =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "getCurrentTokenId",
-  });
+    functionName: 'getCurrentTokenId',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"getIssuerData"`
@@ -440,8 +525,8 @@ export const useReadIssuerRegistryGetIssuerData =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "getIssuerData",
-  });
+    functionName: 'getIssuerData',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"getIssuerDataByAddress"`
@@ -453,8 +538,8 @@ export const useReadIssuerRegistryGetIssuerDataByAddress =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "getIssuerDataByAddress",
-  });
+    functionName: 'getIssuerDataByAddress',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"getIssuerDataById"`
@@ -466,8 +551,8 @@ export const useReadIssuerRegistryGetIssuerDataById =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "getIssuerDataById",
-  });
+    functionName: 'getIssuerDataById',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"getIssuerDataByTokenId"`
@@ -479,8 +564,8 @@ export const useReadIssuerRegistryGetIssuerDataByTokenId =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "getIssuerDataByTokenId",
-  });
+    functionName: 'getIssuerDataByTokenId',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"getIssuerOwner"`
@@ -492,8 +577,8 @@ export const useReadIssuerRegistryGetIssuerOwner =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "getIssuerOwner",
-  });
+    functionName: 'getIssuerOwner',
+  })
 
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"nextTokenId"`
@@ -505,8 +590,8 @@ export const useReadIssuerRegistryNextTokenId =
   /*#__PURE__*/ createUseReadContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "nextTokenId",
-  });
+    functionName: 'nextTokenId',
+  })
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link issuerRegistryAbi}__
@@ -517,7 +602,7 @@ export const useReadIssuerRegistryNextTokenId =
 export const useWriteIssuerRegistry = /*#__PURE__*/ createUseWriteContract({
   abi: issuerRegistryAbi,
   address: issuerRegistryAddress,
-});
+})
 
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"registerIssuer"`
@@ -529,8 +614,8 @@ export const useWriteIssuerRegistryRegisterIssuer =
   /*#__PURE__*/ createUseWriteContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "registerIssuer",
-  });
+    functionName: 'registerIssuer',
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link issuerRegistryAbi}__
@@ -542,7 +627,7 @@ export const useSimulateIssuerRegistry =
   /*#__PURE__*/ createUseSimulateContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-  });
+  })
 
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link issuerRegistryAbi}__ and `functionName` set to `"registerIssuer"`
@@ -554,8 +639,8 @@ export const useSimulateIssuerRegistryRegisterIssuer =
   /*#__PURE__*/ createUseSimulateContract({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    functionName: "registerIssuer",
-  });
+    functionName: 'registerIssuer',
+  })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link issuerRegistryAbi}__
@@ -567,7 +652,7 @@ export const useWatchIssuerRegistryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-  });
+  })
 
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link issuerRegistryAbi}__ and `eventName` set to `"IssuerRegistered"`
@@ -579,5 +664,5 @@ export const useWatchIssuerRegistryIssuerRegisteredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
     abi: issuerRegistryAbi,
     address: issuerRegistryAddress,
-    eventName: "IssuerRegistered",
-  });
+    eventName: 'IssuerRegistered',
+  })
