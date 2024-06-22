@@ -1,10 +1,8 @@
 import { http, createConfig } from "wagmi";
-import { mainnet } from "@wagmi/core/chains";
-import { sepolia } from "wagmi/chains";
+import { mainnet, sepolia, anvil} from "@wagmi/core/chains";
 import { metaMask } from "wagmi/connectors";
 import { createWalletClient, custom } from "viem";
 
-import { anvil } from "wagmi/chains"; //Configure the chain and the RPC provider. Note that we've added localhost here
 
 export const maxSizeMB = 2; // Set the maximum size in MB
 export const maxProfileSizeBytes = maxSizeMB * 1024 * 1024;
@@ -21,8 +19,7 @@ const metaMaskOptions = {
 };
 export const getWagmiConfig = () => {
   const wagmiConfig =
-    process.env.NODE_ENV === "production"
-      ? createConfig({
+    process.env.NODE_ENV === "production"  ? createConfig({
           chains: [mainnet, sepolia],
           ssr: true,
           connectors: [metaMask(metaMaskOptions)],
@@ -30,8 +27,7 @@ export const getWagmiConfig = () => {
             [mainnet.id]: http(),
             [sepolia.id]: http(),
           },
-        })
-      : createConfig({
+        })　: createConfig({
           chains: [anvil],
           ssr: true,
           connectors: [metaMask(metaMaskOptions)],

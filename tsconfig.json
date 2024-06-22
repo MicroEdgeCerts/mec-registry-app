@@ -2,7 +2,11 @@
   "compilerOptions": {
     "target": "ES2020",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "esnext",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -11,7 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -19,12 +23,23 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "incremental": true,
-    "plugins": [{ "name": "next" }],
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
-      "@/styles/*": ["./src/styles/*"],
-      "@/*": ["./src/*"], // enables us to use @/... to refer to src/*
-    }
-
+      "@/styles/*": [
+        "./src/styles/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@testing-library"
+    ]
   },
   "include": [
     "./src",
@@ -33,10 +48,11 @@
     "./src/**/*.json",
     "./src/**/*.ts",
     "./src/**/*.tsx",
-    "./dist/types/**/*.ts", 
+    "./dist/types/**/*.ts",
     "./next-env.d.ts",
-    "./wagmi.config.ts"],
+    "./wagmi.config.ts"
+  ],
   "exclude": [
-    "./node_modules",
+    "./node_modules"
   ]
 }

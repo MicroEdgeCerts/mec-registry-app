@@ -90,6 +90,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               <label className="block text-sm font-bold mb-2" htmlFor="name_en">Course Name (English)</label>
               <input
                 className="w-full px-3 py-2 border rounded"
+                id="name_en"
                 type="text"
                 name="name_en"
                 value={formValues.name_en}
@@ -97,9 +98,10 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="name_en">Course Name (Japanese)</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="name_ja">Course Name (Japanese)</label>
               <input
                 className="w-full px-3 py-2 border rounded"
+                id="name_ja"
                 type="text"
                 name="name_ja"
                 value={formValues.name_ja}
@@ -110,6 +112,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               <label className="block text-sm font-bold mb-2" htmlFor="url">Website</label>
               <input
                 className="w-full px-3 py-2 border rounded"
+                id="url"
                 type="text"
                 name="url"
                 value={formValues.url}
@@ -124,15 +127,17 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               <label className="block text-sm font-bold mb-2" htmlFor="description_en">Description (English)</label>
               <textarea
                 className="w-full px-3 py-2 border rounded"
+                id="description_en"
                 name="description_en"
                 value={formValues.description_en}
                 onChange={handleChange}
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="description_en">Description (Japanese)</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="description_ja">Description (Japanese)</label>
               <textarea
                 className="w-full px-3 py-2 border rounded"
+                id="description_ja"
                 name="description_ja"
                 value={formValues.description_ja}
                 onChange={handleChange}
@@ -143,8 +148,9 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
         {step === 2 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="image">Image URL</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="image">Image</label>
               <FileUpload 
+                id="image"
                 image={formValues.image || ''}
                 onChange={ handleImageChange }
                 maxSizeMB={maxSizeMB}
@@ -157,6 +163,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
             <div className="mb-4">
               <label className="block text-sm font-bold mb-2" htmlFor="key_sets">Public Keys</label>
               <textarea
+                id="key_sets"
                 className="w-full px-3 py-2 border rounded"
                 name="key_sets"
                 value={formValues.key_sets.join(',')}
