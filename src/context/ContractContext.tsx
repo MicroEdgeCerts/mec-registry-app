@@ -21,8 +21,11 @@ import type {
   ProfileRegistryCreateRequest,
   ProfileRegistryDataType,
   ProfileContract,
+  Profile,
 } from "@/types";
 import { getMetaFile } from "@/utils/ipfsService";
+
+import AchievementCredentialRegistryProvider from './AchievementCredentialRegistryContext'
 
 export type IssuerData = {
   data: string;
@@ -31,7 +34,7 @@ export type IssuerData = {
 };
 
 type ContractActionType = {
-  getProfile: () => ProfileRegistryDataType[] | null;
+  getProfile: () => Promise<boolean>;
   getIssuersByTokenId: (tokenId: number) => ProfileRegistryDataType | null;
   signData: (message: string) => string;
   writeProfile: (
@@ -74,7 +77,7 @@ const defaultState: ContractStateType = {
   singingPending: false,
 };
 const defaultActions = {
-  getProfile: () => null,
+  getProfile: () => Promise.resolve(false),
   signData: () => "",
   getIssuersByTokenId: () => null,
   writeProfile: () => Promise.resolve(null),
@@ -97,6 +100,7 @@ type BaseContractParamType = {
 const ContractContextProvider = ({ children }: ContractProviderPropType) => {
   const [issuerAddress, setIssuerAddress] = useState<Address | null>(null);
   const [state, setState] = useState<ContractStateType>(defaultState);
+  const [currentProfile, setCurrentProfile] = useState<ProfileContract|null>(null);
   const [baseContractParam, setBaseContractParam] =
     useState<BaseContractParamType | null>(null);
   const profileWrite = useWriteIssuerRegistryRegisterIssuer();
@@ -105,7 +109,6 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
     error,
     isPending,
     isSuccess,
-    writeContract,
   } = profileWrite;
   const [accountState] = useWalletContext();
   const readIssuerByTokenId = useReadIssuerRegistryGetIssuerDataByTokenId({
@@ -160,6 +163,12 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
   }, [hash]);
 
   useEffect(() => {
+    if (state.profiles.length > 0 ) {
+      setCurrentProfile( state.profiles[0] );
+    }
+  }, [state.profiles]);
+
+  useEffect(() => {
     if (client !== null && issuerAddress != null) {
       setBaseContractParam(getBaseIssuerRegistryContractParam());
     } else {
@@ -198,9 +207,10 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
         }
       }
     },
-    getProfile: async () => {
+    getProfile: async ():  Promise<boolean> => {
       try {
         if (issuerAddress) {
+          console.info(`getting profile for ${issuerAddress}`);
           setState({
             ...state,
             profileReadPending: true,
@@ -251,6 +261,8 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
             });
           }
         }
+        return true;
+
       } catch (err) {
         console.info(err);
         setState({
@@ -274,7 +286,7 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
     // },
     getIssuersByTokenId: async (tokenId: string) => {
       const res = await readIssuerByTokenId.refetch({
-        args: [tokenId],
+        args: [ tokenId],
       });
       return res;
     },
@@ -323,7 +335,9 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
 
   return (
     <ContractContext.Provider value={[state, actions]}>
-      {children}
+      <AchievementCredentialRegistryProvider profile={ currentProfile }>
+        {children}
+      </AchievementCredentialRegistryProvider>
     </ContractContext.Provider>
   );
 };

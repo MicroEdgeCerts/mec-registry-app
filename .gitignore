@@ -6,7 +6,7 @@ dist
 contract/broadcast/**/*
 cache/
 out/
-
+tsconfig.tsbuildinfo
 ##forge
 contract/lib/**/*
 contract/cache/

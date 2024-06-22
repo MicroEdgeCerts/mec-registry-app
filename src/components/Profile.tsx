@@ -109,7 +109,7 @@ export default function Profile() {
       email: profileData.email || "",
       description_en: profileData.description || "",
       description_ja: getLocalString(profileData.description_extended, "ja-JP"),
-      image: profileData.image,
+      image: profileData.image || null,
     });
   };
 
@@ -119,8 +119,8 @@ export default function Profile() {
       type: "Issuer",
       name: profile.name_en,
       name_extended: {
-        defaultString: profile.name_en,
-        localizedStrings: {
+        default: profile.name_en,
+        localized: {
           "en-US": profile.name_en,
           "ja-JP": profile.name_ja,
         },
@@ -129,8 +129,8 @@ export default function Profile() {
       telephone: profile.telephone,
       description: profile.description_en,
       description_extended: {
-        defaultString: profile.description_en,
-        localizedStrings: {
+        default: profile.description_en,
+        localized: {
           "en-US": profile.description_en,
           "ja-JP": profile.description_ja,
         },
@@ -188,7 +188,10 @@ export default function Profile() {
           success: "Profile updated",
           error: "Registering failed",
         });
-        promise.then((res) => {});
+        promise.then((res) => {
+          contractAction.getProfile();
+
+        });
 
         setIsEditing(false);
       }

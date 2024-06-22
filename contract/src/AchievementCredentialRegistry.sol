@@ -7,18 +7,18 @@ contract AchievementCredentialRegistry {
         string[] key_sets;
         string[] revoked_key_sets;
         string cannonical_id;  // Renamed to cannonical_id
-        uint256 validFrom;
-        uint256 validUntil;
         string image;
         string meta;
-        string owner_src; // Added owner_src
+        string profile_id;
+        string owner_id; // Added owner_src
         OwnerType owner_type; // Added owner_type
     }
 
     enum OwnerType { BlockChain }
 
     mapping(uint256 => Achievement) private _achievements;
-    mapping(string => uint256[]) private ownerIdToIds; // Added mapping
+    mapping(string => uint256[]) private profileIdToIds; // Added mapping
+    mapping(string => uint256[]) private ownerToIds; // Added mapping
     uint256 private _nextId;
 
     event AchievementAdded(uint256 id, string cannonical_id);
@@ -33,19 +33,14 @@ contract AchievementCredentialRegistry {
         string[] memory key_sets,
         string[] memory revoked_key_sets,
         string memory cannonical_id,
-        uint256 validFrom,
-        uint256 validUntil,
         string memory image,
         string memory meta,
-        string memory owner_src,
+        string memory profile_id,
         OwnerType owner_type
-    ) public {
+    ) public returns ( uint256 ){
 
-        require(_isAchievementValid(validFrom, validUntil), "Invalid achievement validity period");
+        string memory owner_id = addressToString(msg.sender);
 
-        if (validFrom == 0) {
-            validFrom = block.timestamp;
-        }
 
         if (id == 0) {
             id = _nextId++;
@@ -54,28 +49,32 @@ contract AchievementCredentialRegistry {
                 key_sets: key_sets,
                 revoked_key_sets: revoked_key_sets,
                 cannonical_id: cannonical_id,
-                validFrom: validFrom,
-                validUntil: validUntil,
                 image: image,
                 meta: meta,
-                owner_src: owner_src,
+                profile_id: profile_id,
+                owner_id: owner_id,
                 owner_type: owner_type
             });
-            ownerIdToIds[owner_src].push(id);
+            profileIdToIds[profile_id].push(id);
             emit AchievementAdded(id, cannonical_id);
         } else {
             Achievement storage achievement = _achievements[id];
+            require(keccak256(bytes(achievement.owner_id)) == keccak256(bytes(owner_id) ), "Only the same owner can update");
+            _removeIdFromProfileIdMapping(achievement.profile_id, id);
+            
             achievement.key_sets = key_sets;
             achievement.revoked_key_sets = revoked_key_sets;
             achievement.cannonical_id = cannonical_id;
-            achievement.validFrom = validFrom;
-            achievement.validUntil = validUntil;
             achievement.image = image;
             achievement.meta = meta;
-            achievement.owner_src = owner_src;
-            achievement.owner_type = owner_type;
+            achievement.profile_id = profile_id;
+            achievement.owner_id = owner_id;
+            achievement.owner_type = owner_type;    
+
+            profileIdToIds[profile_id].push(id);
             emit AchievementUpdated(id, cannonical_id);
         }
+        return id;
     }
 
     function getAchievement(uint256 id) public view returns (Achievement memory) {
@@ -88,8 +87,8 @@ contract AchievementCredentialRegistry {
         emit AchievementRevoked(id);
     }
 
-    function getAchievementsByOwnerId(string memory ownerId) public view returns (Achievement[] memory) {
-        uint256[] memory ids = ownerIdToIds[ownerId];
+    function getAchievementsByProfileId(string memory ownerId) public view returns (Achievement[] memory) {
+        uint256[] memory ids = profileIdToIds[ownerId];
         Achievement[] memory achievements = new Achievement[](ids.length);
         for (uint256 i = 0; i < ids.length; i++) {
             achievements[i] = _achievements[ids[i]];
@@ -97,10 +96,28 @@ contract AchievementCredentialRegistry {
         return achievements;
     }
 
-    function _isAchievementValid(uint256 validFrom, uint256 validUntil) private pure returns (bool) {
-        if (validUntil != 0 && validFrom >= validUntil) {
-            return false;
+    function _removeIdFromProfileIdMapping(string memory profileId, uint256 id) private {
+        uint256[] storage ids = profileIdToIds[profileId];
+        for (uint256 i = 0; i < ids.length; i++) {
+            if (ids[i] == id) {
+                ids[i] = ids[ids.length - 1];
+                ids.pop();
+                break;
+            }
         }
-        return true;
+    }
+
+    function addressToString(address _addr) private pure returns (string memory) {
+        bytes32 value = bytes32(uint256(uint160(_addr)));
+        bytes memory alphabet = "0123456789abcdef";
+
+        bytes memory str = new bytes(42);
+        str[0] = '0';
+        str[1] = 'x';
+        for (uint256 i = 0; i < 20; i++) {
+            str[2+i*2] = alphabet[uint8(value[i + 12] >> 4)];
+            str[3+i*2] = alphabet[uint8(value[i + 12] & 0x0f)];
+        }
+        return string(str);
     }
 }

@@ -7,8 +7,8 @@ interface Window {
 
 // LocalizedString type
 export interface LocalizedString {
-  defaultString: string;
-  localizedStrings?: {
+  default: string;
+  localized?: {
     [locale: string]: string;
   };
 }
@@ -47,7 +47,7 @@ export interface ProfileContract {
   data: Profile;
 }
 
-export type MetaItem = Profile;
+export type ProfileMetaItem = Profile;
 
 export interface MetaDataRequest {
   hash: string | null;
@@ -55,4 +55,39 @@ export interface MetaDataRequest {
   signature: string;
   item: Profile;
   id: string;
+}
+
+export interface AchievementCredentialContractType  {
+  id: bigint; 
+  key_sets: string[]; 
+  revoked_key_sets: string[]; 
+  cannonical_id: string; 
+  image: string; 
+  meta: string; 
+  profile_id: string; 
+  owner_id: string; 
+  owner_type: number; 
+}
+
+export interface AchievementCredeintialFormType  {
+  id?: bigint; 
+  key_sets: string[]; 
+  revoked_key_sets: string[]; 
+  cannonical_id: string; 
+  image?: string; 
+  profile_id: string; 
+  name_en: string
+  name_ja: string
+  description_en: string
+  description_ja: string
+  url: string
+}
+
+export interface AchievementCredeintial {
+  image?: string;
+  name: string
+  name_extended: LocalizedString
+  description: String
+  description_extended: LocalizedString
+  url: string
 }
