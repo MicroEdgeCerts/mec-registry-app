@@ -56,11 +56,11 @@ export const createMetaFile = async (
   }
 };
 
-export const getMetaFile = async (url: string): Promise<ProfileType> => {
+export const getMetaFile = async <T>(url: string): Promise<T> => {
   console.info("getting metafile");
   try {
     const res = await axios.get(url);
-    return res.data.item;
+    return res.data.item as T;
   } catch (error) {
     throw new Error(`getMetaFile Error ${error}`);
   }

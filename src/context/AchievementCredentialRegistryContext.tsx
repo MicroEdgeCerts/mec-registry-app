@@ -4,55 +4,60 @@
 
 
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import { ProfileContract, AchievementCredentialContractType } from '@/types'
-import { useWriteContract, useChainId, useWaitForTransaction } from 'wagmi'
+import { ProfileContract, AchievementCredentialContractType,
+          AchievementCredeintialRequestType, BaseContractParamType,
+          AchievementCredeintial,
+          SkillItem  } from '@/types'
+import { useWriteContract, useChainId, 
+          useClient, type UseClientReturnType, useWalletClient,
+           } from 'wagmi'
 import { achievementCredentialRegistryAbi as abi, 
 useWriteAchievementCredentialRegistryCreateOrUpdateAchievement as writeOrUpdteContract,
 achievementCredentialRegistryAddress as contractAddress,
 useReadAchievementCredentialRegistryGetAchievementsByProfileId  as getCredentialByProfile } from '@/abis/MEC'
-import { BigNumberish } from 'ethers'
+import { achievementCredentialRegistryConfig,
+         achievementCredentialRegistryAbi } from '@/abis/MEC'
 import { getBaseContractParam } from "@/utils/contractUtil"
-import {  } from '../abis/MEC'
+import type { Address, Hash } from 'viem'
+import { useWalletContext, type WalletStateTypes } from '@/context/WalletWrapper'
+import { getMetaFile } from "@/utils/ipfsService";
+
 type AchievementCredentialRegistryContextPropType = {
   profile: ProfileContract | null,
   children: React.ReactNode
 }
 
-type SkillItem = {
-  id: number,
-  name: string
-  description_ja: string
-  description_en: string
-
-}
 
 enum OwnerType {
   BlockChain = 0
 }
 
+
+
 type SkillDataContractRequest = {
   id?: number,
+  profile_id: string,
+  owner_id: string,
   keySets: string[],
   revokedKeySets: string[],
   cannonicalId?: string,
-  validFrom: number
-  validUntil: number
   image: string,
   meta: string,
-  ownerType: OwnerType
 }
 
 type SkillAction = {
   getSkills: () => SkillItem[]
-  writeSkill: ( skill: SkillDataContractRequest ) => void
+  writeSkill: ( skill: AchievementCredeintialRequestType ) => void
 }
 
-type ContractType = AchievementCredentialContractType;
 
 type ACRStateType = {
   skills: SkillItem[] 
   initialized: boolean, 
   currentProfile: ProfileContract|null
+  creatingContract: boolean,
+  creatingContractError: Error|null,
+  createdContract: AchievementCredentialContractType | null
 }
 
 let defaultState = {
@@ -62,7 +67,7 @@ let defaultState = {
 }
 let defaultActions = {
   getSkills: ()=> [],
-  writeSkill: ( skill: SkillDataContractRequest ) => {}
+  writeSkill: ( skill: AchievementCredeintialRequestType ) => {}
 }
 
 
@@ -73,69 +78,85 @@ const ACRContext = createContext<ACRContextType>([defaultState, defaultActions])
 
 const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegistryContextPropType> = ( {children, profile} ) => {
   const [ currentProfile, setCurrentProfile ] = useState<ProfileContract|null>(profile || null);
-  const [ achievementId, setAchievementId] = useState<BigNumberish>(null)
   const [ state, setState ] = useState<ACRStateType>(defaultState)
-  const { data, isError, isLoading, isSuccess } = getCredentialByProfile({
-    args: [ currentProfile ],
+  const [ walletState ] = useWalletContext();
+  const { data, isError, isLoading, isSuccess, refetch, queryKey} = getCredentialByProfile({
+    args: [ (currentProfile|| {}).id ],
   })
+  const [writeHash, setWriteHash] = useState<Hash>()
 
+  const chainId = useChainId();
+  const client = useClient();
 
-  // const baseParam = getBaseContractParam(
-  //     contractAddress,
-  //     chainId,
-  //     abi,
-  //     'createOrUpdateAchievement'
-  //   )
+  const [baseContractParam, setBaseContractParam] =
+    useState<BaseContractParamType | null>(null);
 
-  const { writeContractAsync } = writeOrUpdteContract()
-  const parseContractToSkill = ( item: ContractType  ): SkillItem => {
-    return {
-      id: Number( item.id ) ,
-      name: "Name here", 
-      description_ja: "Description here",
-      description_en: "Description here"
-    };
-
+  const getSkillsFromContractData = async ( data:  AchievementCredentialContractType[]): Promise<SkillItem[]> => {
+    try{
+      if( data.length > 0 ) {
+        const arr = await Promise.all( data.map( ( item: AchievementCredentialContractType )=> parseContractToSkill( item) ) )
+        return arr;
+      }
+    } catch( e ) {
+      console.error( e ); 
+    }
   }
 
-  const FormData = ()=> {
-
+  const parseContractToSkill = async ( item: AchievementCredentialContractType  ): Promise<SkillItem> => {
+    const data = await getMetaFile<AchievementCredeintial>(item.meta);
+    let contract = {
+      profile_id: item.profile_id,
+      owner_id: item.owner_id,
+      ...data,
+      id: Number( item.id )
+    }
+    console.info("contract received :" + JSON.stringify( contract) )
+    return contract;
   }
 
-  const writeSkill = async ( data: SkillDataContractRequest ) => {
+
+  const generateContractData = (  data: AchievementCredeintialRequestType ) => {
+    const achievementData = [
+      BigInt(0), 
+      [...data.key_sets],
+      [...data.revoked_key_sets], 
+      data.cannonical_id,
+     　'',　//  #TODO onchain data cause higher gass like 10% data.image|| '' might need to reconsider. 
+      data.meta,
+      currentProfile!.id,
+      OwnerType.BlockChain ] as readonly [bigint, readonly string[], readonly string[], string, string, string, string, number]
+    return achievementData 
+  }
+
+
+
+  const writeSkill = async ( data: AchievementCredeintialRequestType  ) => {
+
+    try { 
+      setState({
+        ...state,
+        creatingContract: true,
+        creatingContractError: null,
+      })
+
+      const args = generateContractData( data )
+      const hash =  await client!.writeContract({
+          ...baseContractParam,
+          args          
+      });
+      setWriteHash( hash )
+
+    } catch ( ex: Exception ) {
+
+      setState({
+        ...state,
+        creatingContract: false,
+        creatingContractError: ex,
+      })
+    }
     if( !currentProfile ) {
       throw new Error( "No Profile");
     }
-    const waitHash = await writeContractAsync({
-      args: [
-        BigInt( data.id || 0 ),
-        data.keySets || [],
-        data.revokedKeySets || [],
-        data.cannonicalId || '',
-        BigInt( data.validFrom || 0 ),
-        BigInt( data.validUntil || 0),
-        data.image || '',
-        data.meta || '',
-        currentProfile.id,
-        data.ownerType || OwnerType.BlockChain,
-      ],
-    })
-    // await tx.wait()
-    // const receipt = await tx.wait()
-    // const newId = receipt.logs[0].args[0]
-
-    
-
-    useWaitForTransaction({
-        hash: waitHash,
-        onSettled(data : any, error: any) {
-          if( error ) {
-            return reject( error )
-          }
-          resolve(data);
-        },
-    }) 
-
 
   }
 
@@ -144,9 +165,14 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
     writeSkill
   }
 
+
   useEffect(()=>{
     if( profile ) {
-      console.info("Requesting courses. ")
+      const request = {
+          ...queryKey[1], 
+          args: [ profile.id ]
+        }
+      refetch([ queryKey[0], request ] ); 
       setCurrentProfile(profile)
       setState({
         ...state,
@@ -160,8 +186,23 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
       })
     }
   }, [profile])
-  useEffect (()=> {
-  }, [ data ])
+
+
+  useEffect(() => {
+    if ( client !== null ) {
+      const params = getBaseContractParam(
+            achievementCredentialRegistryConfig.address,
+            chainId,
+            achievementCredentialRegistryAbi,
+            (( walletState as WalletStateTypes ).address as Address ),
+            "createOrUpdateAchievement",
+          );
+      setBaseContractParam( params! );
+    } else {
+      setBaseContractParam(null);
+    }
+  }, [client, ( walletState as WalletStateTypes ).address]);
+
 
 
 
@@ -169,15 +210,27 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
 
   useEffect(()=>{
     if( currentProfile && isSuccess  ) {
-      console.info("read course data " + JSON.stringify( data ));
-      setState({
-        ...state,
-        skills: [...data.map( (item) => parseContractToSkill(item) )],
-        initialized: true,
+      if( data && Array.isArray( data ) ){
+        getSkillsFromContractData( data )
+        .then( ( skills ) => {
+            setState({
+              ...state,
+              skills,
+              initialized: true,
+            })
 
-      })
+        })
+      } else {
+        setState({
+          ...state,
+          skills: [],
+          initialized: true,
+        })
+
+      } 
     }
-  }, [currentProfile, data, isSuccess])
+    
+  }, [currentProfile, isSuccess, data])
 
 
 

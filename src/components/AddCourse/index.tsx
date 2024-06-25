@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import AddButton from "@/components/AddButton";
 import AddCourseDialog from './AddCourseDialog'
-import { useContractContext } from "@/context/ContractContext";
+import { useIssuerProfileContext } from "@/context/ProfileContext";
+import { useCourseContext } from "@/context/AchievementCredentialRegistryContext";
 import { useWalletContext } from "@/context/WalletWrapper"
-import { AchievementCredeintialFormType, AchievementCredeintial } from '@/types'
+import { AchievementCredeintialFormType, AchievementCredeintial, 
+    AchievementCredentialContractType } from '@/types'
 import { toast } from "react-toastify";
 import { createMetaFile } from "@/utils/ipfsService";
+import { useWriteAchievementCredentialRegistryCreateOrUpdateAchievement } from '@/abis/MEC';
 
-const AddOrUpdateCourses = () => {
+type AddOrUpdateCoursesPropType = {
+  profile_id: string
+}
+
+const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({profile_id}) => {
   const [ open, setOpen ] = useState<boolean>( false);
   const [{ address }] = useWalletContext();
-  const [contractState, contractAction] = useContractContext();
+  const [contractState, contractAction] = useIssuerProfileContext();
+  const [ courseState, courseAction ] = useCourseContext();
+  const { writeContractAsync } = useWriteAchievementCredentialRegistryCreateOrUpdateAchievement();
 
   const onClose = ()=>{
     setOpen( false );
@@ -52,10 +61,11 @@ const AddOrUpdateCourses = () => {
     }
   }
 
+
   const onAddCourse =  async (course: AchievementCredeintialFormType) => {
     
     try {
-
+      /*--- Uploading meta data to IPFS -----------*/
       const metaData =  setFormDataToMeta(course)
       const uploadMetaPromise = uploadMeta( metaData )
       toast.promise( uploadMetaPromise, {
@@ -63,8 +73,20 @@ const AddOrUpdateCourses = () => {
         success: "Course Description Uploaded",
         error: "Course Description Upload Fail"
       })
+      const meta = await uploadMetaPromise
+      console.info("#YF 1 created IPFS : " + JSON.stringify( meta ) )
+
+      /*---- Include Meta to contract -------------*/
+      const res = courseAction.writeSkill({
+        ...course,
+        meta
+      });
+      console.info("#YF 3 Contract Created : " + res )
+
+
 
     } catch ( err ) {
+      console.error("#YF 4 Contract Creation Error: " + err )
 
     }
   }

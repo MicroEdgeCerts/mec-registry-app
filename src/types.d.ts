@@ -65,7 +65,7 @@ export interface AchievementCredentialContractType  {
   image: string; 
   meta: string; 
   profile_id: string; 
-  owner_id: string; 
+  owner_id: string;
   owner_type: number; 
 }
 
@@ -83,6 +83,10 @@ export interface AchievementCredeintialFormType  {
   url: string
 }
 
+export interface AchievementCredeintialRequestType extends AchievementCredeintialFormType {
+  meta: string
+}
+
 export interface AchievementCredeintial {
   image?: string;
   name: string
@@ -91,3 +95,37 @@ export interface AchievementCredeintial {
   description_extended: LocalizedString
   url: string
 }
+
+export type SkillItem = AchievementCredeintial & {
+  id: number,
+  owner_id: string,
+  profile_id: string
+}
+
+export type BaseContractParamType = {
+  address: Address;
+  account: Address;
+  abi: typeof issuerRegistryAbi;
+  functionName?: string
+};
+
+export type RecipientProfileFormType = {
+  id: string,
+  familyName_en: string,
+  familyName_jp: LocalizedString
+  familyNamePrefix_en: string
+  familyNamePrefix_jp: string
+  givenName_en: string
+  givenName_jp: string
+}
+
+export type CredentialCertificateFormType = {
+  id: string,
+  activityStartDate: number,
+  activityEndDate: number,
+  validFrom?: number,  
+  validTo?: number,
+  criteria: string,
+  awardedDate: number
+}
+

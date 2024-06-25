@@ -21,7 +21,7 @@ import type {
   ProfileRegistryCreateRequest,
   ProfileRegistryDataType,
   ProfileContract,
-  Profile,
+  BaseContractParamType
 } from "@/types";
 import { getMetaFile } from "@/utils/ipfsService";
 
@@ -57,7 +57,7 @@ type ContractStateType = {
   singingPending: false;
 };
 
-type ContractContextType = [ContractStateType, ContractActionType];
+type ProfileContextType = [ContractStateType, ContractActionType];
 
 const defaultState: ContractStateType = {
   client: null,
@@ -83,21 +83,17 @@ const defaultActions = {
   writeProfile: () => Promise.resolve(null),
 };
 
-const ContractContext = createContext<ContractContextType>([
+const ProfileContext = createContext<ProfileContextType>([
   defaultState,
   defaultActions,
 ]);
 
-type ContractProviderPropType = {
+type ProfileContextProviderPropType = {
   children: React.ReactNode;
 };
 
-type BaseContractParamType = {
-  address: Address;
-  account: Address;
-  abi: typeof issuerRegistryAbi;
-};
-const ContractContextProvider = ({ children }: ContractProviderPropType) => {
+
+const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => {
   const [issuerAddress, setIssuerAddress] = useState<Address | null>(null);
   const [state, setState] = useState<ContractStateType>(defaultState);
   const [currentProfile, setCurrentProfile] = useState<ProfileContract|null>(null);
@@ -142,7 +138,7 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
     //parse string contract
     // from meta field, get pinned IPFS
     const contract = JSON.parse(item.meta);
-    const data = await getMetaFile(contract.meta);
+    const data = await getMetaFile<Profile>(contract.meta);
     return {
       ...item,
       data,
@@ -334,14 +330,14 @@ const ContractContextProvider = ({ children }: ContractProviderPropType) => {
   };
 
   return (
-    <ContractContext.Provider value={[state, actions]}>
+    <ProfileContext.Provider value={[state, actions]}>
       <AchievementCredentialRegistryProvider profile={ currentProfile }>
         {children}
       </AchievementCredentialRegistryProvider>
-    </ContractContext.Provider>
+    </ProfileContext.Provider>
   );
 };
 
-export default ContractContextProvider;
+export default ProfileContextProvider;
 
-export const useContractContext = () => useContext(ContractContext);
+export const useIssuerProfileContext = () => useContext(ProfileContext);

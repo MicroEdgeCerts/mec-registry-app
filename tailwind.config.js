@@ -15,6 +15,10 @@ module.exports = {
       animation: {
         fadeIn: 'fadeIn 0.5s ease-in-out',
       },
+      colors: {
+        secondary: '#6b7280', // Replace with your secondary color
+        'secondary-hover': '#4b5563', // Replace with your hover color
+      },
     },
   },
   plugins: [],

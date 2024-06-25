@@ -2,7 +2,7 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import EditIcon from "@/components/icons/EditIcon"; // Tailwind Hero Icons
 import iconStyles from "@/components/icons/icon.module.scss";
-import { useContractContext } from "@/context/ContractContext";
+import { useIssuerProfileContext } from "@/context/ProfileContext";
 import Loading from "@/components/Loading";
 import AddIssuer from "@/components/AddIssuer";
 import type {
@@ -32,7 +32,7 @@ export default function Profile() {
   const [imageBase64, setImageBase64] = useState<string | null>(null);
   const [imageError, setImageError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [contractState, contractAction] = useContractContext();
+  const [contractState, contractAction] = useIssuerProfileContext();
   const [{ address }] = useWalletContext();
   const [isProfileLoading, setIsProfileLoading] = useState(true);
   const [isProfileAvailable, setIsProfileAvailable] = useState(true);

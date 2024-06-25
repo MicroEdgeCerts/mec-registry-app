@@ -1,7 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import ContractContextProvider from "./ContractContext";
+import ProfileContextProvider from "./ProfileContext";
 import { type Address } from "viem";
 
 import config from "@/config";
@@ -154,7 +154,7 @@ const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
   return (
     <WalletContext.Provider value={values}>
       <WalletWrapper config={config.getWagmiConfig()}>
-        <ContractContextProvider>{children}</ContractContextProvider>
+        <ProfileContextProvider>{children}</ProfileContextProvider>
       </WalletWrapper>
     </WalletContext.Provider>
   );

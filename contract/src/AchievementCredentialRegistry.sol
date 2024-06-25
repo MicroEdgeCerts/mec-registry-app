@@ -87,8 +87,8 @@ contract AchievementCredentialRegistry {
         emit AchievementRevoked(id);
     }
 
-    function getAchievementsByProfileId(string memory ownerId) public view returns (Achievement[] memory) {
-        uint256[] memory ids = profileIdToIds[ownerId];
+    function getAchievementsByProfileId(string memory profileId) public view returns (Achievement[] memory) {
+        uint256[] memory ids = profileIdToIds[profileId];
         Achievement[] memory achievements = new Achievement[](ids.length);
         for (uint256 i = 0; i < ids.length; i++) {
             achievements[i] = _achievements[ids[i]];
