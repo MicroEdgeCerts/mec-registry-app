@@ -31,7 +31,7 @@ const Courses =  ()=> {
   }
 
   useEffect(() => {
-    if( state.skills.length > 0 ) {
+    if( state.skills || ( state.skills || [] ).length > 0 ) {
       setSkills( state.skills )
       setHasSkills( true )
     } else {
@@ -50,7 +50,7 @@ const Courses =  ()=> {
   } 
 
   if ( skills.length == 0 ) {
-    return <AddCourses profile={state.currentProfile.id} />
+    return <AddCourses isSimple={false} />
   }
 
   return <>
@@ -70,7 +70,7 @@ const Courses =  ()=> {
     <div className="container mx-auto p-4">
       <div className="mb-6 flex items-center">
         <h1 className="text-3xl inline-block font-bold mr-4">{t("skillCard.listTitle", "Skills/Achievement")}</h1>
-        <button className="text-secondary underline hover:text-secondary-hover">Add More Course</button>
+        <AddCourses isSimple={true} />
       </div>
       <div className="flex flex-wrap gap-6">
         {skills.map((skill) => (

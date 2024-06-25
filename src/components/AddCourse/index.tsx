@@ -11,10 +11,10 @@ import { createMetaFile } from "@/utils/ipfsService";
 import { useWriteAchievementCredentialRegistryCreateOrUpdateAchievement } from '@/abis/MEC';
 
 type AddOrUpdateCoursesPropType = {
-  profile_id: string
+  isSimple: boolean
 }
 
-const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({profile_id}) => {
+const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({ isSimple }) => {
   const [ open, setOpen ] = useState<boolean>( false);
   const [{ address }] = useWalletContext();
   const [contractState, contractAction] = useIssuerProfileContext();
@@ -93,10 +93,11 @@ const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({profile_id}) 
   return (
     <>
     <AddCourseDialog open={open} onClose={onClose} onAddCourse={onAddCourse} />
+    { isSimple ? <button className="text-secondary underline hover:text-secondary-hover" onClick={onClick} >Add More Course</button> :
     <div className="flex items-center space-x-4">
       <AddButton width={100} height={100} onClick={onClick} />
       <label className="text-lg font-medium">Add Courses</label>
-    </div>
+    </div> }
     </>
   );
 };

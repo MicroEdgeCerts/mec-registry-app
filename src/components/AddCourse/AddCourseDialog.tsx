@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { AchievementCredeintialFormType } from "@/types"
 import FileUpload from '@/components/FileUpload'
 import { maxSizeMB } from "@/config";
+import { getTranslation } from "@/context/LocalizedContext"
+import {  useTranslation } from 'next-i18next'
 
 interface AddCourseDialogProps {
   open: boolean;
@@ -25,6 +27,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
   const [step, setStep] = useState<number>(0);
   const dialogRef = useRef<HTMLDivElement>(null);
   const [formValues, setFormValues] = useState<AchievementCredeintialFormType>(defaultFormData);
+  const { t } = useTranslation();
 
   const handleNext = () => setStep((prev) => prev + 1);
   const handleBack = () => setStep((prev) => prev - 1);
@@ -83,7 +86,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
       <div ref={dialogRef} className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-xl animate-fadeIn">
-        <h2 className="text-2xl mb-4">Add New Course</h2>
+        <h2 className="text-2xl mb-4">{t("skill.addSkillTitle","Add New Course")}</h2>
         {step === 0 && (
           <div>
             <div className="mb-4">

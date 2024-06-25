@@ -69,7 +69,7 @@ export const achievementCredentialRegistryAbi = [
   },
   {
     type: 'function',
-    inputs: [{ name: 'ownerId', internalType: 'string', type: 'string' }],
+    inputs: [{ name: 'profileId', internalType: 'string', type: 'string' }],
     name: 'getAchievementsByProfileId',
     outputs: [
       {

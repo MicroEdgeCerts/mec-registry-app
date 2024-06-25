@@ -1,4 +1,7 @@
 {
+  "skill": {
+    "addSkillTitle": "Add Skill / Course"
+  },
   "skillCard": {
     "listTitle": "Skills/Achievement"
   }
