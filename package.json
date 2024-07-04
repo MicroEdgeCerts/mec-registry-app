@@ -17,7 +17,7 @@
     "generate-types": "typechain --out-dir src/types --target=ethers-v6 'src/abis/*.json'",
     "wagmi": ". ./scripts/setenv.sh .env && wagmi generate  --config wagmi.config.ts && cp contract/out/IssuerRegistry.sol/IssuerRegistry.json src/abis/  && cp contract/out/AchievementCredentialRegistry.sol/AchievementCredentialRegistry.json src/abis/",
     "prepareAbi": "npm run wagmi && npm run generate-types",
-    "deploy": ". ./scripts/setenv.sh .env &&  echo \"Deploying IssuerRegistry\" && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY && echo \"Deploying AchievementCredentialRegistry\" && forge create contract/src/AchievementCredentialRegistry.sol:AchievementCredentialRegistry --rpc-url $FORGE_RPC_URL --private-key $FORGE_PRIVATE_KEY"
+    "deploy": ". ./scripts/setenv.sh .env &&  echo \"Deploying IssuerRegistry\" && forge create contract/src/IssuerRegistry.sol:IssuerRegistry --rpc-url $RPC_URL --private-key $FORGE_PRIVATE_KEY && echo \"Deploying AchievementCredentialRegistry\" && forge create contract/src/AchievementCredentialRegistry.sol:AchievementCredentialRegistry --rpc-url $RPC_URL --private-key $FORGE_PRIVATE_KEY"
   },
   "keywords": [
     "Vite",
@@ -63,7 +63,6 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.40.0",
-    "@wagmi/chains": "^1.8.0",
     "axios": "^1.7.2",
     "ethereumjs-util": "^7.1.5",
     "ethers": "^6.12.1",
@@ -80,6 +79,6 @@
     "react-toastify": "^10.0.5",
     "uuid": "^10.0.0",
     "viem": "^2.13.7",
-    "wagmi": "^2.9.7"
+    "wagmi": "^2.10.8"
   }
 }

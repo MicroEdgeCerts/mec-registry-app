@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { AchievementCredeintialFormType } from "@/types"
 import FileUpload from '@/components/FileUpload'
 import { maxSizeMB } from "@/config";
-import { getTranslation } from "@/context/LocalizedContext"
-import {  useTranslation } from 'next-i18next'
+import { useTranslation } from "@/context/LocalizedContext"
 
 interface AddCourseDialogProps {
   open: boolean;
@@ -151,9 +150,8 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
         {step === 2 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="image">Image</label>
+              <label className="block text-sm font-bold mb-2" >Image</label>
               <FileUpload 
-                id="image"
                 image={formValues.image || ''}
                 onChange={ handleImageChange }
                 maxSizeMB={maxSizeMB}

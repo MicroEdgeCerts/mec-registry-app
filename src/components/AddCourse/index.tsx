@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import AddButton from "@/components/AddButton";
 import AddCourseDialog from './AddCourseDialog'
-import { useIssuerProfileContext } from "@/context/ProfileContext";
 import { useCourseContext } from "@/context/AchievementCredentialRegistryContext";
-import { useWalletContext } from "@/context/WalletWrapper"
-import { AchievementCredeintialFormType, AchievementCredeintial, 
-    AchievementCredentialContractType } from '@/types'
+import { useWalletContext, type WalletStateTypes } from "@/context/WalletWrapper"
+import { AchievementCredeintialFormType, AchievementCredeintial } from '@/types'
 import { toast } from "react-toastify";
 import { createMetaFile } from "@/utils/ipfsService";
-import { useWriteAchievementCredentialRegistryCreateOrUpdateAchievement } from '@/abis/MEC';
+import type { Address } from 'viem'
 
 type AddOrUpdateCoursesPropType = {
   isSimple: boolean
@@ -16,10 +14,8 @@ type AddOrUpdateCoursesPropType = {
 
 const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({ isSimple }) => {
   const [ open, setOpen ] = useState<boolean>( false);
-  const [{ address }] = useWalletContext();
-  const [contractState, contractAction] = useIssuerProfileContext();
-  const [ courseState, courseAction ] = useCourseContext();
-  const { writeContractAsync } = useWriteAchievementCredentialRegistryCreateOrUpdateAchievement();
+  const [{ walletClient, address }] = useWalletContext() as [ WalletStateTypes ]
+  const [ _, courseAction ] = useCourseContext();
 
   const onClose = ()=>{
     setOpen( false );
@@ -32,8 +28,8 @@ const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({ isSimple }) 
   const uploadMeta = async ( metaData: AchievementCredeintial ): Promise<string> => {
       const meta = await createMetaFile(
         metaData,
-        contractState.client!,
-        address,
+        walletClient,
+        address as Address,
       );
       return meta
   }

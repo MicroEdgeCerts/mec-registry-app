@@ -88,9 +88,8 @@ See work in dev enironment, type below command in terminal
     write .env below
 
     ```
-    NEXT_APP_ISSUER_CONTRACT_ADDRESS=http://127.0.0.1:8545
     FORGE_PRIVATE_KEY=<Private Key Here>
-    FORGE_RPC_URL=http://127.0.0.1:8545
+    RPC_URL=http://127.0.0.1:8545
     ```
 
    でDeployします。
@@ -120,9 +119,8 @@ See work in dev enironment, type below command in terminal
     write .env below
 
     ```
-    NEXT_APP_ISSUER_CONTRACT_ADDRESS=http://127.0.0.1:8545
     FORGE_PRIVATE_KEY=<Private Key Here>
-    FORGE_RPC_URL=http://127.0.0.1:8545
+    RPC_URL=http://127.0.0.1:8545
     FORGE_ISSUER_CONTRACT_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
     FORGE_ACHIEVEMENT_CONTRACT_ADDRESS=0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
     ```

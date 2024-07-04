@@ -12,42 +12,26 @@ import {
   issuerContractAddress,
 } from "./lib/utils";
 
-const getFileName = (type: string | string[], id: string): string => {
-  return `${[type].flat().join("-")}-${id}.json`;
-};
-
-async function unpinFile(hashToUnpin) {
-  const url = `https://api.pinata.cloud/pinning/unpin/${hashToUnpin}`;
-  const response = await axios.delete(url, {
-    headers: {
-      pinata_api_key: pinataApiKey,
-      pinata_secret_api_key: pinataSecretApiKey,
-    },
-  });
-  return response.data;
-}
+import { getIssuer, getAchievementCredential } from './lib/contract'
+import { generatejws } from './lib/jws'
+import { generate_badge_credential } from './lib/badge_generator'
 
 export default withSession(
   async (req: NextApiRequest & { session: Session }, res: NextApiResponse) => {
     if (req.method === "POST") {
       try {
-        const { body: item } = req;
+        const { body: { address, issuer_id, skill_id, profile } } = req;
+        //1. Check Address is correct sender
         await addressCheckMiddleware(req, res);
-        const url = `${pinataURI}/pinning/pinJSONToIPFS`;
-        console.info(`url = ${url}`);
-        const data = {
-          pinataMetadata: {
-            name: getFileName(item.type, item.id),
-          },
-          pinataContent: item,
-        };
-        const jsonRes = await axios.post(url, data, {
-          headers: {
-            pinata_api_key: pinataApiKey,
-            pinata_secret_api_key: pinataSecretApiKey,
-          },
-        });
-        return res.status(200).send(jsonRes.data);
+        
+        console.info(`address: ${address}`)
+        console.info(`issuerId: ${issuer_id}`)
+        console.info(`issuerId: ${skill_id}`)
+        const issuer =  await getIssuer( address, issuer_id )
+        const achievementCredential =  await getAchievementCredential( address, skill_id )
+        const credential =  generate_badge_credential( profile, achievementCredential, issuer )
+        const jws =  generatejws( credential )
+        return res.status(200).send(jws);
       } catch (e) {
         console.info(`Error1 : ${e}`);
         return res.status(422).send({ message: "Cannot create JSON" });

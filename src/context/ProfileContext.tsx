@@ -2,6 +2,9 @@
  * this class will handle contract messaging.
  */
 import React, { useEffect, useState, createContext, useContext } from "react";
+import { createPublicClient, http,  custom, createWalletClient } from 'viem'
+import { baseSepolia } from 'viem/chains'
+import { ethers, Contract } from "ethers";
 import {
   useWriteIssuerRegistryRegisterIssuer,
   useReadIssuerRegistryGetIssuerDataByAddress,
@@ -16,7 +19,8 @@ import type {
 } from "@wagmi/core";
 import { useWalletContext, type WalletStateTypes } from "./WalletWrapper";
 import type { Address } from "viem";
-import { useClient, type UseClientReturnType, useChainId } from "wagmi";
+import { useWriteContract } from 'wagmi'
+import { useClient, type UseClientReturnType,  useChainId } from "wagmi";
 import type {
   ProfileRegistryCreateRequest,
   ProfileRegistryDataType,
@@ -94,19 +98,26 @@ type ProfileContextProviderPropType = {
 
 
 const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => {
+  const { data: hash, writeContract } = useWriteContract()
+
   const [issuerAddress, setIssuerAddress] = useState<Address | null>(null);
   const [state, setState] = useState<ContractStateType>(defaultState);
   const [currentProfile, setCurrentProfile] = useState<ProfileContract|null>(null);
   const [baseContractParam, setBaseContractParam] =
     useState<BaseContractParamType | null>(null);
+
+
+
   const profileWrite = useWriteIssuerRegistryRegisterIssuer();
-  const {
-    data: hash,
-    error,
-    isPending,
-    isSuccess,
-  } = profileWrite;
+  // const {
+  //   data: hash,
+  //   error,
+  //   isPending,
+  //   isSuccess,
+  //   writeContractAsync
+  // } = profileWrite;
   const [accountState] = useWalletContext();
+
   const readIssuerByTokenId = useReadIssuerRegistryGetIssuerDataByTokenId({
     enabled: issuerAddress !== null, // Tanstack config to prevent the request from being triggered onload
   });
@@ -118,6 +129,8 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
   const chainId = useChainId();
 
   const client = useClient();
+
+  
 
   const issuerFetchQuery = readIssuerFromContract.queryKey;
   // ipfs {data, isPending, isSuccess, isError, signMessage}
@@ -172,15 +185,15 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
     }
   }, [client, issuerAddress]);
 
-  useEffect(() => {
-    setState({
-      ...state,
-      profileInitialized: false,
-      profileRegisterError: error,
-      profileRegistering: isPending,
-      profileRegisted: isSuccess,
-    });
-  }, [error, isPending, isSuccess]);
+  // useEffect(() => {
+  //   setState({
+  //     ...state,
+  //     profileInitialized: false,
+  //     profileRegisterError: error,
+  //     profileRegistering: isPending,
+  //     profileRegisted: isSuccess,
+  //   });
+  // }, [error, isPending, isSuccess]);
 
   useEffect(() => {
     setIssuerAddress((accountState as WalletStateTypes).address || null);
@@ -212,6 +225,9 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
             profileReadPending: true,
             profileReadError: null,
           });
+          
+          // const provider = new ethers.InfuraProvider(network, "243a94f2f57b4cb1ac5d75bb6e030712");
+
           let res = await readIssuerFromContract.refetch({
             ...issuerFetchQuery,
           });
@@ -290,6 +306,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
     writeProfile: async (
       issuerData: ProfileRegistryCreateRequest,
     ): Promise<string | null> => {
+
       let res = null;
       try {
         setState({
@@ -299,14 +316,35 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
           profileRegisterError: null,
         });
 
-        if (baseContractParam != null) {
-          console.info(`issuerAddress== ${issuerAddress}`);
-          res = await client!.writeContract({
+        if (client &&  baseContractParam != null) {
+
+          const publicClient = createPublicClient({ 
+            chain: baseSepolia, 
+            transport: http() 
+          }) 
+
+          const walletClient =  createWalletClient({
+              chain: baseSepolia,
+              transport: custom(window.ethereum)
+            })
+
+          const sim = await publicClient.simulateContract({
             ...baseContractParam,
             functionName: "registerIssuer",
             args: [issuerData.id, JSON.stringify(issuerData) as string],
-          });
-          console.info(`res== ${JSON.stringify(res)}`);
+          })
+
+          res = await walletClient.writeContract(sim.request)
+          console.info(`simulateContract === ${JSON.stringify(res)}`)
+          // res = await writeContract(
+          // // res = await writeContractAsync(
+          // {
+          //   ...baseContractParam,
+          //   functionName: "registerIssuer",
+          //   args: [issuerData.id, JSON.stringify(issuerData) as string],
+          // });
+          console.info(`wrateContract === ${JSON.stringify(res)}`)
+
           setState({
             ...state,
             profileRegisted: true,

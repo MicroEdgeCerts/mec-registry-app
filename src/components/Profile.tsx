@@ -13,7 +13,7 @@ import type {
   ProfileRegistryCreateRequest,
 } from "@/types";
 import { maxProfileSizeBytes, maxSizeMB } from "@/config";
-import { useWalletContext } from "@/context/WalletWrapper";
+import { useWalletContext, type WalletStateTypes } from "@/context/WalletWrapper";
 import { createMetaFile } from "@/utils/ipfsService";
 import { toast } from "react-toastify";
 
@@ -33,7 +33,8 @@ export default function Profile() {
   const [imageError, setImageError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [contractState, contractAction] = useIssuerProfileContext();
-  const [{ address }] = useWalletContext();
+  const [walletState] = useWalletContext();
+  const { address, client, walletClient } = ( walletState  as WalletStateTypes ) 
   const [isProfileLoading, setIsProfileLoading] = useState(true);
   const [isProfileAvailable, setIsProfileAvailable] = useState(true);
   const [isDirty, setIsDirty] = useState(false);
@@ -152,7 +153,7 @@ export default function Profile() {
     };
   };
 
-  const registerProfile = async (
+  const registerProfile =  (
     _profile: ProfileRegistryCreateRequest,
   ): Promise<string | null> => {
     return contractAction.writeProfile(_profile);
@@ -168,13 +169,13 @@ export default function Profile() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (contractState.client) {
+    if (walletClient) {
       setIsDirty(true);
       if (isValid()) {
         const metaData = createMetadata();
         const res = await createMetaFile(
           metaData,
-          contractState.client,
+          walletClient,
           address,
         );
         const profileRegistry = getProfileRegistryRequest(

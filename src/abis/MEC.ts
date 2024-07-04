@@ -12,6 +12,7 @@ import {
 /**
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const achievementCredentialRegistryAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -147,15 +148,18 @@ export const achievementCredentialRegistryAbi = [
 /**
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const achievementCredentialRegistryAddress = {
-  1337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
-  31337: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512',
+  1337: '0x081d18BE0264a1Fd42686662D76089A0D648816f',
+  31337: '0x081d18BE0264a1Fd42686662D76089A0D648816f',
+  80002: '0x081d18BE0264a1Fd42686662D76089A0D648816f',
 } as const
 
 /**
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const achievementCredentialRegistryConfig = {
   address: achievementCredentialRegistryAddress,
@@ -169,6 +173,7 @@ export const achievementCredentialRegistryConfig = {
 /**
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const issuerRegistryAbi = [
   {
@@ -303,15 +308,18 @@ export const issuerRegistryAbi = [
 /**
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const issuerRegistryAddress = {
-  1337: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-  31337: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
+  1337: '0x6aC4238b0a30a45667A7585DA9087C888f3e3d08',
+  31337: '0x6aC4238b0a30a45667A7585DA9087C888f3e3d08',
+  80002: '0x6aC4238b0a30a45667A7585DA9087C888f3e3d08',
 } as const
 
 /**
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const issuerRegistryConfig = {
   address: issuerRegistryAddress,
@@ -327,6 +335,7 @@ export const issuerRegistryConfig = {
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useReadAchievementCredentialRegistry =
   /*#__PURE__*/ createUseReadContract({
@@ -339,6 +348,7 @@ export const useReadAchievementCredentialRegistry =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useReadAchievementCredentialRegistryGetAchievement =
   /*#__PURE__*/ createUseReadContract({
@@ -352,6 +362,7 @@ export const useReadAchievementCredentialRegistryGetAchievement =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useReadAchievementCredentialRegistryGetAchievementsByProfileId =
   /*#__PURE__*/ createUseReadContract({
@@ -365,6 +376,7 @@ export const useReadAchievementCredentialRegistryGetAchievementsByProfileId =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWriteAchievementCredentialRegistry =
   /*#__PURE__*/ createUseWriteContract({
@@ -377,6 +389,7 @@ export const useWriteAchievementCredentialRegistry =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWriteAchievementCredentialRegistryCreateOrUpdateAchievement =
   /*#__PURE__*/ createUseWriteContract({
@@ -390,6 +403,7 @@ export const useWriteAchievementCredentialRegistryCreateOrUpdateAchievement =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWriteAchievementCredentialRegistryRevokeAchievement =
   /*#__PURE__*/ createUseWriteContract({
@@ -403,6 +417,7 @@ export const useWriteAchievementCredentialRegistryRevokeAchievement =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useSimulateAchievementCredentialRegistry =
   /*#__PURE__*/ createUseSimulateContract({
@@ -415,6 +430,7 @@ export const useSimulateAchievementCredentialRegistry =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useSimulateAchievementCredentialRegistryCreateOrUpdateAchievement =
   /*#__PURE__*/ createUseSimulateContract({
@@ -428,6 +444,7 @@ export const useSimulateAchievementCredentialRegistryCreateOrUpdateAchievement =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useSimulateAchievementCredentialRegistryRevokeAchievement =
   /*#__PURE__*/ createUseSimulateContract({
@@ -441,6 +458,7 @@ export const useSimulateAchievementCredentialRegistryRevokeAchievement =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWatchAchievementCredentialRegistryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -453,6 +471,7 @@ export const useWatchAchievementCredentialRegistryEvent =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWatchAchievementCredentialRegistryAchievementAddedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -466,6 +485,7 @@ export const useWatchAchievementCredentialRegistryAchievementAddedEvent =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -479,6 +499,7 @@ export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x081d18BE0264a1Fd42686662D76089A0D648816f)
  */
 export const useWatchAchievementCredentialRegistryAchievementUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -492,6 +513,7 @@ export const useWatchAchievementCredentialRegistryAchievementUpdatedEvent =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistry = /*#__PURE__*/ createUseReadContract({
   abi: issuerRegistryAbi,
@@ -503,6 +525,7 @@ export const useReadIssuerRegistry = /*#__PURE__*/ createUseReadContract({
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryGetCurrentTokenId =
   /*#__PURE__*/ createUseReadContract({
@@ -516,6 +539,7 @@ export const useReadIssuerRegistryGetCurrentTokenId =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryGetIssuerData =
   /*#__PURE__*/ createUseReadContract({
@@ -529,6 +553,7 @@ export const useReadIssuerRegistryGetIssuerData =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryGetIssuerDataByAddress =
   /*#__PURE__*/ createUseReadContract({
@@ -542,6 +567,7 @@ export const useReadIssuerRegistryGetIssuerDataByAddress =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryGetIssuerDataById =
   /*#__PURE__*/ createUseReadContract({
@@ -555,6 +581,7 @@ export const useReadIssuerRegistryGetIssuerDataById =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryGetIssuerDataByTokenId =
   /*#__PURE__*/ createUseReadContract({
@@ -568,6 +595,7 @@ export const useReadIssuerRegistryGetIssuerDataByTokenId =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryGetIssuerOwner =
   /*#__PURE__*/ createUseReadContract({
@@ -581,6 +609,7 @@ export const useReadIssuerRegistryGetIssuerOwner =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useReadIssuerRegistryNextTokenId =
   /*#__PURE__*/ createUseReadContract({
@@ -594,6 +623,7 @@ export const useReadIssuerRegistryNextTokenId =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useWriteIssuerRegistry = /*#__PURE__*/ createUseWriteContract({
   abi: issuerRegistryAbi,
@@ -605,6 +635,7 @@ export const useWriteIssuerRegistry = /*#__PURE__*/ createUseWriteContract({
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useWriteIssuerRegistryRegisterIssuer =
   /*#__PURE__*/ createUseWriteContract({
@@ -618,6 +649,7 @@ export const useWriteIssuerRegistryRegisterIssuer =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useSimulateIssuerRegistry =
   /*#__PURE__*/ createUseSimulateContract({
@@ -630,6 +662,7 @@ export const useSimulateIssuerRegistry =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useSimulateIssuerRegistryRegisterIssuer =
   /*#__PURE__*/ createUseSimulateContract({
@@ -643,6 +676,7 @@ export const useSimulateIssuerRegistryRegisterIssuer =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useWatchIssuerRegistryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -655,6 +689,7 @@ export const useWatchIssuerRegistryEvent =
  *
  * -
  * -
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x6aC4238b0a30a45667A7585DA9087C888f3e3d08)
  */
 export const useWatchIssuerRegistryIssuerRegisteredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({

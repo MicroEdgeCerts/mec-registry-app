@@ -2,9 +2,10 @@ import React, { useEffect, useState, createContext, useContext } from "react";
 import { WagmiProvider } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProfileContextProvider from "./ProfileContext";
-import { type Address } from "viem";
-
-import config from "@/config";
+import { type Address, createWalletClient, custom } from "viem";
+import {  useWalletClient, type UseWalletClientReturnType, type UseClientReturnType, useClient  } from "wagmi";
+import { AlchemyProvider } from 'ethers'  
+import config, { ALCHEMY_API_KEY } from "@/config";
 
 /* 
   Wraps state and actions for 
@@ -19,12 +20,12 @@ export enum Web3Status {
 /* --- wagmi library context ------------------------*/
 const queryClient = new QueryClient();
 
-interface WalletWrapperPropsType {
+interface WagmiWalletWrapperPropsType {
   config: any; // Add type for config if necessary
   children: React.ReactNode;
 }
 
-const WalletWrapper: React.FC<WalletWrapperPropsType> = ({
+const WagmiWalletWrapper: React.FC<WagmiWalletWrapperPropsType> = ({
   config,
   children,
 }) => {
@@ -41,7 +42,10 @@ const WalletWrapper: React.FC<WalletWrapperPropsType> = ({
 
 export type WalletStateTypes = {
   walletState: Web3Status;
+  client: UseClientReturnType | null;
+  walletClient: any | null;
   address: Address | null;
+  provider: any | null
 };
 
 export type WalletActionTypes = {
@@ -56,7 +60,10 @@ const defaultWalletActions: WalletActionTypes = {
 /* Defining default state */
 const defaultWalletState: WalletStateTypes = {
   walletState: Web3Status.NoWallet,
+  client: null,
+  walletClient: null,
   address: null,
+  provider: null
 };
 
 const WalletContext = createContext([defaultWalletState, defaultWalletActions]);
@@ -66,8 +73,13 @@ type WalletContextProviderPropType = {
 };
 
 const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
+  const walletClient = useWalletClient();
+  const client = useClient();
   const [currentState, setState] =
-    useState<WalletStateTypes>(defaultWalletState);
+    useState<WalletStateTypes>({
+      ...defaultWalletState,
+      client,
+      });
 
   const action = {
     ...defaultWalletActions,
@@ -82,18 +94,34 @@ const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
   const updateAccounts = (accounts: string[]) => {
     if (accounts.length > 0) {
       // Account connected
+      const account = accounts[0] as Address
+      const walletClient = createWalletClient({
+        account,
+        transport: custom(window.ethereum!)
+      })
+
+      const provider = new AlchemyProvider( 'base-sepolia', ALCHEMY_API_KEY )
+
+
       setState({
         ...currentState,
+        walletClient,
         walletState: Web3Status.AccountConnected,
-        address: accounts[0] as Address,
+        address: account,
+        provider,
       });
       console.log("Account connected:", accounts[0]);
+
+
+
+
     } else {
       // No accounts available or disconnected
       setState({
         ...currentState,
         walletState: Web3Status.WalletExists,
         address: null,
+        provider: null
       });
       console.log("Wallet available");
     }
@@ -153,13 +181,21 @@ const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
   const values = [currentState, action];
   return (
     <WalletContext.Provider value={values}>
-      <WalletWrapper config={config.getWagmiConfig()}>
         <ProfileContextProvider>{children}</ProfileContextProvider>
-      </WalletWrapper>
     </WalletContext.Provider>
   );
 };
 
 export const useWalletContext = () => useContext(WalletContext);
 
-export default WalletContextProvider;
+type WalletWrapperPropType = {
+  children: React.ReactNode;
+};
+
+const WalletWrapper  = ({ children }: WalletWrapperPropType) => {
+   return <WagmiWalletWrapper config={config.getWagmiConfig()}>
+       <WalletContextProvider>{children}</WalletContextProvider>
+  </WagmiWalletWrapper>
+}
+
+export default WalletWrapper;

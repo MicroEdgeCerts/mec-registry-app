@@ -7,10 +7,11 @@ import React, { useEffect, useState, createContext, useContext } from 'react';
 import { ProfileContract, AchievementCredentialContractType,
           AchievementCredeintialRequestType, BaseContractParamType,
           AchievementCredeintial,
-          SkillItem  } from '@/types'
+          SkillItem } from '@/types'
 import { useWriteContract, useChainId, 
           useClient, type UseClientReturnType, useWalletClient,
            } from 'wagmi'
+import { polygonAmoy } from 'viem/chains'
 import { achievementCredentialRegistryAbi as abi, 
 useWriteAchievementCredentialRegistryCreateOrUpdateAchievement as writeOrUpdteContract,
 achievementCredentialRegistryAddress as contractAddress,
@@ -21,6 +22,7 @@ import { getBaseContractParam } from "@/utils/contractUtil"
 import type { Address, Hash } from 'viem'
 import { useWalletContext, type WalletStateTypes } from '@/context/WalletWrapper'
 import { getMetaFile } from "@/utils/ipfsService";
+import { writeContractPrep } from "@/utils/contractUtil"
 
 type AchievementCredentialRegistryContextPropType = {
   profile: ProfileContract | null,
@@ -77,6 +79,7 @@ type ACRContextType = [ACRStateType, SkillAction];
 const ACRContext = createContext<ACRContextType>([defaultState, defaultActions])
 
 const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegistryContextPropType> = ( {children, profile} ) => {
+  const { data: hash, writeContract } = useWriteContract()
   const [ currentProfile, setCurrentProfile ] = useState<ProfileContract|null>(profile || null);
   const [ state, setState ] = useState<ACRStateType>(defaultState)
   const [ walletState ] = useWalletContext();
@@ -140,10 +143,16 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
       })
 
       const args = generateContractData( data )
-      const hash =  await client!.writeContract({
+
+      let hash = await writeContractPrep({
           ...baseContractParam,
           args          
-      });
+      })
+      
+      await writeContract({
+          ...baseContractParam,
+          args          
+      })
       setWriteHash( hash )
 
     } catch ( ex: Exception ) {
