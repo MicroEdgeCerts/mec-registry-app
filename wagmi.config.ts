@@ -18,11 +18,12 @@ export default defineConfig({
           [chains.foundry.id]:  process.env.FORGE_ISSUER_CONTRACT_ADDRESS as Address,
           [chains.localhost.id]: process.env.FORGE_ISSUER_CONTRACT_ADDRESS as Address,
           [chains.polygonAmoy.id]: process.env.FORGE_ISSUER_CONTRACT_ADDRESS as Address,
+          [chains.baseSepolia.id]: process.env.FORGE_ISSUER_CONTRACT_ADDRESS as Address,
         },
         AchievementCredentialRegistry: {
           [chains.foundry.id]:  process.env.FORGE_ACHIEVEMENT_CONTRACT_ADDRESS as Address,
           [chains.localhost.id]: process.env.FORGE_ACHIEVEMENT_CONTRACT_ADDRESS as Address,
-          [chains.polygonAmoy.id]: process.env.FORGE_ACHIEVEMENT_CONTRACT_ADDRESS as Address,
+          [chains.baseSepolia.id]: process.env.FORGE_ACHIEVEMENT_CONTRACT_ADDRESS as Address,
         },
       },
       project: './contract',

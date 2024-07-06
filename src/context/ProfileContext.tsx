@@ -19,7 +19,7 @@ import type {
 } from "@wagmi/core";
 import { useWalletContext, type WalletStateTypes } from "./WalletWrapper";
 import type { Address } from "viem";
-import { useWriteContract } from 'wagmi'
+import { useWriteContract, useConnectorClient } from 'wagmi'
 import { useClient, type UseClientReturnType,  useChainId } from "wagmi";
 import type {
   ProfileRegistryCreateRequest,
@@ -27,6 +27,7 @@ import type {
   ProfileContract,
   BaseContractParamType
 } from "@/types";
+import {  writeContractWitnSimulate} from '@/utils/contractUtil'
 import { getMetaFile } from "@/utils/ipfsService";
 
 import AchievementCredentialRegistryProvider from './AchievementCredentialRegistryContext'
@@ -98,7 +99,7 @@ type ProfileContextProviderPropType = {
 
 
 const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => {
-  const { data: hash, writeContract } = useWriteContract()
+  // const { data: hash, writeContract } = useWriteContract()
 
   const [issuerAddress, setIssuerAddress] = useState<Address | null>(null);
   const [state, setState] = useState<ContractStateType>(defaultState);
@@ -107,15 +108,16 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
     useState<BaseContractParamType | null>(null);
 
 
+  const currentConnection = useConnectorClient()
 
-  const profileWrite = useWriteIssuerRegistryRegisterIssuer();
-  // const {
-  //   data: hash,
-  //   error,
-  //   isPending,
-  //   isSuccess,
-  //   writeContractAsync
-  // } = profileWrite;
+  const profileWrite = useWriteIssuerRegistryRegisterIssuer({enable: false});
+  const {
+    data: hash,
+    error,
+    isPending,
+    isSuccess,
+    writeContractAsync
+  } = profileWrite;
   const [accountState] = useWalletContext();
 
   const readIssuerByTokenId = useReadIssuerRegistryGetIssuerDataByTokenId({
@@ -165,6 +167,15 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
     });
   }, [client]);
 
+  useEffect(()=> {
+
+    if( !currentConnection.data ){
+      currentConnection.refetch();
+    } else {
+      console.info(`currentConnection = ${currentConnection}`)
+    }
+  }, [currentConnection])
+
   useEffect(() => {
     if (hash) {
       console.info(`data : ${JSON.stringify(hash)}`);
@@ -178,6 +189,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
   }, [state.profiles]);
 
   useEffect(() => {
+
     if (client !== null && issuerAddress != null) {
       setBaseContractParam(getBaseIssuerRegistryContractParam());
     } else {
@@ -226,7 +238,6 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
             profileReadError: null,
           });
           
-          // const provider = new ethers.InfuraProvider(network, "243a94f2f57b4cb1ac5d75bb6e030712");
 
           let res = await readIssuerFromContract.refetch({
             ...issuerFetchQuery,
@@ -280,7 +291,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
         setState({
           ...state,
           profileReadPending: false,
-          profileReadError: error,
+          profileReadError: err,
         });
       }
       return true;
@@ -317,34 +328,16 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
         });
 
         if (client &&  baseContractParam != null) {
-
-          const publicClient = createPublicClient({ 
-            chain: baseSepolia, 
-            transport: http() 
-          }) 
-
-          const walletClient =  createWalletClient({
-              chain: baseSepolia,
-              transport: custom(window.ethereum)
-            })
-
-          const sim = await publicClient.simulateContract({
+          
+          let hash = await writeContractWitnSimulate({
             ...baseContractParam,
             functionName: "registerIssuer",
             args: [issuerData.id, JSON.stringify(issuerData) as string],
           })
 
-          res = await walletClient.writeContract(sim.request)
+          ///=======
           console.info(`simulateContract === ${JSON.stringify(res)}`)
-          // res = await writeContract(
-          // // res = await writeContractAsync(
-          // {
-          //   ...baseContractParam,
-          //   functionName: "registerIssuer",
-          //   args: [issuerData.id, JSON.stringify(issuerData) as string],
-          // });
-          console.info(`wrateContract === ${JSON.stringify(res)}`)
-
+          
           setState({
             ...state,
             profileRegisted: true,

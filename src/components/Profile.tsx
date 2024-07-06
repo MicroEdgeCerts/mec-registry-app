@@ -8,14 +8,15 @@ import AddIssuer from "@/components/AddIssuer";
 import type {
   Profile as ProfileSchemaType,
   ProfileRegistryDataType,
-  LocalizedString,
   ProfileContract,
   ProfileRegistryCreateRequest,
+  LocalizedString
 } from "@/types";
 import { maxProfileSizeBytes, maxSizeMB } from "@/config";
 import { useWalletContext, type WalletStateTypes } from "@/context/WalletWrapper";
 import { createMetaFile } from "@/utils/ipfsService";
 import { toast } from "react-toastify";
+import { getLocaledString } from '@/context/LocalizedContext'
 
 interface ProfileType {
   name_en: string;
@@ -93,23 +94,18 @@ export default function Profile() {
       reader.readAsDataURL(file);
     }
   };
-  const getLocalString = (
-    field: LocalizedString | undefined,
-    locale: string,
-  ): string => {
-    return (field.localizedStrings || {})[locale] || ("" as string);
-  };
+
 
   const setFormDataFromMeta = (res: ProfileContract) => {
     const profileData = res.data as ProfileSchemaType;
     setProfile({
       name_en: profileData.name,
-      name_ja: getLocalString(profileData.name_extended, "ja-JP"),
+      name_ja: getLocaledString( profileData.name_extended || {} as LocalizedString, "ja-JP"),
       url: profileData.url || "",
       telephone: profileData.telephone || "",
       email: profileData.email || "",
       description_en: profileData.description || "",
-      description_ja: getLocalString(profileData.description_extended, "ja-JP"),
+      description_ja: getLocaledString(profileData.description_extended || {} as LocalizedString, "ja-JP"),
       image: profileData.image || null,
     });
   };

@@ -3,11 +3,15 @@ import { createPublicClient, http,  custom, createWalletClient, fallback} from '
 import { type UseWriteContractParameters, type Config, } from 'wagmi'
 
 import { getPublicClient as wagmiGetPublicClient, 
-        getPublicClient, getWalletClient } from '@wagmi/core'
+         getWalletClient as wagmiGetWalletClient,
+         writeContract as wagmiWriteContract } from '@wagmi/core'
 import { BaseContractParamType } from '@/types'
 import { getWagmiConfig, publicClient } from '@/config'
 import { baseSepolia } from 'viem/chains'
 import { BrowserProvider, JsonRpcSigner } from 'ethers'
+import { reconnect, simulateContract as simulateContractWagmi } from '@wagmi/core'
+import { injected } from '@wagmi/connectors'
+
 export const getBaseContractParam = ( addresses: any, chainId: any,  abi: any, account: Address, functionName: string | null = null ): BaseContractParamType=> {
   const keys = Object.keys(addresses);
   const values = Object.values(addresses);
@@ -40,18 +44,16 @@ const getWalletClient = ()=> {
 
 export const simulateContract = async ( params: any )=> {
   let config = getWagmiConfig();
-  return getPublicClient().simulateContract(config, params)
+  return simulateContractWagmi(config, params)
 }
 
-
-export const writeContractPrep = async( param: any ) => {
+export const writeContractWitnSimulate = async( param: any ) => {
   const publicClient = getPublicClient();
   const walletClient = getWalletClient();
   const sim = await publicClient.simulateContract(param)
   let hash = await walletClient.writeContract(sim.request)
-  console.info(`simulateContract === ${JSON.stringify(hash)}`)
   const transaction = await publicClient.waitForTransactionReceipt( {hash} );
-  return transaction;
+  return transaction.transactionHash;
 }
 
 
@@ -70,7 +72,7 @@ export function walletClientToSigner(walletClient: WalletClient) {
 
 /** Action to convert a viem Wallet Client to an ethers.js Signer. */
 export async function getEthersSigner({ chainId }: { chainId?: number } = {}) {
-  const client = await getWalletClient( getWagmiConfig(), { chainId })
+  const client = await wagmiGetWalletClient( getWagmiConfig(), { chainId })
   if (!client) return undefined
   return walletClientToSigner(client)
 }

@@ -27,6 +27,7 @@ const Courses =  ()=> {
   }
 
   const onAddCredentialSubmit = async ( profile: RecipientProfileFormType, certificate: CredentialCertificateFormType, privateKey: string )=> {
+    console.info(`currentSkill = ${(currentSkill || {}).id}`);
     console.info("adding credential")
   }
 

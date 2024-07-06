@@ -1,11 +1,12 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
-import { WagmiProvider } from "wagmi";
+import { WagmiProvider, useConnect } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProfileContextProvider from "./ProfileContext";
 import { type Address, createWalletClient, custom } from "viem";
 import {  useWalletClient, type UseWalletClientReturnType, type UseClientReturnType, useClient  } from "wagmi";
 import { AlchemyProvider } from 'ethers'  
 import config, { ALCHEMY_API_KEY } from "@/config";
+import { injected } from 'wagmi/connectors'
 
 /* 
   Wraps state and actions for 
@@ -75,6 +76,7 @@ type WalletContextProviderPropType = {
 const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
   const walletClient = useWalletClient();
   const client = useClient();
+
   const [currentState, setState] =
     useState<WalletStateTypes>({
       ...defaultWalletState,
@@ -101,7 +103,6 @@ const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
       })
 
       const provider = new AlchemyProvider( 'base-sepolia', ALCHEMY_API_KEY )
-
 
       setState({
         ...currentState,

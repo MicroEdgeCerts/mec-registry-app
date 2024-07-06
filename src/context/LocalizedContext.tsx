@@ -1,7 +1,7 @@
 import type { AppProps as NextJsAppProps } from 'next/app'
 import { appWithTranslation, useTranslation as useNextTranslation, type UseTranslationResponse, UserConfig} from 'next-i18next'
 import nextI18NextConfig from '@/../next-i18next.config.js'
-
+import { type   LocalizedString } from '@/types'
 
 console.info("i10n ------ ")
 console.info(JSON.stringify(nextI18NextConfig))
@@ -30,3 +30,9 @@ export const getLocalizedString = ( meta: any, label: string, locale: string ): 
   }
   return defaultString
 }
+
+
+export const getLocaledString = ( field: LocalizedString,  locale: string,
+): string => {
+  return (field.localized || {})[locale] || ("" as string);
+};

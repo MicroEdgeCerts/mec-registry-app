@@ -11,18 +11,14 @@ import { ProfileContract, AchievementCredentialContractType,
 import { useWriteContract, useChainId, 
           useClient, type UseClientReturnType, useWalletClient,
            } from 'wagmi'
-import { polygonAmoy } from 'viem/chains'
-import { achievementCredentialRegistryAbi as abi, 
-useWriteAchievementCredentialRegistryCreateOrUpdateAchievement as writeOrUpdteContract,
-achievementCredentialRegistryAddress as contractAddress,
-useReadAchievementCredentialRegistryGetAchievementsByProfileId  as getCredentialByProfile } from '@/abis/MEC'
+import { useReadAchievementCredentialRegistryGetAchievementsByProfileId  as getCredentialByProfile } from '@/abis/MEC'
 import { achievementCredentialRegistryConfig,
          achievementCredentialRegistryAbi } from '@/abis/MEC'
 import { getBaseContractParam } from "@/utils/contractUtil"
 import type { Address, Hash } from 'viem'
 import { useWalletContext, type WalletStateTypes } from '@/context/WalletWrapper'
 import { getMetaFile } from "@/utils/ipfsService";
-import { writeContractPrep } from "@/utils/contractUtil"
+import { writeContractWitnSimulate } from "@/utils/contractUtil"
 
 type AchievementCredentialRegistryContextPropType = {
   profile: ProfileContract | null,
@@ -144,12 +140,7 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
 
       const args = generateContractData( data )
 
-      let hash = await writeContractPrep({
-          ...baseContractParam,
-          args          
-      })
-      
-      await writeContract({
+      let hash = await writeContractWitnSimulate({
           ...baseContractParam,
           args          
       })

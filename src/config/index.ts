@@ -2,6 +2,10 @@ import { http, createConfig, configureChains } from "wagmi";
 import { mainnet, sepolia, baseSepolia} from "viem/chains";
 import { metaMask } from "wagmi/connectors";
 import { createClient, custom} from "viem";
+// import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask'
+import { injected } from 'wagmi/connectors'
+
+
 
 
 
@@ -17,10 +21,15 @@ export const ISSUER_REGISTRY_CONTRACT_ADDRESS = process.env
 export const ACHIEVEMENT_CREDENTIAL_CONTRACT_ADDRESS = process.env
   .FORGE_ISSUER_CONTRACT_ADDRESS as string;
 
+const connector = injected({
+  shimDisconnect: true, 
+  target: 'metaMask' })
+
 
 
 /* use local netwwork if it's not production */
 const metaMaskOptions = {
+  chains: [mainnet, baseSepolia],
   dappMetadata: {
     name: "Mec dApp",
   },
@@ -37,9 +46,10 @@ export const getWagmiConfig = () => {
             [baseSepolia.id]: http(PROVIDER_URL),
           },
         })　: createConfig({
+          autoConnect: true,
           chains: [baseSepolia],
           ssr: true,
-          connectors: [metaMask(metaMaskOptions)],
+          connectors: [connector],
           transports: {
             [baseSepolia.id]: http(PROVIDER_URL),
           },
