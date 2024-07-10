@@ -3,11 +3,12 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import EditIcon from "@/components/icons/EditIcon"; // Tailwind Hero Icons
 import iconStyles from "@/components/icons/icon.module.scss";
 import { useIssuerProfileContext } from "@/context/ProfileContext";
+import ProfileSelect from "@/components/ProfileSelect"
 import Loading from "@/components/Loading";
 import AddIssuer from "@/components/AddIssuer";
+import { Address } from 'viem'
 import type {
   Profile as ProfileSchemaType,
-  ProfileRegistryDataType,
   ProfileContract,
   ProfileRegistryCreateRequest,
   LocalizedString
@@ -17,8 +18,8 @@ import { useWalletContext, type WalletStateTypes } from "@/context/WalletWrapper
 import { createMetaFile } from "@/utils/ipfsService";
 import { toast } from "react-toastify";
 import { getLocaledString } from '@/context/LocalizedContext'
-
-interface ProfileType {
+type ProfileTypeDict = { [ key: string]: any }
+interface ProfileType extends ProfileTypeDict {
   name_en: string;
   name_ja: string;
   url: string;
@@ -29,20 +30,7 @@ interface ProfileType {
   image: File | string | null;
 }
 
-export default function Profile() {
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
-  const [imageError, setImageError] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [contractState, contractAction] = useIssuerProfileContext();
-  const [walletState] = useWalletContext();
-  const { address, client, walletClient } = ( walletState  as WalletStateTypes ) 
-  const [isProfileLoading, setIsProfileLoading] = useState(true);
-  const [isProfileAvailable, setIsProfileAvailable] = useState(true);
-  const [isDirty, setIsDirty] = useState(false);
-  let profileFieldErrors: Record<string, string> = {};
-  const [currentProfile, setCurrentProfile] =
-    useState<ProfileRegistryDataType>();
-  const [profile, setProfile] = useState<ProfileType>({
+const defaultProfileData = {
     name_en: "",
     name_ja: "",
     url: "",
@@ -51,7 +39,21 @@ export default function Profile() {
     description_en: "",
     description_ja: "",
     image: null,
-  });
+  }
+export default function Profile() {
+  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [imageError, setImageError] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [contractState, contractAction] = useIssuerProfileContext();
+  const [walletState] = useWalletContext();
+  const { address, walletClient } = ( walletState  as WalletStateTypes ) 
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
+  const [isProfileAvailable, setIsProfileAvailable] = useState(true);
+
+  let profileFieldErrors: Record<string, string> = {};
+  const [profileList, setProfileList] = useState<ProfileContract[]>([]);
+  const [currentProfile, setCurrentProfile] = useState<ProfileContract|null>(null);
+  const [profile, setProfile] = useState<ProfileType>( defaultProfileData );
 
   const required_fields = ["url", "name_en"];
 
@@ -65,9 +67,9 @@ export default function Profile() {
   const isValid = (): boolean => {
     let _isValid = true;
     profileFieldErrors = {};
-    Object.keys(profile).forEach((key: keyof ProfileType) => {
+    Object.keys(profile).forEach((key: string ) => {
       const required = required_fields.indexOf(key) >= 0;
-      const hasError = required && isEmpty(profile[key] as string | null);
+      const hasError = required && isEmpty(profile[ key as keyof ProfileTypeDict ] as string | null);
       if (hasError) {
         profileFieldErrors[`${key}`] = "This field is required";
         _isValid = false;
@@ -140,7 +142,6 @@ export default function Profile() {
 
   const getProfileRegistryRequest = (
     url: string,
-    address: string,
     meta: string,
   ): ProfileRegistryCreateRequest => {
     return {
@@ -155,9 +156,6 @@ export default function Profile() {
     return contractAction.writeProfile(_profile);
   };
 
-  const getProfileByTokenId = (tokenId: string): Promise<IssuerData | null> => {
-    return contractAction.getIssuersByTokenId(tokenId);
-  };
 
   const isEmpty = (key: string | null): boolean => {
     return key === null || key.length === 0;
@@ -166,17 +164,15 @@ export default function Profile() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (walletClient) {
-      setIsDirty(true);
       if (isValid()) {
         const metaData = createMetadata();
         const res = await createMetaFile(
           metaData,
           walletClient,
-          address,
+          address as Address,
         );
         const profileRegistry = getProfileRegistryRequest(
           metaData.url as string,
-          address,
           res,
         );
         const promise = registerProfile(profileRegistry);
@@ -185,19 +181,25 @@ export default function Profile() {
           success: "Profile updated",
           error: "Registering failed",
         });
-        promise.then((res) => {
-          contractAction.getProfile();
 
+        promise.then(() => {
+          contractAction.getProfile();
         });
 
         setIsEditing(false);
       }
-      setIsDirty(false);
-    } else {
-      setIsDirty(false);
-      throw new Error("No client");
     }
   };
+
+  const onCreateIssuer = ()=> {
+    setProfile( defaultProfileData )
+    setIsEditing(true)
+  }
+
+  const onProfileSelect = ( profile: ProfileContract | null ) => {
+    setIsEditing(false)
+    contractAction.setCurrentProfile(profile);
+  }
 
   useEffect(() => {
     // when initialized, get Profile
@@ -227,18 +229,26 @@ export default function Profile() {
       let profileAvailable = contractState.profiles.length > 0;
       setIsProfileAvailable(profileAvailable);
       if (profileAvailable) {
-        const res = contractState.profiles[0];
-        setFormDataFromMeta(res);
+        setProfileList(  contractState.profiles  );
+        const initialProfile = contractState.profiles[0];
+        contractAction.setCurrentProfile(initialProfile);
       }
     }
-  }, [contractState.profileReadPending, contractState.profileInitialized]);
+  }, [contractState.profileReadPending, contractState.profileInitialized, contractState.profiles]);
 
+  useEffect(() => {
+    if( contractState.currentProfile ) {
+      setFormDataFromMeta(contractState.currentProfile);
+      console.info(`#YF contractState.currentProfile = ${contractState.currentProfile.id} `)
+    }
+    setCurrentProfile(contractState.currentProfile );
+  }, [contractState.currentProfile]);
   if (isProfileLoading) {
     return <Loading />;
   }
 
   if (!isProfileAvailable && !isEditing) {
-    return <AddIssuer onClick={() => setIsEditing(true)} />;
+    return <AddIssuer onClick={ onCreateIssuer } />;
   }
 
   return (
@@ -250,7 +260,8 @@ export default function Profile() {
           className={`${iconStyles.icon}`}
         >
           <EditIcon strokeColor={"#64748b"} className="h-6 w-6 text-gray-500" />
-        </button>
+        </button>    
+        <ProfileSelect selectedProfile={currentProfile} profiles={ profileList} onCreate={onCreateIssuer} onSelect={ onProfileSelect } />
       </div>
       {isEditing ? (
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -272,7 +283,7 @@ export default function Profile() {
                   <input
                     type="text"
                     name={key}
-                    value={profile[key as keyof Profile] as any}
+                    value={profile[ key as keyof ProfileTypeDict ] }
                     onChange={handleChange}
                     required={required}
                     className={`mt-1 block w-full p-2 border 
@@ -331,7 +342,7 @@ export default function Profile() {
                   {key.replace("_", " ")}:
                 </p>
                 <p className="mt-1 block w-full rounded-md p-2 pl-4">
-                  {profile[key as keyof Profile]}
+                  {profile[key as keyof ProfileTypeDict]}
                 </p>
               </div>
             ) : null,

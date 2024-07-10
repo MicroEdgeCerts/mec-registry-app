@@ -129,3 +129,7 @@ export type CredentialCertificateFormType = {
   awardedDate: number
 }
 
+
+type CredentialResult = {
+  
+}

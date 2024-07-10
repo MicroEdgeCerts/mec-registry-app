@@ -4,21 +4,28 @@ import iconStyles from "@/components/icons/icon.module.scss";
 import { useCourseContext } from "@/context/AchievementCredentialRegistryContext" 
 import AddCourses from '@/components/AddCourse'
 import Loading from '@/components/Loading'
+import CredentailResult from "@/components/CredentialResult"
+
 import { SkillItem } from '@/types'
 import SkillCard from "@/components/SkillCard"
 import { useTranslation } from 'next-i18next'
 import { AddCredentialDialog } from '@/components/AddCredential'
 import { RecipientProfileFormType, CredentialCertificateFormType} from '@/types'
+import { addCredential } from '@/services/CredentialService'
+import { toast } from "react-toastify";
+
 const Courses =  ()=> {
   const [ skills, setSkills] = useState<SkillItem[]>([]);
   const [ hasSkills, setHasSkills] = useState<boolean>(false);
+  const [ isEditing, setIsEditing] = useState<boolean>(false);
   const [ currentSkill, setCurrentSkill] = useState<SkillItem|null>(null);
-  const [ state, action ] = useCourseContext();
+  const [ state ] = useCourseContext();
   const { t } = useTranslation('common');
   const [ addCredentialDialogOpen, setAddCredentialDialogOpen ] = useState( false )
+  const [ newCredentialResult, setNewCredentialResult ] = useState<any|null>(null)
 
 
-  const onAddCredential = ( profile: Profile, skillItem: SkillItem) => {
+  const onAddCredential = ( skillItem: SkillItem) => {
     setCurrentSkill( skillItem )
     setAddCredentialDialogOpen( true )
   }
@@ -27,12 +34,23 @@ const Courses =  ()=> {
   }
 
   const onAddCredentialSubmit = async ( profile: RecipientProfileFormType, certificate: CredentialCertificateFormType, privateKey: string )=> {
-    console.info(`currentSkill = ${(currentSkill || {}).id}`);
-    console.info("adding credential")
+    const promise = addCredential( profile, certificate, privateKey );
+    toast.promise(promise, {
+          pending: "Registering Profile",
+          success: "Profile updated",
+          error: "Registering failed",
+        });
+    const res = await promise;
+    setNewCredentialResult( res );
+
+  }
+
+  const onCloseNewCredential = async ()=> {
+    setNewCredentialResult( null )
   }
 
   useEffect(() => {
-    if( state.skills || ( state.skills || [] ).length > 0 ) {
+    if( ( state.skills || ( state.skills || [] ) as Array<SkillItem> ).length > 0 ) {
       setSkills( state.skills )
       setHasSkills( true )
     } else {
@@ -76,13 +94,14 @@ const Courses =  ()=> {
       <div className="flex flex-wrap gap-6">
         {skills.map((skill) => (
           <div key={skill.id} className="flex-grow sm:flex-grow-0 sm:w-1/2 md:w-1/3 lg:w-1/4">
-            <SkillCard skill={skill} onAddCredential={( _skill: SkillItem )=> onAddCredential(state.currentProfile, _skill )}/>
+            <SkillCard skill={skill} onAddCredential={( _skill: SkillItem )=> onAddCredential(_skill )}/>
           </div>
         ))}
       </div>
       <AddCredentialDialog open={addCredentialDialogOpen} onClose={onAddCredentialClose} onSubmit={onAddCredentialSubmit} />
     </div>
   }
+  { newCredentialResult && <CredentailResult result={newCredentialResult} onClose={onCloseNewCredential}/>}
   </>
 
 

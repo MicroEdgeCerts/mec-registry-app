@@ -45,6 +45,7 @@ type ContractActionType = {
   writeProfile: (
     issuer: ProfileRegistryCreateRequest,
   ) => Promise<string | null>;
+  setCurrentProfile: ( profile: ProfileContract | null) => void
 };
 
 type ContractStateType = {
@@ -53,6 +54,7 @@ type ContractStateType = {
   profileRegistering: boolean;
   profileRegisterError: WriteContractErrorType | any | null;
   profileInitialized: boolean;
+  currentProfile: ProfileContract | null
   profiles: any[];
   profileReadError: ReadContractErrorType | Error | null;
   profileReadPending: boolean;
@@ -73,6 +75,7 @@ const defaultState: ContractStateType = {
   /*--- Issuer Write Related state --- */
   profileInitialized: false,
   profiles: [],
+  currentProfile: null,
   profileReadError: null,
   profileReadPending: false,
   /*--- Singing state --- */
@@ -86,6 +89,7 @@ const defaultActions = {
   signData: () => "",
   getIssuersByTokenId: () => null,
   writeProfile: () => Promise.resolve(null),
+  setCurrentProfile: () => null
 };
 
 const ProfileContext = createContext<ProfileContextType>([
@@ -103,7 +107,6 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
 
   const [issuerAddress, setIssuerAddress] = useState<Address | null>(null);
   const [state, setState] = useState<ContractStateType>(defaultState);
-  const [currentProfile, setCurrentProfile] = useState<ProfileContract|null>(null);
   const [baseContractParam, setBaseContractParam] =
     useState<BaseContractParamType | null>(null);
 
@@ -182,11 +185,6 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
     }
   }, [hash]);
 
-  useEffect(() => {
-    if (state.profiles.length > 0 ) {
-      setCurrentProfile( state.profiles[0] );
-    }
-  }, [state.profiles]);
 
   useEffect(() => {
 
@@ -358,11 +356,17 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
       }
       return res;
     },
+    setCurrentProfile: ( profile: ProfileContract | null  ) => {
+      setState({
+        ...state,
+        currentProfile: profile 
+      })
+    }
   };
 
   return (
     <ProfileContext.Provider value={[state, actions]}>
-      <AchievementCredentialRegistryProvider profile={ currentProfile }>
+      <AchievementCredentialRegistryProvider profile={ state.currentProfile }>
         {children}
       </AchievementCredentialRegistryProvider>
     </ProfileContext.Provider>

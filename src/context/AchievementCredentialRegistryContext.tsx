@@ -9,7 +9,7 @@ import { ProfileContract, AchievementCredentialContractType,
           AchievementCredeintial,
           SkillItem } from '@/types'
 import { useWriteContract, useChainId, 
-          useClient, type UseClientReturnType, useWalletClient,
+          useClient, 
            } from 'wagmi'
 import { useReadAchievementCredentialRegistryGetAchievementsByProfileId  as getCredentialByProfile } from '@/abis/MEC'
 import { achievementCredentialRegistryConfig,
@@ -30,19 +30,7 @@ enum OwnerType {
   BlockChain = 0
 }
 
-
-
-type SkillDataContractRequest = {
-  id?: number,
-  profile_id: string,
-  owner_id: string,
-  keySets: string[],
-  revokedKeySets: string[],
-  cannonicalId?: string,
-  image: string,
-  meta: string,
-}
-
+/* eslint no-unused-variable: off */
 type SkillAction = {
   getSkills: () => SkillItem[]
   writeSkill: ( skill: AchievementCredeintialRequestType ) => void
@@ -202,8 +190,6 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
       setBaseContractParam(null);
     }
   }, [client, ( walletState as WalletStateTypes ).address]);
-
-
 
 
 

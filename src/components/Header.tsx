@@ -26,7 +26,7 @@ const Header = () => {
         <nav className="space-x-4">
           {walletState === Web3Status.WalletExists && (
             <button
-              onClick={action.connect}
+              onClick={( action as   WalletActionTypes ).connect}
               className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
               Connect Wallet
