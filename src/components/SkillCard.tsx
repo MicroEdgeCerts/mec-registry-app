@@ -5,7 +5,7 @@ import AccountIcon from "@/components/icons/AddIcon"
 
 type SkillCardPropType = {
   skill:SkillItem
-  onAddCredential: (skill: SkillItem) => void
+  onAddCredentialToLearner: (skill: SkillItem) => void
 }
 
 const getRandomGradient = ( index: number ) => {
@@ -19,14 +19,14 @@ const getRandomGradient = ( index: number ) => {
 };
 
 
-const SkillCard: React.FC<SkillCardPropType> = ( {skill, onAddCredential} ) => {
+const SkillCard: React.FC<SkillCardPropType> = ( {skill, onAddCredentialToLearner} ) => {
 
   const onGenerateCertification = ()=> {
-    onAddCredential(skill);
+    onAddCredentialToLearner(skill);
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col min-w-full sm:min-w-0">
+    <div className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col min-w-full sm:min-w-0  min-h-80 ">
       <div className={`relative bg-gradient-to-r ${getRandomGradient(skill.id)} p-4 text-white flex flex-col items-center`}>
         {skill.image && <img src={skill.image} alt={skill.name} className="w-16 h-16 object-cover rounded-full mb-4" />}
         <h2 className="text-xl font-bold mb-2 text-center">{getLocalizedString(skill, "name", "en-US")}</h2>

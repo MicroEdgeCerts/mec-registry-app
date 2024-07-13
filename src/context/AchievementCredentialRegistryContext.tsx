@@ -8,11 +8,11 @@ import { ProfileContract, AchievementCredentialContractType,
           AchievementCredeintialRequestType, BaseContractParamType,
           AchievementCredeintial,
           SkillItem } from '@/types'
-import { useWriteContract, useChainId, 
+import {  useChainId, 
           useClient, 
            } from 'wagmi'
-import { useReadAchievementCredentialRegistryGetAchievementsByProfileId  as getCredentialByProfile } from '@/abis/MEC'
-import { achievementCredentialRegistryConfig,
+import { useReadAchievementCredentialRegistryGetAchievementsByProfileId  as getCredentialByProfile ,
+        achievementCredentialRegistryConfig,
          achievementCredentialRegistryAbi } from '@/abis/MEC'
 import { getBaseContractParam } from "@/utils/contractUtil"
 import type { Address, Hash } from 'viem'
@@ -30,7 +30,6 @@ enum OwnerType {
   BlockChain = 0
 }
 
-/* eslint no-unused-variable: off */
 type SkillAction = {
   getSkills: () => SkillItem[]
   writeSkill: ( skill: AchievementCredeintialRequestType ) => void
@@ -49,10 +48,14 @@ type ACRStateType = {
 let defaultState = {
   skills: [],
   initialized: false,
-  currentProfile: null
+  currentProfile: null,
+  creatingContract:false,
+  creatingContractError: null,
+  createdContract: null
 }
 let defaultActions = {
   getSkills: ()=> [],
+  // @ts-ignore
   writeSkill: ( skill: AchievementCredeintialRequestType ) => {}
 }
 
@@ -63,13 +66,13 @@ type ACRContextType = [ACRStateType, SkillAction];
 const ACRContext = createContext<ACRContextType>([defaultState, defaultActions])
 
 const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegistryContextPropType> = ( {children, profile} ) => {
-  const { data: hash, writeContract } = useWriteContract()
   const [ currentProfile, setCurrentProfile ] = useState<ProfileContract|null>(profile || null);
   const [ state, setState ] = useState<ACRStateType>(defaultState)
   const [ walletState ] = useWalletContext();
-  const { data, isError, isLoading, isSuccess, refetch, queryKey} = getCredentialByProfile({
-    args: [ (currentProfile|| {}).id ],
+  const { data,  isSuccess, refetch, queryKey} = getCredentialByProfile({
+    args: [ (currentProfile|| {}).id || '' ],
   })
+  // @ts-ignore
   const [writeHash, setWriteHash] = useState<Hash>()
 
   const chainId = useChainId();
@@ -87,6 +90,7 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
     } catch( e ) {
       console.error( e ); 
     }
+    return []
   }
 
   const parseContractToSkill = async ( item: AchievementCredentialContractType  ): Promise<SkillItem> => {
@@ -134,7 +138,7 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
       })
       setWriteHash( hash )
 
-    } catch ( ex: Exception ) {
+    } catch ( ex: any ) {
 
       setState({
         ...state,
@@ -157,10 +161,10 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
   useEffect(()=>{
     if( profile ) {
       const request = {
-          ...queryKey[1], 
+          ...queryKey[1] as object, 
           args: [ profile.id ]
         }
-      refetch([ queryKey[0], request ] ); 
+      refetch([ queryKey[0], request ] as any ); 
       setCurrentProfile(profile)
       setState({
         ...state,

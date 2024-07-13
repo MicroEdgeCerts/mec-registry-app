@@ -1,5 +1,5 @@
 import type { AppProps as NextJsAppProps } from 'next/app'
-import { appWithTranslation, useTranslation as useNextTranslation, type UseTranslationResponse, UserConfig} from 'next-i18next'
+import { appWithTranslation, useTranslation as useNextTranslation, type UseTranslation, UserConfig} from 'next-i18next'
 import nextI18NextConfig from '@/../next-i18next.config.js'
 import { type   LocalizedString } from '@/types'
 
@@ -19,7 +19,7 @@ export const  wrapAppWithTranslation = <Props extends NextJsAppProps>(
   return appWithTranslation(WrappedComponent, emptyInitialI18NextConfig);
 }
 
-export const useTranslation: UseTranslationResponse<"translation", undefined> = ()=> useNextTranslation('common');
+export const useTranslation: UseTranslation = ()=> useNextTranslation('common');
 
 
 export const getLocalizedString = ( meta: any, label: string, locale: string ): string => {

@@ -20,13 +20,14 @@ export function withSession(handler: any) {
     password: process.env.SECRET_COOKIE_PASSWORD as string,
     cookieName: "nft-auth-session",
     cookieOptions: {
-      secure: process.env.NODE_ENV === "production",
+      sameSite: false,
+      secure: false,
     },
   });
 }
 
 export const wait = async (time: number): Promise<null> => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(null);
     }, time);
@@ -37,13 +38,9 @@ export const addressCheckMiddleware = async (
   req: NextApiRequest & { session: Session },
   res: NextApiResponse,
 ) => {
+  console.log( res )
   return new Promise(async (resolve, reject) => {
     const message = req.session.get(MESSAGE_SESSION);
-    // const provider = new ethers.JsonRpcProvider( providerNetwork )
-    // const contract = new ethers.Contract(
-    //   contractAddress,
-    //   issuerRegistryAbi,
-    //   provider ) as unknown as SmartyPetalsNftMarket
 
     let messageStr = JSON.stringify(message);
 

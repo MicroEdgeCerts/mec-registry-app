@@ -1,5 +1,5 @@
 import { http, createConfig } from "wagmi";
-import { mainnet, baseSepolia,} from "viem/chains";
+import { baseSepolia,} from "viem/chains";
 import { metaMask } from "wagmi/connectors";
 // import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask'
 import { injected } from 'wagmi/connectors'
@@ -10,7 +10,7 @@ import { injected } from 'wagmi/connectors'
 const alchemyKey = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY;
 
 const transport = alchemyKey
-  ? http(`https://eth-mainnet.g.alchemy.com/v2/${alchemyKey}`)
+  ? http(`https://base-sepolia.g.alchemy.com/v2/${alchemyKey}`)
   : http();
 
 
@@ -35,7 +35,7 @@ const connector = injected({
 
 /* use local netwwork if it's not production */
 const metaMaskOptions = {
-  chains: [mainnet, baseSepolia],
+  chains: [baseSepolia],
   dappMetadata: {
     name: "Mec dApp",
   },
@@ -44,11 +44,11 @@ const metaMaskOptions = {
 export const getWagmiConfig = () => {
   const wagmiConfig =
     process.env.NODE_ENV === "production"  ? createConfig({
-          chains: [mainnet],
+          chains: [baseSepolia],
           ssr: true,
           connectors: [metaMask(metaMaskOptions)],
           transports: {
-            [mainnet.id]: transport
+            [baseSepolia.id]: transport
           },
         })　: createConfig({
           chains: [baseSepolia],

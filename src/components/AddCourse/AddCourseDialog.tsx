@@ -3,6 +3,7 @@ import { AchievementCredeintialFormType } from "@/types"
 import FileUpload from '@/components/FileUpload'
 import { maxSizeMB } from "@/config";
 import { useTranslation } from "@/context/LocalizedContext"
+import AchievementTypesSelector, { selection as achievementSelections} from "@/components/AddCourse/AchievementTypesSelector"
 
 interface AddCourseDialogProps {
   open: boolean;
@@ -12,6 +13,7 @@ interface AddCourseDialogProps {
 
 const defaultFormData: AchievementCredeintialFormType = {
     key_sets: [],
+    achievement_type: achievementSelections[0],
     revoked_key_sets: [],
     cannonical_id: '',
     profile_id: '',
@@ -25,6 +27,7 @@ const defaultFormData: AchievementCredeintialFormType = {
 const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddCourse }) => {
   const [step, setStep] = useState<number>(0);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const [achievement_type, setAchievementType] = useState<string>(achievementSelections[0]);
   const [formValues, setFormValues] = useState<AchievementCredeintialFormType>(defaultFormData);
   const { t } = useTranslation();
 
@@ -36,7 +39,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
     setFormValues({ ...formValues, [name]: value });
   };
   const handleImageChange = ( image: string | null ) => {
-    setFormValues({ ...formValues, image: image||'' });
+    setFormValues({ ...formValues, achievement_type, image: image||'' });
   };
 
   const handleSubmit = () => {
@@ -46,6 +49,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
 
   const resetValue = () => {
     setStep(0)
+    setAchievementType( achievementSelections[0] )
     setFormValues( defaultFormData )
   }
 
@@ -121,6 +125,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
                 onChange={handleChange}
               />
             </div>
+            <AchievementTypesSelector onSelect={setAchievementType} />
           </div>
         )}
         {step === 1 && (

@@ -27,7 +27,7 @@ const ProfileSelect: React.FC<ProfileSelectProps> = ({ profiles, selectedProfile
   };
 
   useEffect(()=> {
-    setSelectedProfileId( selectedProfile != null ? selectedProfile.id : "" )
+    setSelectedProfileId( selectedProfile != null ? selectedProfile.id : "create-new" )
   }, [ selectedProfile ])
 
   return (

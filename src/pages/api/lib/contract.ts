@@ -1,11 +1,9 @@
 import { ethers } from "ethers";
-import issuerRegistryAbi from "@/abi/issuerRegistryAbi"
-import AchievementCredentialRegistryAbi from '@/abi/AchievementCredentialRegistry'
 import { PROVIDER_URL,
           ISSUER_REGISTRY_CONTRACT_ADDRESS, 
           ACHIEVEMENT_CREDENTIAL_CONTRACT_ADDRESS } from '@/config'
-import IssuerRegistryAbi from '@/abis/issuerRegistryAbi'
-import AchievementCredentialRegistryAbi from '@/abis/AchievementCredentialRegistry'
+import { issuerRegistryAbi } from '@/abis/MEC'
+import { achievementCredentialRegistryAbi }  from '@/abis/MEC'
 
 const provider = new ethers.JsonRpcProvider(PROVIDER_URL); // Replace with your provider URL
 
@@ -31,7 +29,7 @@ export const getIssuer =  async ( address: string , profile_id: string  ) => {
 export const getAchievementCredential = async ( address: string, skill_id: string ) => {
   try {
     // Initialize the contract
-    const contract = new ethers.Contract(ACHIEVEMENT_CREDENTIAL_CONTRACT_ADDRESS, AchievementCredentialRegistryAbi, provider);
+    const contract = new ethers.Contract(ACHIEVEMENT_CREDENTIAL_CONTRACT_ADDRESS, achievementCredentialRegistryAbi, provider);
 
     // Fetch the achievement data by ID
     const achievementData = await contract.getAchievement(skill_id);

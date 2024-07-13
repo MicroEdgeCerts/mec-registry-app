@@ -1,12 +1,7 @@
-import axios from "axios";
+import axios, { type AxiosResponse} from "axios";
 import { apiURL } from '@/config'
 
 
-type ErrorReponseType = {
-  error: Error,
-  code: number,
-  message: string
-}
 
 
 type OptionType = {
@@ -23,15 +18,17 @@ export class Auth401Error{
   }
 }
 
-type CachedTokeType  = ""
+type CachedTokeType  = {
+  access_token: string 
+}
 /* #TOD middleware to keep authtoken refrehed */
 const refreshTokenMiddleware = ()=> {
 
 }
 
 /* #TOD middleware to keep authtoken refrehed */
-const getCachedToken:CachedTokeType = ()=> {
-  return ""
+const getCachedToken = (): CachedTokeType|null=> {
+  return null
 }
 
 const refreshPath = "/token/refresh";
@@ -68,13 +65,13 @@ export const ajax = async ( path: string, opt : OptionType = {} ) => {
     headers["Content-Type"] = "application/json"
   }
   data["headers"] = headers
-
+ 
   const res =  await axios(`${apiURL}/${path}`, data  )
-    .then( ( res: Response ) => { 
+    .then( ( res: AxiosResponse ) => { 
       if( res.status == 401 ){
       console.log(`got response ${res}`)
      }
-     return Promise.all( [ res.status, res.json() ]) } 
+     return Promise.all( [ res.status, res.data ]) } 
     ).then(( res )=> {
       const [ status , data ]  = res;
       switch( status ){

@@ -16,7 +16,9 @@ const getFileName = (type: string | string[], id: string): string => {
   return `${[type].flat().join("-")}-${id}.json`;
 };
 
-async function unpinFile(hashToUnpin) {
+
+// @ts-ignore
+async function unpinFile(hashToUnpin: string) {
   const url = `https://api.pinata.cloud/pinning/unpin/${hashToUnpin}`;
   const response = await axios.delete(url, {
     headers: {

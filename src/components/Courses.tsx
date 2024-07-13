@@ -9,7 +9,7 @@ import CredentailResult from "@/components/CredentialResult"
 import { SkillItem } from '@/types'
 import SkillCard from "@/components/SkillCard"
 import { useTranslation } from 'next-i18next'
-import { AddCredentialDialog } from '@/components/AddCredential'
+import { AddCredentialToLearnerDialog } from '@/components/AddCredential'
 import { RecipientProfileFormType, CredentialCertificateFormType} from '@/types'
 import { addCredential } from '@/services/CredentialService'
 import { toast } from "react-toastify";
@@ -22,10 +22,11 @@ const Courses =  ()=> {
   const [ state ] = useCourseContext();
   const { t } = useTranslation('common');
   const [ addCredentialDialogOpen, setAddCredentialDialogOpen ] = useState( false )
+  const [ resultDialogOpen, setResultDialogOpen ] = useState( false )
   const [ newCredentialResult, setNewCredentialResult ] = useState<any|null>(null)
 
 
-  const onAddCredential = ( skillItem: SkillItem) => {
+  const onAddCredentialToLearner = ( skillItem: SkillItem) => {
     setCurrentSkill( skillItem )
     setAddCredentialDialogOpen( true )
   }
@@ -33,8 +34,8 @@ const Courses =  ()=> {
     setAddCredentialDialogOpen( false )
   }
 
-  const onAddCredentialSubmit = async ( profile: RecipientProfileFormType, certificate: CredentialCertificateFormType, privateKey: string )=> {
-    const promise = addCredential( profile, certificate, privateKey );
+  const onAddCredentialToLearnerSubmit = async ( profile: RecipientProfileFormType, certificate: CredentialCertificateFormType, privateKey: string )=> {
+    const promise = addCredential( currentSkill!,  profile, certificate, privateKey );
     toast.promise(promise, {
           pending: "Registering Profile",
           success: "Profile updated",
@@ -42,12 +43,15 @@ const Courses =  ()=> {
         });
     const res = await promise;
     setNewCredentialResult( res );
+    setResultDialogOpen( true )
 
   }
 
   const onCloseNewCredential = async ()=> {
+    setResultDialogOpen( false )
     setNewCredentialResult( null )
   }
+
 
   useEffect(() => {
     if( ( state.skills || ( state.skills || [] ) as Array<SkillItem> ).length > 0 ) {
@@ -94,14 +98,14 @@ const Courses =  ()=> {
       <div className="flex flex-wrap gap-6">
         {skills.map((skill) => (
           <div key={skill.id} className="flex-grow sm:flex-grow-0 sm:w-1/2 md:w-1/3 lg:w-1/4">
-            <SkillCard skill={skill} onAddCredential={( _skill: SkillItem )=> onAddCredential(_skill )}/>
+            <SkillCard skill={skill} onAddCredentialToLearner={onAddCredentialToLearner }/>
           </div>
         ))}
       </div>
-      <AddCredentialDialog open={addCredentialDialogOpen} onClose={onAddCredentialClose} onSubmit={onAddCredentialSubmit} />
+      <AddCredentialToLearnerDialog open={addCredentialDialogOpen} onClose={onAddCredentialClose} onSubmit={onAddCredentialToLearnerSubmit} />
     </div>
   }
-  { newCredentialResult && <CredentailResult result={newCredentialResult} onClose={onCloseNewCredential}/>}
+  <CredentailResult isOpen={resultDialogOpen} result={newCredentialResult} onClose={onCloseNewCredential}/>
   </>
 
 

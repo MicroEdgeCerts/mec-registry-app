@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RecipientProfileFormType, CredentialCertificateFormType } from '@/types';
+import { RecipientProfileFormType, CredentialCertificateFormType, LocalizedString} from '@/types';
 import DatePicker from 'react-datepicker';
+import { useTranslation } from "@/context/LocalizedContext"
 import 'react-datepicker/dist/react-datepicker.css';
 
 interface AddCredentialDialogProps {
@@ -11,12 +12,9 @@ interface AddCredentialDialogProps {
 
 const defaultProfileFormData: RecipientProfileFormType = {
   id: '',
-  familyName_en: '',
-  familyName_jp: { default: '', localized: { 'ja-JP': '' } },
-  familyNamePrefix_en: '',
-  familyNamePrefix_jp: '',
-  givenName_en: '',
-  givenName_jp: ''
+  familyName: { default: '', localized: { 'ja-JP': '' } },
+  familyNamePrefix: { default: '', localized: { 'ja-JP': '' } },
+  firstName: { default: '', localized: { 'ja-JP': '' } }
 };
 
 const defaultCertificateFormData: CredentialCertificateFormType = {
@@ -29,7 +27,8 @@ const defaultCertificateFormData: CredentialCertificateFormType = {
   awardedDate: 0
 };
 
-export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, onClose, onSubmit }) => {
+export const AddCredentialToLearnerDialog: React.FC<AddCredentialDialogProps> = ({ open, onClose, onSubmit }) => {
+  const { t } = useTranslation();
   const [step, setStep] = useState<number>(0);
   const dialogRef = useRef<HTMLDivElement>(null);
   const [profileFormValues, setProfileFormValues] = useState<RecipientProfileFormType>(defaultProfileFormData);
@@ -41,15 +40,30 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProfileFormValues({ ...profileFormValues, [name]: value });
+    const [_name, locale] = name.split("_");
+    const field = profileFormValues[ _name as keyof RecipientProfileFormType ]
+    let _value = value as string | LocalizedString;
+    switch( locale ) {
+      case 'en': 
+        (field  as LocalizedString ).default = value;
+        _value = field
+        break;  
+      case 'jp': 
+        (field  as LocalizedString ).localized!['ja-JP'] = value;
+        _value = field;
+        break;
+    }
+    setProfileFormValues({ ...profileFormValues, [_name]: _value });
   };
+
+
 
   const handleCertificateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCertificateFormValues({ ...certificateFormValues, [name]: value });
   };
 
-    const handleCertificateDateChange = (date: Date|null, name: string ) => {
+  const handleCertificateDateChange = (date: Date|null, name: string ) => {
     if (date) {
       setCertificateFormValues({ ...certificateFormValues, [name]: date.getTime() });
     } else {
@@ -105,24 +119,32 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-10">
       <div ref={dialogRef} className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-xl animate-fadeIn">
-        <h2 className="text-2xl mb-4">Add New Credential</h2>
+        <h2 className="text-2xl mb-4">{t("credential.addCredTitle","Add New Credential")}</h2>
         {step === 0 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="id">Certificate ID</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="id">{t("credential.CertificateID","Certificate ID")}</label>
               <input className="w-full px-3 py-2 border rounded" type="text" name="id" value={certificateFormValues.id} onChange={handleCertificateChange} />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="id">Profile ID</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="id">{t("credential.ProfileID","Profile ID")}</label>
               <input className="w-full px-3 py-2 border rounded" type="text" name="id" value={profileFormValues.id} onChange={handleProfileChange} />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="familyName_en">Family Name (English)</label>
-              <input className="w-full px-3 py-2 border rounded" type="text" name="familyName_en" value={profileFormValues.familyName_en} onChange={handleProfileChange} />
+              <label className="block text-sm font-bold mb-2" htmlFor="givenName_en">{t("credential.FirstNameEnglish","First Name (English)")}</label>
+              <input className="w-full px-3 py-2 border rounded" type="text" name="firstName_en" value={profileFormValues.firstName.default} onChange={handleProfileChange} />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="familyName_jp">Family Name (Japanese)</label>
-              <input className="w-full px-3 py-2 border rounded" type="text" name="familyName_jp" value={profileFormValues.familyName_jp.default} onChange={handleProfileChange} />
+              <label className="block text-sm font-bold mb-2" htmlFor="givenName_jp">{t("credential.FirstNameJapanese","First Name (Japanese)")}</label>
+              <input className="w-full px-3 py-2 border rounded" type="text" name="firstName_jp" value={profileFormValues.firstName.localized!["ja-JP"]} onChange={handleProfileChange} />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-bold mb-2" htmlFor="familyName_en">{t("credential.LastNameEnglish","Last Name (English)")}</label>
+              <input className="w-full px-3 py-2 border rounded" type="text" name="familyName_en" value={profileFormValues.familyName.default} onChange={handleProfileChange} />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-bold mb-2" htmlFor="familyName_jp">{t("credential.LastNameJapanese","Last Name (Japanese)")}</label>
+              <input className="w-full px-3 py-2 border rounded" type="text" name="familyName_jp" value={profileFormValues.familyName.localized!["ja-JP"]} onChange={handleProfileChange} />
             </div>
             {/* Add other fields for familyNamePrefix_en, familyNamePrefix_jp, givenName_en, givenName_jp */}
           </div>
@@ -130,30 +152,37 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
         {step === 1 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="activityStartDate">Activity Start Date</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="activityStartDate">{t("credential.activityStartDate","Activity Start Date")}</label>
               <DatePicker
                 selected={certificateFormValues.activityStartDate ? new Date(certificateFormValues.activityStartDate) : null }
                 onChange={(date: Date|null) => handleCertificateDateChange(date, 'activityStartDate')}
                 className="w-full px-3 py-2 border rounded"
               />            </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="activityEndDate">Activity End Date</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="activityEndDate">{t("credential.activityEndDate","Activity End Date")}</label>
               <DatePicker
                 selected={certificateFormValues.activityEndDate ? new Date(certificateFormValues.activityEndDate) : null}
                 onChange={(date: Date|null) => handleCertificateDateChange(date, 'activityEndDate' )}
                 className="w-full px-3 py-2 border rounded" />
 
             </div>
-
+            <div className="mb-4">
+              <label className="block text-sm font-bold mb-2" htmlFor="validFrom">{t("credential.awardedDate","Issued Date / Awarded Date")}</label>
+              <DatePicker
+                selected={certificateFormValues.awardedDate ? new Date(certificateFormValues.awardedDate) : null}
+                onChange={(date: Date|null) => handleCertificateDateChange(date, 'awardedDate' )}
+                className="w-full px-3 py-2 border rounded"
+              />
+            </div>
             {!showExpiration && (
               <div className="mb-4">
-                <button className="text-blue-500 hover:text-blue-700" onClick={() => setShowExpiration(true)}>Add Expiration</button>
+                <button className="text-blue-500 hover:text-blue-700" onClick={() => setShowExpiration(true)}>{t("credential.addExpiration","Add Expiration")}</button>
               </div>
             )}
             {showExpiration && (
               <>
                 <div className="mb-4">
-                  <label className="block text-sm font-bold mb-2" htmlFor="validFrom">Valid From</label>
+                  <label className="block text-sm font-bold mb-2" htmlFor="validFrom">{t("credential.validFrom","Valid From")}</label>
                   <DatePicker
                     selected={certificateFormValues.validFrom ? new Date(certificateFormValues.validFrom) : null}
                     onChange={(date: Date|null) => handleCertificateDateChange(date, 'validFrom' )}
@@ -161,7 +190,7 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block text-sm font-bold mb-2" htmlFor="validTo">Valid To</label>
+                  <label className="block text-sm font-bold mb-2" htmlFor="validTo">{t("credential.validTo","Valid To")}</label>
                   <DatePicker
                     selected={certificateFormValues.validTo ? new Date(certificateFormValues.validTo) : null}
                     onChange={(date: Date|null) => handleCertificateDateChange(date, 'validTo' )}
@@ -171,7 +200,7 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
                 <div className="mb-4">
                   <button className="text-red-500 hover:text-red-700" onClick={() => {
                     setShowExpiration(false);
-                    setCertificateFormValues({ ...certificateFormValues, validFrom: undefined, validTo: undefined });
+                    setCertificateFormValues({ ...certificateFormValues, validTo: undefined });
                   }}>Remove Expiration</button>
                 </div>
               </>
@@ -181,7 +210,7 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
         {step === 2 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="privateKey">Private Key</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="privateKey">{t("credential.PrivateKey","Private Key")}</label>
               <textarea
                 id="privateKey"
                 className="w-full px-3 py-2 border rounded"
@@ -193,16 +222,19 @@ export const AddCredentialDialog: React.FC<AddCredentialDialogProps> = ({ open, 
           </div>
         )}
         {step === 3 && (
-          <div>
-            <h3 className="text-lg mb-4">Confirm Details</h3>
-            <p><strong>Profile ID:</strong> {profileFormValues.id}</p>
-            <p><strong>Family Name (English):</strong> {profileFormValues.familyName_en}</p>
-            <p><strong>Family Name (Japanese):</strong> {profileFormValues.familyName_jp.default}</p>
-            <p><strong>Certificate ID:</strong> {certificateFormValues.id}</p>
-            <p><strong>Activity Start Date:</strong> {certificateFormValues.activityStartDate}</p>
-            <p><strong>Activity End Date:</strong> {certificateFormValues.activityEndDate}</p>
-            <p><strong>Private Key:</strong> {privateKey}</p>
-            {/* Display other fields */}
+          <div className="overflow-hidden" >
+            <h3 className="text-lg mb-4">{t("credential.ConfirmDetails","Confirm Details")}</h3>
+            <p><strong>{t("credential.CertificateID","Certificate ID")}:</strong> {certificateFormValues.id}</p>
+            <p><strong>{t("credential.ProfileID","Profile ID")}:</strong> {profileFormValues.id}</p>
+            <p><strong>{t("credential.FirstNameEnglish","First Name (English)")}:</strong> {profileFormValues.firstName.default}</p>
+            <p><strong>{t("credential.FirstNameJapanese","First Name (Japanese)")}:</strong> {profileFormValues.firstName.localized!['ja-JP']}</p>
+            <p><strong>{t("credential.LastNameEnglish","Last Name (English)")}:</strong> {profileFormValues.familyName.default}</p>
+            <p><strong>{t("credential.LastNameJapanese","Last Name (Japanese)")}:</strong> {profileFormValues.familyName.localized!['ja-JP']}</p>
+            <p><strong>{t("credential.activityStartDate","Activity Start Date")}:</strong> {certificateFormValues.activityStartDate}</p>
+            <p><strong>{t("credential.activityEndDate","Activity End Date")}:</strong> {certificateFormValues.activityEndDate}</p>
+            <p><strong>{t("credential.awardedDate","Issued Date / Awarded Date")}:</strong> {certificateFormValues.awardedDate}</p>
+            <p><strong>{t("credential.PrivateKey","Private Key")}:</strong> {privateKey.substr(0,100)}...</p>
+            <p><strong>{t("credential.validFrom","Valid From")}:</strong> {certificateFormValues.validFrom}</p>
           </div>
         )}
         <div className="flex justify-between mt-4">

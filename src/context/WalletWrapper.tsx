@@ -1,12 +1,11 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
-import { WagmiProvider, useConnect } from "wagmi";
+import { WagmiProvider,  } from "wagmi";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ProfileContextProvider from "./ProfileContext";
 import { type Address, createWalletClient, custom } from "viem";
-import {  useWalletClient, type UseWalletClientReturnType, type UseClientReturnType, useClient  } from "wagmi";
+import { type UseClientReturnType, useClient  } from "wagmi";
 import { AlchemyProvider } from 'ethers'  
 import config, { ALCHEMY_API_KEY } from "@/config";
-import { injected } from 'wagmi/connectors'
 
 /* 
   Wraps state and actions for 
@@ -18,7 +17,7 @@ export enum Web3Status {
   NoWallet = "No wallet",
 }
 
-/* --- wagmi library context ------------------------*/
+/* --- wagmi library context ------------------------*/  
 const queryClient = new QueryClient();
 
 interface WagmiWalletWrapperPropsType {
@@ -74,7 +73,6 @@ type WalletContextProviderPropType = {
 };
 
 const WalletContextProvider = ({ children }: WalletContextProviderPropType) => {
-  const walletClient = useWalletClient();
   const client = useClient();
 
   const [currentState, setState] =

@@ -2,9 +2,7 @@
  * this class will handle contract messaging.
  */
 import React, { useEffect, useState, createContext, useContext } from "react";
-import { createPublicClient, http,  custom, createWalletClient } from 'viem'
-import { baseSepolia } from 'viem/chains'
-import { ethers, Contract } from "ethers";
+import { getBaseContractParam } from "@/utils/contractUtil"
 import {
   useWriteIssuerRegistryRegisterIssuer,
   useReadIssuerRegistryGetIssuerDataByAddress,
@@ -19,13 +17,14 @@ import type {
 } from "@wagmi/core";
 import { useWalletContext, type WalletStateTypes } from "./WalletWrapper";
 import type { Address } from "viem";
-import { useWriteContract, useConnectorClient } from 'wagmi'
+import {  useConnectorClient } from 'wagmi'
 import { useClient, type UseClientReturnType,  useChainId } from "wagmi";
 import type {
   ProfileRegistryCreateRequest,
   ProfileRegistryDataType,
   ProfileContract,
-  BaseContractParamType
+  BaseContractParamType,
+  Profile
 } from "@/types";
 import {  writeContractWitnSimulate} from '@/utils/contractUtil'
 import { getMetaFile } from "@/utils/ipfsService";
@@ -40,8 +39,8 @@ export type IssuerData = {
 
 type ContractActionType = {
   getProfile: () => Promise<boolean>;
-  getIssuersByTokenId: (tokenId: number) => ProfileRegistryDataType | null;
-  signData: (message: string) => string;
+  getIssuersByTokenId: (tokenId: string) => Promise<ProfileRegistryDataType | null>;
+  signData: (message: string) => Promise<string>;
   writeProfile: (
     issuer: ProfileRegistryCreateRequest,
   ) => Promise<string | null>;
@@ -86,8 +85,8 @@ const defaultState: ContractStateType = {
 };
 const defaultActions = {
   getProfile: () => Promise.resolve(false),
-  signData: () => "",
-  getIssuersByTokenId: () => null,
+  signData: () => Promise.resolve(""),
+  getIssuersByTokenId:  () => { return Promise.resolve(null) },
   writeProfile: () => Promise.resolve(null),
   setCurrentProfile: () => null
 };
@@ -113,23 +112,19 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
 
   const currentConnection = useConnectorClient()
 
-  const profileWrite = useWriteIssuerRegistryRegisterIssuer({enable: false});
+  const profileWrite = useWriteIssuerRegistryRegisterIssuer();
   const {
-    data: hash,
-    error,
-    isPending,
-    isSuccess,
-    writeContractAsync
+    data: hash
   } = profileWrite;
   const [accountState] = useWalletContext();
 
   const readIssuerByTokenId = useReadIssuerRegistryGetIssuerDataByTokenId({
-    enabled: issuerAddress !== null, // Tanstack config to prevent the request from being triggered onload
+    // @ts-ignore
+    enabled: (( issuerAddress as any) !== null), // Tanstack config to prevent the request from being triggered onload
   });
 
   const readIssuerFromContract = useReadIssuerRegistryGetIssuerDataByAddress({
-    args: [`${issuerAddress}`],
-    enabled: issuerAddress !== null, // Tanstack config to prevent the request from being triggered onload
+    args: [`${issuerAddress!}`],
   });
   const chainId = useChainId();
 
@@ -140,19 +135,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
   const issuerFetchQuery = readIssuerFromContract.queryKey;
   // ipfs {data, isPending, isSuccess, isError, signMessage}
 
-  const getBaseIssuerRegistryContractParam = () => {
-    const keys = Object.keys(issuerRegistryAddress);
-    const values = Object.values(issuerRegistryAddress);
-    const address = values[keys.indexOf(`${chainId}`)];
-    const account = issuerAddress as Address;
-    return {
-      address,
-      account,
-      abi: issuerRegistryAbi,
-    };
-  };
-
-  const getProfileContractFromMeta = async (item: ProfileContract) => {
+  const getProfileContractFromMeta = async (item: ProfileContract):Promise<ProfileContract> => {
     //parse string contract
     // from meta field, get pinned IPFS
     const contract = JSON.parse(item.meta);
@@ -188,22 +171,19 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
 
   useEffect(() => {
 
-    if (client !== null && issuerAddress != null) {
-      setBaseContractParam(getBaseIssuerRegistryContractParam());
+    if (typeof window != undefined &&  chainId && client !== null && issuerAddress != null) {
+      const account = issuerAddress as Address;
+      console.log(`#YF -----chainId :${chainId}`)
+      const param = getBaseContractParam( 
+        issuerRegistryAddress,
+        chainId,
+        issuerRegistryAbi,
+        account );
+      setBaseContractParam(param);
     } else {
       setBaseContractParam(null);
     }
-  }, [client, issuerAddress]);
-
-  // useEffect(() => {
-  //   setState({
-  //     ...state,
-  //     profileInitialized: false,
-  //     profileRegisterError: error,
-  //     profileRegistering: isPending,
-  //     profileRegisted: isSuccess,
-  //   });
-  // }, [error, isPending, isSuccess]);
+  }, [client, chainId, issuerAddress]);
 
   useEffect(() => {
     setIssuerAddress((accountState as WalletStateTypes).address || null);
@@ -238,7 +218,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
           
 
           let res = await readIssuerFromContract.refetch({
-            ...issuerFetchQuery,
+            ...( issuerFetchQuery as any),
           });
 
           let _profileArr = [...(res.data || [])].flat().map((item) => {
@@ -265,7 +245,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
             /**  [description] */
             const profiles: ProfileContract[] = new Array(_profileArr.length);
             await Promise.all(
-              _profileArr.map((item: ProfileContract, i: number) => {
+              _profileArr.map((item: any, i: number) => {
                 return new Promise(async (resolve) => {
                   const data = await getProfileContractFromMeta(item);
                   profiles[i] = data;
@@ -284,7 +264,7 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
         }
         return true;
 
-      } catch (err) {
+      } catch (err: any | Error | null) {
         console.info(err);
         setState({
           ...state,
@@ -305,11 +285,11 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
 
     //   }
     // },
-    getIssuersByTokenId: async (tokenId: string) => {
+    getIssuersByTokenId: async (tokenId: string): Promise<ProfileRegistryDataType|null> => {
       const res = await readIssuerByTokenId.refetch({
-        args: [ tokenId],
-      });
-      return res;
+        args: [ tokenId ] ,
+      } as any);
+      return res as any as ProfileRegistryDataType;
     },
     readIssuers: () => [],
     writeProfile: async (
@@ -327,14 +307,14 @@ const ProfileContextProvider = ({ children }:ProfileContextProviderPropType) => 
 
         if (client &&  baseContractParam != null) {
           
-          let hash = await writeContractWitnSimulate({
+          res = await writeContractWitnSimulate({
             ...baseContractParam,
             functionName: "registerIssuer",
             args: [issuerData.id, JSON.stringify(issuerData) as string],
           })
 
           ///=======
-          console.info(`simulateContract === ${JSON.stringify(res)}`)
+          console.info(`simulateContract === ${JSON.stringify(res)} `)
           
           setState({
             ...state,

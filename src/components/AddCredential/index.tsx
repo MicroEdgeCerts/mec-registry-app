@@ -1,1 +1,1 @@
-export { AddCredentialDialog }  from './AddCredentialDialog'
+export { AddCredentialToLearnerDialog }  from './AddCredentialToLearnerDialog'

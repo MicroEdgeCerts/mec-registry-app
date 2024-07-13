@@ -20,7 +20,7 @@ export interface ProfileRegistryCreateRequest {
 
 export interface ProfileRegistryDataType {
   id: string;
-  address: string;
+  owner: string;
   meta: string;
   tokenId: number;
 }
@@ -73,6 +73,7 @@ export interface AchievementCredeintialFormType  {
   id?: bigint; 
   key_sets: string[]; 
   revoked_key_sets: string[]; 
+  achievement_type: string;
   cannonical_id: string; 
   image?: string; 
   profile_id: string; 
@@ -111,12 +112,9 @@ export type BaseContractParamType = {
 
 export type RecipientProfileFormType = {
   id: string,
-  familyName_en: string,
-  familyName_jp: LocalizedString
-  familyNamePrefix_en: string
-  familyNamePrefix_jp: string
-  givenName_en: string
-  givenName_jp: string
+  familyName: LocalizedString
+  familyNamePrefix: LocalizedString
+  firstName: LocalizedString
 }
 
 export type CredentialCertificateFormType = {
@@ -130,6 +128,6 @@ export type CredentialCertificateFormType = {
 }
 
 
-type CredentialResult = {
+export type CredentialResult = {
   
 }

@@ -1,16 +1,13 @@
 import type { Address } from "viem";
-import { createPublicClient, http,  custom, createWalletClient, fallback} from 'viem'
-import { type UseWriteContractParameters, type Config, } from 'wagmi'
+import { createPublicClient, http,  custom, createWalletClient, type WalletClient } from 'viem'
 
-import { getPublicClient as wagmiGetPublicClient, 
-         getWalletClient as wagmiGetWalletClient,
-         writeContract as wagmiWriteContract } from '@wagmi/core'
+import { getWalletClient as wagmiGetWalletClient,
+          } from '@wagmi/core'
 import { BaseContractParamType } from '@/types'
-import { getWagmiConfig, publicClient } from '@/config'
+import { getWagmiConfig } from '@/config'
 import { baseSepolia } from 'viem/chains'
 import { BrowserProvider, JsonRpcSigner } from 'ethers'
-import { reconnect, simulateContract as simulateContractWagmi } from '@wagmi/core'
-import { injected } from '@wagmi/connectors'
+import { simulateContract as simulateContractWagmi } from '@wagmi/core'
 
 export const getBaseContractParam = ( addresses: any, chainId: any,  abi: any, account: Address, functionName: string | null = null ): BaseContractParamType=> {
   const keys = Object.keys(addresses);
@@ -51,7 +48,7 @@ export const writeContractWitnSimulate = async( param: any ) => {
   const publicClient = getPublicClient();
   const walletClient = getWalletClient();
   const sim = await publicClient.simulateContract(param)
-  let hash = await walletClient.writeContract(sim.request)
+  let hash = await walletClient.writeContract(sim.request as any)
   const transaction = await publicClient.waitForTransactionReceipt( {hash} );
   return transaction.transactionHash;
 }
@@ -60,6 +57,9 @@ export const writeContractWitnSimulate = async( param: any ) => {
 
 export function walletClientToSigner(walletClient: WalletClient) {
   const { account, chain, transport } = walletClient
+  if( ! chain || !account) {
+    throw new Error("no chain or account")
+  }
   const network = {
     chainId: chain.id,
     name: chain.name,

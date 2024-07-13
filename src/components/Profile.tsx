@@ -1,4 +1,4 @@
-// pages/profile.tsx
+  // pages/profile.tsx
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import EditIcon from "@/components/icons/EditIcon"; // Tailwind Hero Icons
 import iconStyles from "@/components/icons/icon.module.scss";
@@ -193,6 +193,7 @@ export default function Profile() {
 
   const onCreateIssuer = ()=> {
     setProfile( defaultProfileData )
+    contractAction.setCurrentProfile(null);
     setIsEditing(true)
   }
 
@@ -253,16 +254,19 @@ export default function Profile() {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Profile</h1>
-        <button
-          onClick={() => setIsEditing(!isEditing)}
-          className={`${iconStyles.icon}`}
-        >
-          <EditIcon strokeColor={"#64748b"} className="h-6 w-6 text-gray-500" />
-        </button>    
-        <ProfileSelect selectedProfile={currentProfile} profiles={ profileList} onCreate={onCreateIssuer} onSelect={ onProfileSelect } />
-      </div>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Profile</h1>
+          { !isEditing &&
+            <button
+              onClick={() => setIsEditing(!isEditing)}
+              className={`ml-1 ${iconStyles.icon}`}
+            >
+              <EditIcon strokeColor={"#077A86"} className="h-6 w-6 text-gray-500" />
+            </button>    
+          }
+          { isProfileAvailable && <ProfileSelect selectedProfile={currentProfile} profiles={ profileList} 
+          onCreate={onCreateIssuer} onSelect={ onProfileSelect } /> }
+        </div>
       {isEditing ? (
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Form fields */}
