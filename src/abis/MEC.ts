@@ -12,7 +12,7 @@ import {
 /**
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const achievementCredentialRegistryAbi = [
   { type: 'constructor', inputs: [], stateMutability: 'nonpayable' },
@@ -148,18 +148,18 @@ export const achievementCredentialRegistryAbi = [
 /**
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const achievementCredentialRegistryAddress = {
-  1337: '0x6EF3Ee408F9D152777660Dd551B7174525ac2a70',
-  31337: '0x6EF3Ee408F9D152777660Dd551B7174525ac2a70',
-  84532: '0x6EF3Ee408F9D152777660Dd551B7174525ac2a70',
+  1337: '0x86F363056422E6Ab1A5A5CaC294b0A69076c406a',
+  31337: '0x86F363056422E6Ab1A5A5CaC294b0A69076c406a',
+  84532: '0x86F363056422E6Ab1A5A5CaC294b0A69076c406a',
 } as const
 
 /**
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const achievementCredentialRegistryConfig = {
   address: achievementCredentialRegistryAddress,
@@ -173,8 +173,8 @@ export const achievementCredentialRegistryConfig = {
 /**
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const issuerRegistryAbi = [
   {
@@ -309,21 +309,21 @@ export const issuerRegistryAbi = [
 /**
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const issuerRegistryAddress = {
-  1337: '0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F',
-  31337: '0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F',
-  80002: '0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F',
-  84532: '0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F',
+  1337: '0x0256722106AACbE0433641b49619B9F1dac1b08e',
+  31337: '0x0256722106AACbE0433641b49619B9F1dac1b08e',
+  80002: '0x0256722106AACbE0433641b49619B9F1dac1b08e',
+  84532: '0x0256722106AACbE0433641b49619B9F1dac1b08e',
 } as const
 
 /**
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const issuerRegistryConfig = {
   address: issuerRegistryAddress,
@@ -339,7 +339,7 @@ export const issuerRegistryConfig = {
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useReadAchievementCredentialRegistry =
   /*#__PURE__*/ createUseReadContract({
@@ -352,7 +352,7 @@ export const useReadAchievementCredentialRegistry =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useReadAchievementCredentialRegistryGetAchievement =
   /*#__PURE__*/ createUseReadContract({
@@ -366,7 +366,7 @@ export const useReadAchievementCredentialRegistryGetAchievement =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useReadAchievementCredentialRegistryGetAchievementsByProfileId =
   /*#__PURE__*/ createUseReadContract({
@@ -380,7 +380,7 @@ export const useReadAchievementCredentialRegistryGetAchievementsByProfileId =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWriteAchievementCredentialRegistry =
   /*#__PURE__*/ createUseWriteContract({
@@ -393,7 +393,7 @@ export const useWriteAchievementCredentialRegistry =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWriteAchievementCredentialRegistryCreateOrUpdateAchievement =
   /*#__PURE__*/ createUseWriteContract({
@@ -407,7 +407,7 @@ export const useWriteAchievementCredentialRegistryCreateOrUpdateAchievement =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWriteAchievementCredentialRegistryRevokeAchievement =
   /*#__PURE__*/ createUseWriteContract({
@@ -421,7 +421,7 @@ export const useWriteAchievementCredentialRegistryRevokeAchievement =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useSimulateAchievementCredentialRegistry =
   /*#__PURE__*/ createUseSimulateContract({
@@ -434,7 +434,7 @@ export const useSimulateAchievementCredentialRegistry =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useSimulateAchievementCredentialRegistryCreateOrUpdateAchievement =
   /*#__PURE__*/ createUseSimulateContract({
@@ -448,7 +448,7 @@ export const useSimulateAchievementCredentialRegistryCreateOrUpdateAchievement =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useSimulateAchievementCredentialRegistryRevokeAchievement =
   /*#__PURE__*/ createUseSimulateContract({
@@ -462,7 +462,7 @@ export const useSimulateAchievementCredentialRegistryRevokeAchievement =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWatchAchievementCredentialRegistryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -475,7 +475,7 @@ export const useWatchAchievementCredentialRegistryEvent =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWatchAchievementCredentialRegistryAchievementAddedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -489,7 +489,7 @@ export const useWatchAchievementCredentialRegistryAchievementAddedEvent =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -503,7 +503,7 @@ export const useWatchAchievementCredentialRegistryAchievementRevokedEvent =
  *
  * -
  * -
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x6EF3Ee408F9D152777660Dd551B7174525ac2a70)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x86F363056422E6Ab1A5A5CaC294b0A69076c406a)
  */
 export const useWatchAchievementCredentialRegistryAchievementUpdatedEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -517,8 +517,8 @@ export const useWatchAchievementCredentialRegistryAchievementUpdatedEvent =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistry = /*#__PURE__*/ createUseReadContract({
   abi: issuerRegistryAbi,
@@ -530,8 +530,8 @@ export const useReadIssuerRegistry = /*#__PURE__*/ createUseReadContract({
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryGetCurrentTokenId =
   /*#__PURE__*/ createUseReadContract({
@@ -545,8 +545,8 @@ export const useReadIssuerRegistryGetCurrentTokenId =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryGetIssuerData =
   /*#__PURE__*/ createUseReadContract({
@@ -560,8 +560,8 @@ export const useReadIssuerRegistryGetIssuerData =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryGetIssuerDataByAddress =
   /*#__PURE__*/ createUseReadContract({
@@ -575,8 +575,8 @@ export const useReadIssuerRegistryGetIssuerDataByAddress =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryGetIssuerDataById =
   /*#__PURE__*/ createUseReadContract({
@@ -590,8 +590,8 @@ export const useReadIssuerRegistryGetIssuerDataById =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryGetIssuerDataByTokenId =
   /*#__PURE__*/ createUseReadContract({
@@ -605,8 +605,8 @@ export const useReadIssuerRegistryGetIssuerDataByTokenId =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryGetIssuerOwner =
   /*#__PURE__*/ createUseReadContract({
@@ -620,8 +620,8 @@ export const useReadIssuerRegistryGetIssuerOwner =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useReadIssuerRegistryNextTokenId =
   /*#__PURE__*/ createUseReadContract({
@@ -635,8 +635,8 @@ export const useReadIssuerRegistryNextTokenId =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useWriteIssuerRegistry = /*#__PURE__*/ createUseWriteContract({
   abi: issuerRegistryAbi,
@@ -648,8 +648,8 @@ export const useWriteIssuerRegistry = /*#__PURE__*/ createUseWriteContract({
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useWriteIssuerRegistryRegisterIssuer =
   /*#__PURE__*/ createUseWriteContract({
@@ -663,8 +663,8 @@ export const useWriteIssuerRegistryRegisterIssuer =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useSimulateIssuerRegistry =
   /*#__PURE__*/ createUseSimulateContract({
@@ -677,8 +677,8 @@ export const useSimulateIssuerRegistry =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useSimulateIssuerRegistryRegisterIssuer =
   /*#__PURE__*/ createUseSimulateContract({
@@ -692,8 +692,8 @@ export const useSimulateIssuerRegistryRegisterIssuer =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useWatchIssuerRegistryEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
@@ -706,8 +706,8 @@ export const useWatchIssuerRegistryEvent =
  *
  * -
  * -
- * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
- * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0xBE8384C58215210A50fD4c65689Dbd6595a6Aa1F)
+ * - [__View Contract on Polygon Amoy Polygon Scan__](https://amoy.polygonscan.com/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
+ * - [__View Contract on Base Sepolia Basescan__](https://sepolia.basescan.org/address/0x0256722106AACbE0433641b49619B9F1dac1b08e)
  */
 export const useWatchIssuerRegistryIssuerRegisteredEvent =
   /*#__PURE__*/ createUseWatchContractEvent({
