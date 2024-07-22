@@ -4,7 +4,6 @@ import FileUpload from '@/components/FileUpload'
 import { maxSizeMB } from "@/config";
 import { useTranslation } from "@/context/LocalizedContext"
 import AchievementTypesSelector, { selection as achievementSelections} from "@/components/AddCourse/AchievementTypesSelector"
-
 interface AddCourseDialogProps {
   open: boolean;
   onClose: () => void;
@@ -27,7 +26,6 @@ const defaultFormData: AchievementCredeintialFormType = {
 const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddCourse }) => {
   const [step, setStep] = useState<number>(0);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const [achievement_type, setAchievementType] = useState<string>(achievementSelections[0]);
   const [formValues, setFormValues] = useState<AchievementCredeintialFormType>(defaultFormData);
   const { t } = useTranslation();
 
@@ -39,7 +37,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
     setFormValues({ ...formValues, [name]: value });
   };
   const handleImageChange = ( image: string | null ) => {
-    setFormValues({ ...formValues, achievement_type, image: image||'' });
+    setFormValues({ ...formValues, image: image||'' });
   };
 
   const handleSubmit = () => {
@@ -49,8 +47,14 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
 
   const resetValue = () => {
     setStep(0)
-    setAchievementType( achievementSelections[0] )
     setFormValues( defaultFormData )
+  }
+
+  const setAchievement = (achievement_type:string) => {
+    setFormValues({
+      ...formValues,
+      achievement_type,
+    })
   }
 
   const processClose = ()=> {
@@ -93,7 +97,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
         {step === 0 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="name_en">Course Name (English)</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="name_en">{ t("skill.course.NameEn","Course Name (English)")}</label>
               <input
                 className="w-full px-3 py-2 border rounded"
                 id="name_en"
@@ -104,7 +108,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="name_ja">Course Name (Japanese)</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="name_ja">{ t("skill.course.NameJa","Course Name (Japanese)")}</label>
               <input
                 className="w-full px-3 py-2 border rounded"
                 id="name_ja"
@@ -115,7 +119,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="url">Website</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="url">{ t("skill.course.website","Website")}</label>
               <input
                 className="w-full px-3 py-2 border rounded"
                 id="url"
@@ -125,13 +129,16 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
                 onChange={handleChange}
               />
             </div>
-            <AchievementTypesSelector onSelect={setAchievementType} />
+            <div>
+              <label className="block text-sm font-bold mb-2">{ t("skill.course.achievementType","AchievementType")}</label>
+              <AchievementTypesSelector onSelect={ setAchievement } />
+            </div>
           </div>
         )}
         {step === 1 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="description_en">Description (English)</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="description_en">{ t("skill.course.descriptionEn","Description (English)")}</label>
               <textarea
                 className="w-full px-3 py-2 border rounded"
                 id="description_en"
@@ -141,7 +148,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
               />
             </div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="description_ja">Description (Japanese)</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="description_ja">{ t("skill.course.descriptionJa","Description (Japanese)")}</label>
               <textarea
                 className="w-full px-3 py-2 border rounded"
                 id="description_ja"
@@ -155,7 +162,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
         {step === 2 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" >Image</label>
+              <label className="block text-sm font-bold mb-2" >{ t("skill.course.image","Image")}</label>
               <FileUpload 
                 image={formValues.image || ''}
                 onChange={ handleImageChange }
@@ -167,7 +174,7 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
         {step === 3 && (
           <div>
             <div className="mb-4">
-              <label className="block text-sm font-bold mb-2" htmlFor="key_sets">Public Keys</label>
+              <label className="block text-sm font-bold mb-2" htmlFor="key_sets">{ t("skill.course.publicKeys","Public Keys")}</label>
               <textarea
                 id="key_sets"
                 className="w-full px-3 py-2 border rounded"
@@ -178,11 +185,24 @@ const AddCourseDialog: React.FC<AddCourseDialogProps> = ({ open, onClose, onAddC
             </div>
           </div>
         )}
+        {step === 4 && (
+          <div>
+            <h3 className="text-xl font-bold mb-4">{ t("skill.course.ConfirmDetail","Confirm Your Course Details")}</h3>
+            <p className="mb-2"><strong>{ t("skill.course.NameEn","Course Name (English)")}:</strong> {formValues.name_en}</p>
+            <p className="mb-2"><strong>{ t("skill.course.NameJa","Course Name (Japanese)")}:</strong> {formValues.name_ja}</p>
+            <p className="mb-2"><strong>{ t("skill.course.website","Website")}:</strong> {formValues.url}</p>
+            <p className="mb-2"><strong>{ t("skill.course.descriptionEn","Description (English)")}:</strong> {formValues.description_en}</p>
+            <p className="mb-2"><strong>{ t("skill.course.descriptionJa","Description (Japanese)")}:</strong> {formValues.description_ja}</p>
+            <p className="mb-2"><strong>{ t("skill.course.achievementType","AchievementType")}:</strong> {formValues.achievement_type}</p>
+            {formValues.image && <img src={formValues.image} alt="Uploaded" className="w-32 h-32 object-cover mb-4" />}
+          </div>
+        )}
         <div className="flex justify-between mt-4">
           {step > 0 && <button onClick={handleBack} className="px-4 py-2 bg-gray-500 text-white rounded">Back</button>}
-          {step < 3 && <button onClick={handleNext} className="px-4 py-2 bg-blue-500 text-white rounded">Next</button>}
-          {step === 3 && <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded">Submit</button>}
+          {step < 4 && <button onClick={handleNext} className="px-4 py-2 bg-blue-500 text-white rounded">Next</button>}
+          {step === 4 && <button onClick={handleSubmit} className="px-4 py-2 bg-green-500 text-white rounded">Submit</button>}
         </div>
+
       </div>
     </div>
   );

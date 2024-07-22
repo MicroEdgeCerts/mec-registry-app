@@ -3,7 +3,6 @@ import { apiURL } from '@/config'
 
 
 
-
 type OptionType = {
   params?: string | Record<string,string|null> | null, 
   method?: string
@@ -53,20 +52,21 @@ export const ajax = async ( path: string, opt : OptionType = {} ) => {
   let useMutipart = false;
   if( data['method'] !="GET" && opt.data ) {
     if ( typeof opt.data  == 'string' ) {
-      data['body'] = opt.data
+      data['data'] = opt.data
     } else if ( opt.data  instanceof FormData ) {
-      data['body'] = opt.data
+      data['data'] = opt.data
       useMutipart = true;
     } else {
-      data['body'] = JSON.stringify( opt.data )
+      data['data'] = JSON.stringify( opt.data )
     }
   }
   if( ! useMutipart && !headers["Content-Type"] ) {
     headers["Content-Type"] = "application/json"
   }
   data["headers"] = headers
- 
-  const res =  await axios(`${apiURL}/${path}`, data  )
+  const _path = `${apiURL}/${path}`;
+  data['url'] = _path;
+  const res =  await axios( data )
     .then( ( res: AxiosResponse ) => { 
       if( res.status == 401 ){
       console.log(`got response ${res}`)

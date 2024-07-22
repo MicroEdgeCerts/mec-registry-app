@@ -59,10 +59,12 @@ describe('AddCourseDialog Component', () => {
     // Step 4
     expect(screen.getByLabelText(/Public Keys/i)).toBeInTheDocument();
     fireEvent.change(screen.getByLabelText(/Public Keys/i), { target: { value: 'key1,key2' } });
-    fireEvent.click(screen.getByText(/Submit/i));
+    fireEvent.click(screen.getByText(/Next/i));
 
+    fireEvent.click(screen.getByText(/Submit/i));
     expect(onAddCourseMock).toHaveBeenCalledWith({
       ...defaultFormData,
+      achievement_type: "Achievement",
       name_en: 'Course Name',
       url: 'http://example.com',
       description_en: 'Course Description',

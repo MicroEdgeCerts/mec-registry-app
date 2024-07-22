@@ -36,7 +36,7 @@ export const selection = [
 ];
 
 type Props = {
-  onSelect: (selectedOption: string) => void;
+  onSelect: (achievement_type: string) => void;
 };
 
 const AchievementTypesSelector: React.FC<Props> = ({ onSelect }) => {
@@ -50,9 +50,6 @@ const AchievementTypesSelector: React.FC<Props> = ({ onSelect }) => {
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      <label className="block text-sm font-medium text-gray-700">
-        {t(`achievement.type.Select`,'Select a Credential Type')}
-      </label>
       <select
         className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
         value={selectedOption}

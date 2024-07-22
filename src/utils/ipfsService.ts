@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { PinataRes } from "@/types/nft";
 import type { UseClientReturnType } from "wagmi";
 import type { Address } from "viem";
-import { ProfileMetaItem, AchievementCredeintial  } from "@/types";
+import { ProfileMetaItem, AchievementCredeintialMetaItem  } from "@/types";
 
 const getSignedData = async (
   client: UseClientReturnType,
@@ -30,7 +30,7 @@ const getSignedData = async (
 };
 
 export const createMetaFile = async (
-  metaData: ProfileMetaItem | AchievementCredeintial,
+  metaData: ProfileMetaItem | AchievementCredeintialMetaItem,
   client: UseClientReturnType,
   address: Address,
 ): Promise<string> => {

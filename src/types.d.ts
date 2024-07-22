@@ -88,16 +88,17 @@ export interface AchievementCredeintialRequestType extends AchievementCredeintia
   meta: string
 }
 
-export interface AchievementCredeintial {
+export interface AchievementCredeintialMetaItem {
   image?: string;
-  name: string
+  name: string;
+  achievement_type: string;
   name_extended: LocalizedString
   description: String
   description_extended: LocalizedString
   url: string
 }
 
-export type SkillItem = AchievementCredeintial & {
+export type SkillItem = AchievementCredeintialMetaItem & {
   id: number,
   owner_id: string,
   profile_id: string
@@ -129,5 +130,5 @@ export type CredentialCertificateFormType = {
 
 
 export type CredentialResult = {
-  
+  jws: string
 }

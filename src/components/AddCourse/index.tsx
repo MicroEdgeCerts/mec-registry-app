@@ -3,10 +3,11 @@ import AddButton from "@/components/AddButton";
 import AddCourseDialog from './AddCourseDialog'
 import { useCourseContext } from "@/context/AchievementCredentialRegistryContext";
 import { useWalletContext, type WalletStateTypes } from "@/context/WalletWrapper"
-import { AchievementCredeintialFormType, AchievementCredeintial } from '@/types'
+import { AchievementCredeintialFormType, AchievementCredeintialMetaItem } from '@/types'
 import { toast } from "react-toastify";
 import { createMetaFile } from "@/utils/ipfsService";
 import type { Address } from 'viem'
+import { getJWK } from '@/utils/jwsUtil'
 
 type AddOrUpdateCoursesPropType = {
   isSimple: boolean
@@ -25,7 +26,7 @@ const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({ isSimple }) 
     setOpen( true );
   }
 
-  const uploadMeta = async ( metaData: AchievementCredeintial ): Promise<string> => {
+  const uploadMeta = async ( metaData: AchievementCredeintialMetaItem ): Promise<string> => {
       const meta = await createMetaFile(
         metaData,
         walletClient,
@@ -34,10 +35,11 @@ const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({ isSimple }) 
       return meta
   }
 
-  const setFormDataToMeta = ( formData: AchievementCredeintialFormType ) : AchievementCredeintial => {
+  const setFormDataToMeta = ( formData: AchievementCredeintialFormType ) : AchievementCredeintialMetaItem => {
     return {
       image: formData.image,
       name: formData.name_en,
+      achievement_type: formData.achievement_type,
       name_extended: {
         default: formData.name_en,
         localized: {
@@ -71,10 +73,14 @@ const AddOrUpdateCourses: React.FC<AddOrUpdateCoursesPropType> = ({ isSimple }) 
       })
       const meta = await uploadMetaPromise
       console.info("#YF 1 created IPFS : " + JSON.stringify( meta ) )
-
+      let currentCourse = course;
+      const keyWait = currentCourse.key_sets.map( ( public_key ) => getJWK( public_key ) );
+      let keySets = await Promise.all(keyWait);
+      const key_sets = keySets.map( ( item )=> JSON.stringify( item  ) );
       /*---- Include Meta to contract -------------*/
       const res = courseAction.writeSkill({
         ...course,
+        key_sets,
         meta
       });
       console.info("#YF 3 Contract Created : " + res )

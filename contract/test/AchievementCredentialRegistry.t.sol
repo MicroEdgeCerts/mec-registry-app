@@ -16,7 +16,6 @@ contract AchievementCredentialRegistryTest is Test {
         keySets[0] = "key1";
         string[] memory revokedKeySets = new string[](0);
         string memory cannonicalId = "cannonical_id_1";
-        string memory image = "image_url_1";
         string memory meta = "meta_data_1";
         string memory profile_id = "profile_owner";
         AchievementCredentialRegistry.OwnerType ownerType = AchievementCredentialRegistry.OwnerType.BlockChain;
@@ -26,7 +25,6 @@ contract AchievementCredentialRegistryTest is Test {
             keySets, 
             revokedKeySets, 
             cannonicalId, 
-            image, 
             meta, 
             profile_id,
             ownerType);
@@ -35,7 +33,6 @@ contract AchievementCredentialRegistryTest is Test {
         assertEq(achievement.id, 1);
         assertEq(achievement.key_sets[0], "key1");
         assertEq(achievement.cannonical_id, "cannonical_id_1");
-        assertEq(achievement.image, "image_url_1");
         assertEq(achievement.meta, "meta_data_1");
         assertEq(achievement.profile_id, profile_id);
         assertEq(uint256(achievement.owner_type), uint256(AchievementCredentialRegistry.OwnerType.BlockChain));
@@ -46,7 +43,6 @@ contract AchievementCredentialRegistryTest is Test {
         keySets[0] = "key1";
         string[] memory revokedKeySets = new string[](0);
         string memory cannonicalId = "cannonical_id_1";
-        string memory image = "image_url_1";
         string memory meta = "meta_data_1";
         string memory profile_id = "profile_owner";
 
@@ -57,7 +53,6 @@ contract AchievementCredentialRegistryTest is Test {
             keySets, 
             revokedKeySets, 
             cannonicalId, 
-            image, 
             meta, 
             profile_id, 
             ownerType);
@@ -67,7 +62,6 @@ contract AchievementCredentialRegistryTest is Test {
         string[] memory newRevokedKeySets = new string[](1);
         newRevokedKeySets[0] = "revoked_key1";
         string memory newCannonicalId = "cannonical_id_2";
-        string memory newImage = "image_url_2";
         string memory newMeta = "meta_data_2";
         string memory newProfileId = "profile_2";
 
@@ -78,7 +72,6 @@ contract AchievementCredentialRegistryTest is Test {
             newKeySets, 
             newRevokedKeySets, 
             newCannonicalId, 
-            newImage, 
             newMeta, 
             newProfileId, 
             newOwnerType);
@@ -88,7 +81,6 @@ contract AchievementCredentialRegistryTest is Test {
         assertEq(updatedAchievement.key_sets[0], "key2");
         assertEq(updatedAchievement.revoked_key_sets[0], "revoked_key1");
         assertEq(updatedAchievement.cannonical_id, "cannonical_id_2");
-        assertEq(updatedAchievement.image, "image_url_2");
         assertEq(updatedAchievement.meta, "meta_data_2");
         assertEq(updatedAchievement.profile_id, newProfileId );
         assertEq(uint256(updatedAchievement.owner_type), uint256(AchievementCredentialRegistry.OwnerType.BlockChain));
@@ -101,12 +93,11 @@ contract AchievementCredentialRegistryTest is Test {
         string[] memory revokedKeySets = new string[](0);
         string memory cannonicalId = "cannonical_id_1";
         vm.warp(block.timestamp + 1 days);
-        string memory image = "image_url_1";
         string memory meta = "meta_data_1";
         string memory ownerSrc = "owner_1";
         AchievementCredentialRegistry.OwnerType ownerType = AchievementCredentialRegistry.OwnerType.BlockChain;
 
-        registry.createOrUpdateAchievement(0, keySets, revokedKeySets, cannonicalId, image, meta, ownerSrc, ownerType);
+        registry.createOrUpdateAchievement(0, keySets, revokedKeySets, cannonicalId, meta, ownerSrc, ownerType);
 
         registry.revokeAchievement(1);
 
@@ -120,7 +111,6 @@ contract AchievementCredentialRegistryTest is Test {
         keySets[0] = "key1";
         string[] memory revokedKeySets = new string[](0);
         string memory cannonicalId = "cannonical_id_1";
-        string memory image = "image_url_1";
         string memory meta = "meta_data_1";
         string memory profileId = "profile_1";
         AchievementCredentialRegistry.OwnerType ownerType = AchievementCredentialRegistry.OwnerType.BlockChain;
@@ -130,7 +120,6 @@ contract AchievementCredentialRegistryTest is Test {
             keySets, 
             revokedKeySets, 
             cannonicalId, 
-            image, 
             meta, 
             profileId, 
             ownerType);
@@ -144,7 +133,6 @@ contract AchievementCredentialRegistryTest is Test {
         keySets[0] = "key1";
         string[] memory revokedKeySets = new string[](0);
         string memory cannonicalId = "cannonical_id_1";
-        string memory image = "image_url_1";
         string memory meta = "meta_data_1";
         string memory profileId = "profileId_1";
         AchievementCredentialRegistry.OwnerType ownerType = AchievementCredentialRegistry.OwnerType.BlockChain;
@@ -154,7 +142,6 @@ contract AchievementCredentialRegistryTest is Test {
             keySets, 
             revokedKeySets, 
             cannonicalId, 
-            image, 
             meta, 
             profileId, 
             ownerType);

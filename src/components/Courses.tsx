@@ -35,7 +35,7 @@ const Courses =  ()=> {
   }
 
   const onAddCredentialToLearnerSubmit = async ( profile: RecipientProfileFormType, certificate: CredentialCertificateFormType, privateKey: string )=> {
-    const promise = addCredential( currentSkill!,  profile, certificate, privateKey );
+    const promise = addCredential( state.currentProfile!, currentSkill!,  profile, certificate, privateKey );
     toast.promise(promise, {
           pending: "Registering Profile",
           success: "Profile updated",
@@ -105,7 +105,7 @@ const Courses =  ()=> {
       <AddCredentialToLearnerDialog open={addCredentialDialogOpen} onClose={onAddCredentialClose} onSubmit={onAddCredentialToLearnerSubmit} />
     </div>
   }
-  <CredentailResult isOpen={resultDialogOpen} result={newCredentialResult} onClose={onCloseNewCredential}/>
+  <CredentailResult isOpen={resultDialogOpen} result={newCredentialResult} onClose={onCloseNewCredential} imageURL={currentSkill!.image}/>
   </>
 
 

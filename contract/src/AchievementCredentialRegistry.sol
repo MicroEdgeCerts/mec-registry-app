@@ -7,7 +7,6 @@ contract AchievementCredentialRegistry {
         string[] key_sets;
         string[] revoked_key_sets;
         string cannonical_id;  // Renamed to cannonical_id
-        string image;
         string meta;
         string profile_id;
         string owner_id; // Added owner_src
@@ -33,7 +32,6 @@ contract AchievementCredentialRegistry {
         string[] memory key_sets,
         string[] memory revoked_key_sets,
         string memory cannonical_id,
-        string memory image,
         string memory meta,
         string memory profile_id,
         OwnerType owner_type
@@ -49,7 +47,6 @@ contract AchievementCredentialRegistry {
                 key_sets: key_sets,
                 revoked_key_sets: revoked_key_sets,
                 cannonical_id: cannonical_id,
-                image: image,
                 meta: meta,
                 profile_id: profile_id,
                 owner_id: owner_id,
@@ -65,7 +62,6 @@ contract AchievementCredentialRegistry {
             achievement.key_sets = key_sets;
             achievement.revoked_key_sets = revoked_key_sets;
             achievement.cannonical_id = cannonical_id;
-            achievement.image = image;
             achievement.meta = meta;
             achievement.profile_id = profile_id;
             achievement.owner_id = owner_id;

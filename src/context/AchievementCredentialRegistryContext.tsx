@@ -6,7 +6,7 @@
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { ProfileContract, AchievementCredentialContractType,
           AchievementCredeintialRequestType, BaseContractParamType,
-          AchievementCredeintial,
+          AchievementCredeintialMetaItem,
           SkillItem } from '@/types'
 import {  useChainId, 
           useClient, 
@@ -94,7 +94,7 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
   }
 
   const parseContractToSkill = async ( item: AchievementCredentialContractType  ): Promise<SkillItem> => {
-    const data = await getMetaFile<AchievementCredeintial>(item.meta);
+    const data = await getMetaFile<AchievementCredeintialMetaItem>(item.meta);
     let contract = {
       profile_id: item.profile_id,
       owner_id: item.owner_id,
@@ -112,10 +112,9 @@ const AchievementCredentialRegistryProvider: React.FC<AchievementCredentialRegis
       [...data.key_sets],
       [...data.revoked_key_sets], 
       data.cannonical_id,
-     　'',　//  #TODO onchain data cause higher gass like 10% data.image|| '' might need to reconsider. 
       data.meta,
       currentProfile!.id,
-      OwnerType.BlockChain ] as readonly [bigint, readonly string[], readonly string[], string, string, string, string, number]
+      OwnerType.BlockChain ] as readonly [bigint, readonly string[], readonly string[], string, string, string, number]
     return achievementData 
   }
 

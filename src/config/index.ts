@@ -17,7 +17,7 @@ const transport = alchemyKey
 export const maxSizeMB = 2; // Set the maximum size in MB
 export const maxProfileSizeBytes = maxSizeMB * 1024 * 1024;
 
-export const apiURL = process.env.NEXT_API_URL
+export const apiURL = process.env.NEXT_PUBLIC_API_URL
 
 export const PROVIDER_URL = process.env.NEXT_PUBLIC_RPC_URL as string;
 // const INFRA_API_KEY = process.env.NEXT_PUBLIC_INFRA_API_KEY;
